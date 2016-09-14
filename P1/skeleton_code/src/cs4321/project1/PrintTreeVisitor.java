@@ -34,7 +34,6 @@ public class PrintTreeVisitor implements TreeVisitor {
 	@Override
 	public void visit(LeafTreeNode node) {
 		result += node.getData();
-
 	}
 
 	/**
@@ -49,7 +48,6 @@ public class PrintTreeVisitor implements TreeVisitor {
 		result += "(-";
 		node.getChild().accept(this);
 		result += ")";
-
 	}
 
 	/**

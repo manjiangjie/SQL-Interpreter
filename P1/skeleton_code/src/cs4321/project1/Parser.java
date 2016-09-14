@@ -12,7 +12,7 @@ import cs4321.project1.tree.*;
  * parentheses (), a factor with a unary - before it, or a number.
  * 
  * @author Lucja Kot
- * @author Your names and netids go here
+ * @author Jiangjie Man; jm2559
  */
 public class Parser {
 
@@ -46,9 +46,18 @@ public class Parser {
 	 * @return the (root node of) the resulting subtree
 	 */
 	private TreeNode factor() {
-
-		// TODO fill me in
-		return null;
+		TreeNode result;
+		if (tokens[currentToken].equals("(")) {
+			currentToken += 1;
+			result = expression();
+		} else if (tokens[currentToken].equals("-")) {
+			currentToken += 1;
+			result = new UnaryMinusTreeNode(factor());
+		} else {
+			result = new LeafTreeNode(Double.parseDouble(tokens[currentToken]));
+			currentToken += 1;
+		}
+		return result;
 	}
 
 	/**
@@ -57,10 +66,20 @@ public class Parser {
 	 * @return the (root node of) the resulting subtree
 	 */
 	private TreeNode term() {
-
-		// TODO fill me in
-		return null;
-
+		TreeNode result = factor();
+		while (currentToken < tokens.length && (tokens[currentToken].equals("*") || tokens[currentToken].equals("/"))) {
+			if (tokens[currentToken].equals("*")) {
+				currentToken += 1;
+				result = new MultiplicationTreeNode(result, factor());
+			} else if (tokens[currentToken].equals("/")) {
+				currentToken += 1;
+				result = new DivisionTreeNode(result, factor());
+			}
+		}
+		if (currentToken < tokens.length - 1 && tokens[currentToken].equals(")")) {
+			currentToken += 1;
+		}
+		return result;
 	}
 
 	/**
@@ -69,9 +88,19 @@ public class Parser {
 	 * @return the (root node of) the resulting subtree
 	 */
 	private TreeNode expression() {
-
-		// TODO fill me in
-		return null;
-
+		TreeNode result = term();
+		while (currentToken < tokens.length && (tokens[currentToken].equals("+") || tokens[currentToken].equals("-"))) {
+			if (tokens[currentToken].equals("+")) {
+				currentToken += 1;
+				result = new AdditionTreeNode(result, term());
+			} else if (tokens[currentToken].equals("-")) {
+				currentToken += 1;
+				result = new SubtractionTreeNode(result, term());
+			}
+		}
+		if (currentToken < tokens.length - 1 &&tokens[currentToken].equals(")")) {
+			currentToken += 1;
+		}
+		return result;
 	}
 }

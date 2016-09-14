@@ -38,4 +38,26 @@ public class PrintListVisitorTest {
 		n1.accept(pv1);
 		assertEquals("1.0 2.0 +", pv1.getResult());
 	}
+
+	@Test
+	public void testUnaryMinusSimplePrefix() {
+		ListNode n1 = new UnaryMinusListNode();
+		ListNode n2 = new NumberListNode(1.0);
+		n1.setNext(n2);
+		PrintListVisitor pv1 = new PrintListVisitor();
+		n1.accept(pv1);
+		assertEquals("~ 1.0", pv1.getResult());
+	}
+
+	@Test
+	public void testDivisionSimplePrefix() {
+		ListNode n1 = new DivisionListNode();
+		ListNode n2 = new NumberListNode(1.0);
+		ListNode n3 = new NumberListNode(2.0);
+		n1.setNext(n2);
+		n2.setNext(n3);
+		PrintListVisitor pv1 = new PrintListVisitor();
+		n1.accept(pv1);
+		assertEquals("/ 1.0 2.0", pv1.getResult());
+	}
 }

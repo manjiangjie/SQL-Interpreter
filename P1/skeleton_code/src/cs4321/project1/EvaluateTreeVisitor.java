@@ -7,50 +7,114 @@ import cs4321.project1.tree.AdditionTreeNode;
 import cs4321.project1.tree.MultiplicationTreeNode;
 import cs4321.project1.tree.UnaryMinusTreeNode;
 
+import java.util.Stack;
+
 /**
- * Provide a comment about what your class does and the overall logic
+ * Evaluates the tree to a single number
  * 
- * @author Your names and netids go here
+ * @author Jiangjie Man; jm2559
  */
 
 public class EvaluateTreeVisitor implements TreeVisitor {
 
+	private double result;
+	private Stack<Double> st;
+
 	public EvaluateTreeVisitor() {
-		// TODO fill me in
+		st = new Stack<>();
 	}
 
+	/**
+	 * Method to get the evaluation number
+	 *
+	 * @return the evaluation number of string representation of the visited tree
+	 */
 	public double getResult() {
-		// TODO fill me in
-		return 42; // so that skeleton code compiles
+		return result; // so that skeleton code compiles
 	}
 
+	/**
+	 * Visit method for leaf node; push the node to stack
+	 *
+	 * @param node
+	 *            the node to be visited
+	 */
 	@Override
 	public void visit(LeafTreeNode node) {
-		// TODO fill me in
+		result = node.getData();
+		st.push(result);
 	}
 
+	/**
+	 * Visit method for unary minus node; recursively visit subtree and pop the negative value off the stack
+	 *
+	 * @param node
+	 *            the node to be visited
+	 */
 	@Override
 	public void visit(UnaryMinusTreeNode node) {
-		// TODO fill me in
+		node.getChild().accept(this);
+		result = -st.pop();
+		st.push(result);
 	}
 
+	/**
+	 * Visit method for addition node based on inorder tree traversal
+	 *
+	 * @param node
+	 *            the node to be visited
+	 */
 	@Override
 	public void visit(AdditionTreeNode node) {
-		// TODO fill me in
+		node.getLeftChild().accept(this);
+		node.getRightChild().accept(this);
+		result = st.pop() + st.pop();
+		st.push(result);
 	}
 
+	/**
+	 * Visit method for multiplication node based on inorder tree traversal
+	 *
+	 * @param node
+	 *            the node to be visited
+	 */
 	@Override
 	public void visit(MultiplicationTreeNode node) {
-		// TODO fill me in
+		node.getLeftChild().accept(this);
+		node.getRightChild().accept(this);
+		result = st.pop() * st.pop();
+		st.push(result);
 	}
 
+	/**
+	 * Visit method for subtraction node based on inorder tree traversal
+	 *
+	 * @param node
+	 *            the node to be visited
+	 */
 	@Override
 	public void visit(SubtractionTreeNode node) {
-		// TODO fill me in
+		node.getLeftChild().accept(this);
+		node.getRightChild().accept(this);
+		double a = st.pop();
+		double b = st.pop();
+		result = b - a;
+		st.push(result);
 	}
 
+	/**
+	 * Visit method for division node based on inorder tree traversal
+	 *
+	 * @param node
+	 *            the node to be visited
+	 */
 	@Override
 	public void visit(DivisionTreeNode node) {
-		// TODO fill me in
+		node.getLeftChild().accept(this);
+		node.getRightChild().accept(this);
+		double a = st.pop();
+		double b = st.pop();
+		result = b / a;
+		st.push(result);
 	}
 }

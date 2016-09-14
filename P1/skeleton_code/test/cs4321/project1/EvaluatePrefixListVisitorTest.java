@@ -55,4 +55,35 @@ public class EvaluatePrefixListVisitorTest {
 		assertEquals(6.0, v1.getResult(), DELTA);
 	}
 
+	@Test
+	public void testSubtractionMultipleInstances() {
+		ListNode n1 = new NumberListNode(1.0);
+		ListNode n2 = new NumberListNode(2.0);
+		ListNode n3 = new SubtractionListNode();
+		ListNode n4 = new NumberListNode(3.0);
+		ListNode n5 = new SubtractionListNode();
+		n5.setNext(n4);
+		n4.setNext(n3);
+		n3.setNext(n2);
+		n2.setNext(n1);
+		EvaluatePrefixListVisitor v1 = new EvaluatePrefixListVisitor();
+		n5.accept(v1);
+		assertEquals(2.0, v1.getResult(), DELTA);
+	}
+
+	@Test
+	public void testDivisionMultipleInstances() {
+		ListNode n1 = new NumberListNode(1.0);
+		ListNode n2 = new NumberListNode(2.0);
+		ListNode n3 = new DivisionListNode();
+		ListNode n4 = new NumberListNode(3.0);
+		ListNode n5 = new DivisionListNode();
+		n5.setNext(n4);
+		n4.setNext(n3);
+		n3.setNext(n2);
+		n2.setNext(n1);
+		EvaluatePrefixListVisitor v1 = new EvaluatePrefixListVisitor();
+		n5.accept(v1);
+		assertEquals(1.5, v1.getResult(), DELTA);
+	}
 }
