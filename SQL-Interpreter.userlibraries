@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="jsqlparser">
+    <archive path="/Users/manjiangjie/Desktop/Coding/Projects/SQL-Interpreter/jsqlparser/jsqlparser.jar" />
+  </library>
+  <library name="junit:junit:4.12">
+    <archive path="/Users/manjiangjie/.m2/repository/junit/junit/4.12/junit-4.12.jar" />
+    <archive path="/Users/manjiangjie/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar" />
+  </library>
+</eclipse-userlibraries>
+
