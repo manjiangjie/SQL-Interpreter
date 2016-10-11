@@ -2,419 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="39d60c92-5f90-4014-9cce-d731bdbc7322" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SQL-Interpreter.iml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/instructions.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/.classpath" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/.idea/.name" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/.idea/compiler.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/.idea/copyright/profiles_settings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/.idea/encodings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/.idea/libraries/junit_junit_4_12.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/.idea/misc.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/.idea/modules.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/.idea/uiDesigner.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/.idea/workspace.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/.project" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/P1.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/production/skeleton_code/cs4321/project1/BuildPostfixExpressionTreeVisitor.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/production/skeleton_code/cs4321/project1/BuildPrefixExpressionTreeVisitor.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/production/skeleton_code/cs4321/project1/EvaluatePostfixListVisitor.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/production/skeleton_code/cs4321/project1/EvaluatePrefixListVisitor.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/production/skeleton_code/cs4321/project1/EvaluateTreeVisitor.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/production/skeleton_code/cs4321/project1/ListVisitor.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/production/skeleton_code/cs4321/project1/Parser.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/production/skeleton_code/cs4321/project1/PrintListVisitor.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/production/skeleton_code/cs4321/project1/PrintTreeVisitor.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/production/skeleton_code/cs4321/project1/TreeVisitor.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/production/skeleton_code/cs4321/project1/list/AdditionListNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/production/skeleton_code/cs4321/project1/list/DivisionListNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/production/skeleton_code/cs4321/project1/list/ListNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/production/skeleton_code/cs4321/project1/list/MultiplicationListNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/production/skeleton_code/cs4321/project1/list/NumberListNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/production/skeleton_code/cs4321/project1/list/SubtractionListNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/production/skeleton_code/cs4321/project1/list/UnaryMinusListNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/production/skeleton_code/cs4321/project1/tree/AdditionTreeNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/production/skeleton_code/cs4321/project1/tree/BinaryTreeNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/production/skeleton_code/cs4321/project1/tree/DivisionTreeNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/production/skeleton_code/cs4321/project1/tree/LeafTreeNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/production/skeleton_code/cs4321/project1/tree/MultiplicationTreeNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/production/skeleton_code/cs4321/project1/tree/SubtractionTreeNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/production/skeleton_code/cs4321/project1/tree/TreeNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/production/skeleton_code/cs4321/project1/tree/UnaryMinusTreeNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/production/skeleton_code/cs4321/project1/tree/UnaryTreeNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/test/skeleton_code/cs4321/project1/BuildPostfixExpressionTreeVisitorTest.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/test/skeleton_code/cs4321/project1/BuildPrefixExpressionTreeVisitorTest.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/test/skeleton_code/cs4321/project1/EvaluatePostfixListVisitorTest.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/test/skeleton_code/cs4321/project1/EvaluatePrefixListVisitorTest.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/test/skeleton_code/cs4321/project1/EvaluateTreeVisitorTest.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/test/skeleton_code/cs4321/project1/FullSystemTest.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/test/skeleton_code/cs4321/project1/ParserTest.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/out/test/skeleton_code/cs4321/project1/PrintListVisitorTest.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/skeleton_code.eml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/skeleton_code.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/skeleton_code.userlibraries" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/src/cs4321/project1/BuildPostfixExpressionTreeVisitor.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/src/cs4321/project1/BuildPrefixExpressionTreeVisitor.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/src/cs4321/project1/EvaluatePostfixListVisitor.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/src/cs4321/project1/EvaluatePrefixListVisitor.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/src/cs4321/project1/EvaluateTreeVisitor.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/src/cs4321/project1/ListVisitor.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/src/cs4321/project1/Parser.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/src/cs4321/project1/PrintListVisitor.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/src/cs4321/project1/PrintTreeVisitor.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/src/cs4321/project1/TreeVisitor.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/src/cs4321/project1/list/AdditionListNode.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/src/cs4321/project1/list/DivisionListNode.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/src/cs4321/project1/list/ListNode.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/src/cs4321/project1/list/MultiplicationListNode.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/src/cs4321/project1/list/NumberListNode.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/src/cs4321/project1/list/SubtractionListNode.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/src/cs4321/project1/list/UnaryMinusListNode.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/src/cs4321/project1/tree/AdditionTreeNode.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/src/cs4321/project1/tree/BinaryTreeNode.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/src/cs4321/project1/tree/DivisionTreeNode.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/src/cs4321/project1/tree/LeafTreeNode.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/src/cs4321/project1/tree/MultiplicationTreeNode.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/src/cs4321/project1/tree/SubtractionTreeNode.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/src/cs4321/project1/tree/TreeNode.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/src/cs4321/project1/tree/UnaryMinusTreeNode.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/src/cs4321/project1/tree/UnaryTreeNode.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/test/cs4321/project1/BuildPostfixExpressionTreeVisitorTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/test/cs4321/project1/BuildPrefixExpressionTreeVisitorTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/test/cs4321/project1/EvaluatePostfixListVisitorTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/test/cs4321/project1/EvaluatePrefixListVisitorTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/test/cs4321/project1/EvaluateTreeVisitorTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/test/cs4321/project1/FullSystemTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/test/cs4321/project1/ParserTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/skeleton_code/test/cs4321/project1/PrintListVisitorTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P1/visitor pattern handout.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/Instructions.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/Parser Example.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/allclasses-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/allclasses-noframe.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/constant-values.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/deprecated-list.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/help-doc.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/index-files/index-1.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/index-files/index-10.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/index-files/index-11.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/index-files/index-12.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/index-files/index-13.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/index-files/index-14.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/index-files/index-15.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/index-files/index-16.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/index-files/index-17.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/index-files/index-18.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/index-files/index-19.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/index-files/index-2.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/index-files/index-20.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/index-files/index-21.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/index-files/index-22.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/index-files/index-3.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/index-files/index-4.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/index-files/index-5.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/index-files/index-6.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/index-files/index-7.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/index-files/index-8.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/index-files/index-9.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/JSQLParserException.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/class-use/JSQLParserException.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/AllComparisonExpression.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/AnyComparisonExpression.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/BinaryExpression.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/CaseExpression.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/DateValue.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/DoubleValue.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/Expression.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/ExpressionVisitor.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/Function.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/InverseExpression.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/JdbcParameter.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/LongValue.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/NullValue.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/Parenthesis.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/StringValue.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/TimeValue.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/TimestampValue.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/WhenClause.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/class-use/AllComparisonExpression.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/class-use/AnyComparisonExpression.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/class-use/BinaryExpression.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/class-use/CaseExpression.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/class-use/DateValue.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/class-use/DoubleValue.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/class-use/Expression.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/class-use/ExpressionVisitor.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/class-use/Function.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/class-use/InverseExpression.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/class-use/JdbcParameter.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/class-use/LongValue.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/class-use/NullValue.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/class-use/Parenthesis.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/class-use/StringValue.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/class-use/TimeValue.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/class-use/TimestampValue.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/class-use/WhenClause.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/arithmetic/Addition.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/arithmetic/BitwiseAnd.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/arithmetic/BitwiseOr.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/arithmetic/BitwiseXor.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/arithmetic/Concat.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/arithmetic/Division.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/arithmetic/Multiplication.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/arithmetic/Subtraction.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/arithmetic/class-use/Addition.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/arithmetic/class-use/BitwiseAnd.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/arithmetic/class-use/BitwiseOr.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/arithmetic/class-use/BitwiseXor.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/arithmetic/class-use/Concat.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/arithmetic/class-use/Division.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/arithmetic/class-use/Multiplication.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/arithmetic/class-use/Subtraction.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/arithmetic/package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/arithmetic/package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/arithmetic/package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/arithmetic/package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/conditional/AndExpression.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/conditional/OrExpression.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/conditional/class-use/AndExpression.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/conditional/class-use/OrExpression.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/conditional/package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/conditional/package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/conditional/package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/conditional/package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/Between.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/EqualsTo.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/ExistsExpression.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/ExpressionList.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/GreaterThan.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/GreaterThanEquals.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/InExpression.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/IsNullExpression.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/ItemsList.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/ItemsListVisitor.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/LikeExpression.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/Matches.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/MinorThan.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/MinorThanEquals.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/NotEqualsTo.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/class-use/Between.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/class-use/EqualsTo.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/class-use/ExistsExpression.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/class-use/ExpressionList.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/class-use/GreaterThan.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/class-use/GreaterThanEquals.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/class-use/InExpression.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/class-use/IsNullExpression.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/class-use/ItemsList.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/class-use/ItemsListVisitor.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/class-use/LikeExpression.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/class-use/Matches.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/class-use/MinorThan.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/class-use/MinorThanEquals.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/class-use/NotEqualsTo.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/operators/relational/package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/expression/package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/parser/ASCII_CharStream.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/parser/CCJSqlParser.JJCalls.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/parser/CCJSqlParser.LookaheadSuccess.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/parser/CCJSqlParser.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/parser/CCJSqlParserConstants.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/parser/CCJSqlParserManager.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/parser/CCJSqlParserTokenManager.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/parser/JSqlParser.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/parser/ParseException.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/parser/SimpleCharStream.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/parser/Token.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/parser/TokenMgrError.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/parser/class-use/ASCII_CharStream.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/parser/class-use/CCJSqlParser.JJCalls.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/parser/class-use/CCJSqlParser.LookaheadSuccess.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/parser/class-use/CCJSqlParser.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/parser/class-use/CCJSqlParserConstants.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/parser/class-use/CCJSqlParserManager.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/parser/class-use/CCJSqlParserTokenManager.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/parser/class-use/JSqlParser.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/parser/class-use/ParseException.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/parser/class-use/SimpleCharStream.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/parser/class-use/Token.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/parser/class-use/TokenMgrError.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/parser/package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/parser/package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/parser/package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/parser/package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/schema/Column.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/schema/Table.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/schema/class-use/Column.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/schema/class-use/Table.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/schema/package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/schema/package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/schema/package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/schema/package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/Statement.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/StatementVisitor.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/class-use/Statement.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/class-use/StatementVisitor.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/create/table/ColDataType.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/create/table/ColumnDefinition.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/create/table/CreateTable.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/create/table/Index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/create/table/class-use/ColDataType.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/create/table/class-use/ColumnDefinition.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/create/table/class-use/CreateTable.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/create/table/class-use/Index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/create/table/package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/create/table/package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/create/table/package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/create/table/package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/delete/Delete.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/delete/class-use/Delete.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/delete/package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/delete/package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/delete/package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/delete/package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/drop/Drop.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/drop/class-use/Drop.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/drop/package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/drop/package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/drop/package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/drop/package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/insert/Insert.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/insert/class-use/Insert.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/insert/package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/insert/package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/insert/package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/insert/package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/replace/Replace.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/replace/class-use/Replace.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/replace/package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/replace/package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/replace/package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/replace/package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/AllColumns.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/AllTableColumns.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/ColumnIndex.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/ColumnReference.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/ColumnReferenceVisitor.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/Distinct.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/FromItem.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/FromItemVisitor.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/IntoTableVisitor.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/Join.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/Limit.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/OrderByElement.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/OrderByVisitor.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/PlainSelect.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/Select.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/SelectBody.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/SelectExpressionItem.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/SelectItem.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/SelectItemVisitor.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/SelectVisitor.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/SubJoin.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/SubSelect.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/Top.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/Union.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/WithItem.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/class-use/AllColumns.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/class-use/AllTableColumns.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/class-use/ColumnIndex.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/class-use/ColumnReference.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/class-use/ColumnReferenceVisitor.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/class-use/Distinct.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/class-use/FromItem.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/class-use/FromItemVisitor.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/class-use/IntoTableVisitor.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/class-use/Join.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/class-use/Limit.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/class-use/OrderByElement.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/class-use/OrderByVisitor.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/class-use/PlainSelect.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/class-use/Select.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/class-use/SelectBody.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/class-use/SelectExpressionItem.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/class-use/SelectItem.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/class-use/SelectItemVisitor.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/class-use/SelectVisitor.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/class-use/SubJoin.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/class-use/SubSelect.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/class-use/Top.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/class-use/Union.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/class-use/WithItem.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/select/package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/truncate/Truncate.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/truncate/class-use/Truncate.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/truncate/package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/truncate/package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/truncate/package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/truncate/package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/update/Update.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/update/class-use/Update.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/update/package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/update/package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/update/package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/statement/update/package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/util/deparser/CreateTableDeParser.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/util/deparser/DeleteDeParser.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/util/deparser/ExpressionDeParser.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/util/deparser/InsertDeParser.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/util/deparser/ReplaceDeParser.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/util/deparser/SelectDeParser.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/util/deparser/StatementDeParser.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/util/deparser/UpdateDeParser.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/util/deparser/class-use/CreateTableDeParser.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/util/deparser/class-use/DeleteDeParser.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/util/deparser/class-use/ExpressionDeParser.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/util/deparser/class-use/InsertDeParser.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/util/deparser/class-use/ReplaceDeParser.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/util/deparser/class-use/SelectDeParser.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/util/deparser/class-use/StatementDeParser.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/util/deparser/class-use/UpdateDeParser.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/util/deparser/package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/util/deparser/package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/util/deparser/package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/net/sf/jsqlparser/util/deparser/package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/overview-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/overview-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/overview-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/package-list" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/resources/inherit.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/serialized-form.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/docs/stylesheet.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/jsqlparser/jsqlparser.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/samples/expected_output/query1" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/samples/expected_output/query2" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/samples/expected_output/query3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/samples/expected_output/query4" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/samples/expected_output/query5" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/samples/expected_output/query6" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/samples/expected_output/query7" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/samples/expected_output/query8" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/samples/input/db/data/Boats" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/samples/input/db/data/Reserves" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/samples/input/db/data/Sailors" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/samples/input/db/schema.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/P2/samples/input/queries.sql" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="SQL-Interpreter.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -446,11 +34,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DatabaseCatalog.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DatabaseCatalog.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Database/DatabaseCatalog.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.231884">
-              <caret line="34" column="4" selection-start-line="34" selection-start-column="4" selection-end-line="34" selection-end-column="4" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="25" column="4" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="4" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#640#662#0" expanded="true" />
@@ -460,11 +48,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Parser.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Parser.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Parser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="24" column="3" selection-start-line="24" selection-start-column="3" selection-end-line="24" selection-end-column="3" />
+            <state vertical-scroll-proportion="0.6884058">
+              <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -1125,11 +713,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Parser.java">
+    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Database/DatabaseCatalog.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="3" selection-start-line="24" selection-start-column="3" selection-end-line="24" selection-end-column="3" />
-          <folding />
+          <caret line="25" column="4" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="4" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#640#662#0" expanded="true" />
+            <element signature="e#1754#1762#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1141,15 +733,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Database/DatabaseCatalog.java">
+    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Parser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.231884">
-          <caret line="34" column="4" selection-start-line="34" selection-start-column="4" selection-end-line="34" selection-end-column="4" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#640#662#0" expanded="true" />
-            <element signature="e#1754#1762#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.6884058">
+          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
