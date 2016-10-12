@@ -67,8 +67,9 @@ public class QueryPlanBuilder {
 			// one scanner, one table, no need to extract different select
 			// conditions
 			ScanOperator scanner = new ScanOperator(fromTable.getName());
-			if (useAlias)
+			if (useAlias) {
 				scanner = new ScanOperator(fromTable.getName(), fromTable.getAlias());
+			}
 			operator = new SelectionOperator(scanner, expr);
 			operator = new ProjectionOperator(operator, projectionList);
 		} else {

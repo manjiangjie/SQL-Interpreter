@@ -54,7 +54,7 @@ public class ScanOperator extends Operator{
 	 * @param tableName Original table name
 	 * @param alias the alias in a query statement of the table
 	 */
-	public ScanOperator(String tableName,String alias){
+	public ScanOperator(String tableName, String alias){
 		
 		fileDirectoryOfInputTable = DatabaseCatalog.getPathByTableName(tableName);
 		//System.out.println(fileDirectoryOfInputTable);

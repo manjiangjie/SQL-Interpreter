@@ -28,6 +28,7 @@ public class Parser {
 	public static void main(String[] args) {
 		String inputDir = args[0];
 		String outputDir = args[1];
+		String tempDir = args[2];
 
 		// Initialize database catalog
 		DatabaseCatalog.getInstance(inputDir);

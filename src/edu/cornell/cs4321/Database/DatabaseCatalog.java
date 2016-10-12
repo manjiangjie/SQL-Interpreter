@@ -17,11 +17,6 @@ import net.sf.jsqlparser.schema.Table;
  *
  * @author Chenxi Su cs2238, Hao Qian hq43, Jiangjie Man jm2559
  */
-
-/**
- * @author chandler
- *
- */
 public class DatabaseCatalog {
 	
 	private static HashMap<String, List<Column>> schemaMap = new HashMap<String, List<Column>>();
@@ -41,7 +36,7 @@ public class DatabaseCatalog {
 	 * schema txt file directory location  
 	 */
 	private DatabaseCatalog(String inputDir){
-		String schemaDir = inputDir+"/db/schema.txt";
+		String schemaDir = inputDir + "/db/schema.txt";
 		FileReader fr;
 		BufferedReader br;
 		
@@ -74,7 +69,7 @@ public class DatabaseCatalog {
 						curSchemaList.add(c);
 					}
 					schemaMap.put(tokens[0], curSchemaList);
-					String curTablePath = inputDir+"/db/data/"+tokens[0];
+					String curTablePath = inputDir + "/db/data/" + tokens[0];
 					tablePathMap.put(tokens[0], curTablePath);
 				}
 			} catch (IOException e) {
