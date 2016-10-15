@@ -114,4 +114,8 @@ public class DatabaseCatalog {
 		//TODO: Implement Me
 		return schemaMap.get(tableName);
 	}
+
+	public static void setSchemaByTable(String tableName, List<Column> schemaList) {
+		schemaMap.put(tableName, schemaList);
+	}
 }

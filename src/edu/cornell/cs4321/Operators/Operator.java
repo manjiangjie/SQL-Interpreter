@@ -25,7 +25,7 @@ public abstract class Operator {
 	 * For debugging use.
 	 * Print all tuples retrieved to Console.
 	 */
-	public void dump(){
+	public void dump() {
 		Tuple t;
 		while((t = getNextTuple())!=null){
 			System.out.println(t);

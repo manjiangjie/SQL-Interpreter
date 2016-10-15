@@ -5,6 +5,7 @@ package edu.cornell.cs4321.IO;
  */
 public class BinaryTupleWriter implements TupleWriter {
 
+
     @Override
     public void writeNextTuple() {
 

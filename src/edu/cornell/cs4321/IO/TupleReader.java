@@ -3,12 +3,30 @@ package edu.cornell.cs4321.IO;
 import edu.cornell.cs4321.Database.Tuple;
 
 /**
- * Created by manjiangjie on 10/12/16.
+ * The TupleReader Interface for data input
+ * @author Jiangjie Man: jm2559
  */
 public interface TupleReader {
+
+    /**
+     * This method read the next tuple in the table data file.
+     * @return the next tuple
+     */
     Tuple readNextTuple();
 
+    /**
+     * Close the input stream.
+     */
     void close();
 
+    /**
+     * re-generate input stream and re-read the data file
+     */
     void reset();
+
+    /**
+     * For debugging use.
+     * Print all tuples retrieved to Console.
+     */
+    void dump();
 }

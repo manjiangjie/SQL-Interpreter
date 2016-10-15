@@ -42,7 +42,7 @@ public class QueryPlanBuilder {
 	 * Constructor: Based on the PlainSelect which represents the Query,
 	 * generate the tree structured query plan
 	 * 
-	 * @param PlainSelect
+	 * @param pSelect a PlainSelect object
 	 */
 	public QueryPlanBuilder(PlainSelect pSelect) {
 		List<Join> joinList = pSelect.getJoins();
@@ -60,8 +60,9 @@ public class QueryPlanBuilder {
 		}
 
 		Distinct d = pSelect.getDistinct();
-		if (fromTable.getAlias() != null)
+		if (fromTable.getAlias() != null) {
 			useAlias = true;
+		}
 		Operator operator;
 		if (joinList == null) {
 			// one scanner, one table, no need to extract different select

@@ -1,13 +1,11 @@
 package edu.cornell.cs4321.Operators;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.cornell.cs4321.Database.*;
+import edu.cornell.cs4321.IO.BinaryTupleReader;
+import edu.cornell.cs4321.IO.TupleReader;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
 
@@ -18,35 +16,14 @@ import net.sf.jsqlparser.schema.Table;
  *
  */
 public class ScanOperator extends Operator{
-	private String fileDirectoryOfInputTable; 
-	private List<Column> schemaList;// the schema of the specific table handled by this scanner
-	private FileReader fr;
-	BufferedReader br;
+	private TupleReader tr;
 	
 	/**
 	 * Construct a scan operator by table.
 	 * @param tableName refers to the table we want to read.
 	 */
 	public ScanOperator(String tableName){
-		
-		fileDirectoryOfInputTable = DatabaseCatalog.getPathByTableName(tableName);
-		//System.out.println(fileDirectoryOfInputTable);
-		schemaList = DatabaseCatalog.getSchemaByTable(tableName);
-		
-		//Initialize file reader 
-		try {
-			 fr = new FileReader(fileDirectoryOfInputTable);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("Table not found! Please check your input");
-			fr = null;
-		}
-		
-		//Initialize and buffered reader
-		if(fr != null){
-			br = new BufferedReader(fr);
-		}
+		tr = new BinaryTupleReader(tableName);
 	}
 
 	/**
@@ -54,12 +31,11 @@ public class ScanOperator extends Operator{
 	 * @param tableName Original table name
 	 * @param alias the alias in a query statement of the table
 	 */
-	public ScanOperator(String tableName, String alias){
-		
-		fileDirectoryOfInputTable = DatabaseCatalog.getPathByTableName(tableName);
-		//System.out.println(fileDirectoryOfInputTable);
+	public ScanOperator(String tableName, String alias) {
+		tr = new BinaryTupleReader(tableName);
+
 		List<Column> newSchemaList = new ArrayList<Column>();
-		schemaList = DatabaseCatalog.getSchemaByTable(tableName);
+		List<Column> schemaList = DatabaseCatalog.getSchemaByTable(tableName);
 		for(Column c : schemaList){
 			Table t = new Table();
 			t.setName(alias);
@@ -68,22 +44,7 @@ public class ScanOperator extends Operator{
 			newColumn.setColumnName(c.getColumnName());
 			newSchemaList.add(newColumn);
 		}
-		this.schemaList = newSchemaList;
-		
-		//Initialize file reader 
-		try {
-			 fr = new FileReader(fileDirectoryOfInputTable);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("Table not found! Please check your input");
-			fr = null;
-		}
-		
-		//Initialize and buffered reader
-		if(fr != null){
-			br = new BufferedReader(fr);
-		}
+		DatabaseCatalog.setSchemaByTable(tableName, newSchemaList);
 	}
 	
 	/**
@@ -91,18 +52,9 @@ public class ScanOperator extends Operator{
 	 */
 	@Override
 	public void reset() {
-		try {
-			 fr = new FileReader(fileDirectoryOfInputTable);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("Table not found! Please check your input");
-			fr = null;
-		}
-		br = new BufferedReader(fr);
+		tr.reset();
 	}
-	
-	
+
 	/**
 	 * Retrieve next tuple from a file.
 	 * If the operator is constructed with alias, then the tuple references to table by alias
@@ -110,20 +62,9 @@ public class ScanOperator extends Operator{
 	 * */
 	@Override
 	public Tuple getNextTuple() {
-		// TODO Auto-generated method stub
-		try {
-			String record = br.readLine();
-			if(record == null) {
-				return null;
-			}
-			//System.out.println("!!!"+record);
-			return new Tuple(schemaList, record);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
-		
+		Tuple t = tr.readNextTuple();
+		System.out.println(t);
+		return t;
 	}
 	
 	
