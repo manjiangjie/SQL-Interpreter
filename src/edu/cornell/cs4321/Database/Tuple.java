@@ -70,7 +70,7 @@ public class Tuple {
 	 * */
 	public Tuple(Tuple t, List<SelectItem> projectionList){
 		//initialize schemaList from projectionLsit
-		this.schemaList = new LinkedList<Column>();
+		this.schemaList = new LinkedList<>();
 		
 		for(SelectItem si : projectionList){
 			String[] itemArr= si.toString().split("\\.");
@@ -130,6 +130,18 @@ public class Tuple {
 		}
 		return null;
 	}
+
+	/**
+	 * A method for getting all the values in a Tuple.
+	 * @return A list of integers which contains the values in the Tuple.
+     */
+	public List<Integer> getValues() {
+		List<Integer> values = new ArrayList<>();
+		for (Column c: schemaList) {
+			values.add(getValueByCol(c));
+		}
+		return values;
+	}
 	
 	/***
 	 * get record
@@ -138,7 +150,11 @@ public class Tuple {
 	public String getRecord(){
 		return record;
 	}
-	
+
+	public List<Integer> getAttributes() {
+		return (List) tupleMap.values();
+	}
+
 	/**
 	 * get record
 	 * @return the record of this tuple, columns separated by commas.

@@ -5,9 +5,10 @@ import java.io.ByteArrayInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import edu.cornell.cs4321.Database.*;
+import edu.cornell.cs4321.IO.BinaryTupleWriter;
+import edu.cornell.cs4321.IO.Converter;
 import edu.cornell.cs4321.Operators.*;
 import net.sf.jsqlparser.parser.CCJSqlParser;
 import net.sf.jsqlparser.statement.Statement;
@@ -42,33 +43,38 @@ public class Parser {
 			int queryNumber = 1;
 			while (queryStr != null) {
 				try {
-					PrintWriter fw = new PrintWriter(outputDir + "/query" + queryNumber);
+					String queryPath = outputDir + "/query" + queryNumber;
+					BinaryTupleWriter btw = new BinaryTupleWriter(queryPath);
+					long currentTime = System.currentTimeMillis();
 					try {
 						InputStream stream = new ByteArrayInputStream(queryStr.getBytes(StandardCharsets.UTF_8));
 						CCJSqlParser parser = new CCJSqlParser(stream);
 						Statement statement;
 						if ((statement = parser.Statement()) != null) {
-							Operator queryOperator = null;
 							Select select = (Select) statement;
 							PlainSelect pSelect = (PlainSelect) select.getSelectBody();
 
 							// Construct query plan tree
 							QueryPlanBuilder qb = new QueryPlanBuilder(pSelect);
-							queryOperator = qb.getRootOperator();
+							Operator queryOperator = qb.getRootOperator();
 
 							// Get tuples repeatedly
 							Tuple t;
 							while ((t = queryOperator.getNextTuple()) != null) {
-								fw.println(t.getRecord());
+								btw.writeNextTuple(t);
 							}
 						}
 						
 					} catch (Exception e) {
 						e.printStackTrace();
 					} finally {
-						fw.close();
+						btw.close();
+						Converter converter = new Converter(queryPath);
+						converter.writeToFile(queryPath + "_humanreadable");
 						queryStr = br.readLine();
-						queryNumber = queryNumber + 1;						
+						double timing = (System.currentTimeMillis() - currentTime) / 1000.0;
+						System.out.println("Finish processing query #" + queryNumber + ", " + timing + " seconds");
+						queryNumber = queryNumber + 1;
 					}
 				} catch (Exception e) {
 					e.printStackTrace();

@@ -32,8 +32,6 @@ public class ScanOperator extends Operator{
 	 * @param alias the alias in a query statement of the table
 	 */
 	public ScanOperator(String tableName, String alias) {
-		tr = new BinaryTupleReader(tableName);
-
 		List<Column> newSchemaList = new ArrayList<Column>();
 		List<Column> schemaList = DatabaseCatalog.getSchemaByTable(tableName);
 		for(Column c : schemaList){
@@ -45,6 +43,8 @@ public class ScanOperator extends Operator{
 			newSchemaList.add(newColumn);
 		}
 		DatabaseCatalog.setSchemaByTable(tableName, newSchemaList);
+
+		tr = new BinaryTupleReader(tableName);
 	}
 	
 	/**
@@ -63,7 +63,7 @@ public class ScanOperator extends Operator{
 	@Override
 	public Tuple getNextTuple() {
 		Tuple t = tr.readNextTuple();
-		System.out.println(t);
+		//System.out.println(t);
 		return t;
 	}
 	

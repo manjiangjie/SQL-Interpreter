@@ -11,7 +11,8 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Created by manjiangjie on 10/14/16.
+ * This class implements TupleReader interface, which reads Tuples in human-readable format.
+ * @author Jiangjie Man: jm2559
  */
 public class StandardTupleReader implements TupleReader {
     private String tablePath;
@@ -19,13 +20,16 @@ public class StandardTupleReader implements TupleReader {
     private FileReader fr;
     private BufferedReader br;
 
+    /**
+     * Constructor for StandardTupleReader.
+     * @param tableName The table to be read in
+     */
     public StandardTupleReader(String tableName) {
         schemaList = DatabaseCatalog.getSchemaByTable(tableName);
         tablePath = DatabaseCatalog.getPathByTableName(tableName);
         try {
             fr = new FileReader(tablePath);
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             System.out.println("Table not found! Please check your input");
             fr = null;
@@ -82,7 +86,7 @@ public class StandardTupleReader implements TupleReader {
     }
 
     /**
-     * re-generate input stream and re-read the data file
+     * re-generate input stream and re-read the data file.
      */
     @Override
     public void reset() {

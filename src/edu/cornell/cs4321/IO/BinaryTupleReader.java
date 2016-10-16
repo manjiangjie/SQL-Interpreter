@@ -8,7 +8,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * This class implements TupleReader, using the new binary data file format for input.
@@ -17,13 +19,14 @@ import java.util.List;
 public class BinaryTupleReader implements TupleReader {
     private String tablePath;
     private List<Column> schemaList;
-    private int size = 4096;
+    private int SIZE = 4096;
     private FileChannel fc;
     private ByteBuffer bb;
     private int index = 0;
     private int numAttributes = 0;
     private int numTuples = 0;
     private FileInputStream fin;
+    private Queue<String> records = new LinkedList<>();
 
     /**
      * Construct a binaryTupleReader by table
@@ -35,20 +38,20 @@ public class BinaryTupleReader implements TupleReader {
         try {
             fin = new FileInputStream(tablePath);
             fc = fin.getChannel();
-            bb = ByteBuffer.allocate(size);
+            bb = ByteBuffer.allocate(SIZE);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * Read the next tuple from binary file
+     * Read the next tuple from binary file.
      * @return the next tuple
      */
     @Override
     public Tuple readNextTuple() {
         String record = "";
-        if (index == 4 * (2 + numAttributes * numTuples) || index == 0) {
+        if (records.isEmpty()) {
             try {
                 bb.clear();
                 int r = fc.read(bb);
@@ -59,17 +62,22 @@ public class BinaryTupleReader implements TupleReader {
                 numAttributes = bb.getInt(index);
                 numTuples = bb.getInt(index + 4);
                 index += 8;
+                for (int i = 0; i < numTuples; i++) {
+                    for (int j = 0; j < numAttributes; j++) {
+                        int value = bb.getInt(index);
+                        record += Integer.toString(value) + ",";
+                        index += 4;
+                    }
+                    records.add(record);
+                    record = "";
+                }
+                index = 8;
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        if (index < 4 * (2 + numAttributes * numTuples)) {
-            for (int i = 0; i < numAttributes; i++) {
-                int value = bb.getInt(index);
-                record += Integer.toString(value) + ",";
-                index += 4;
-            }
-        }
+        record = records.poll();
+        index += 4;
         record = record.substring(0, record.length() - 1);
         return new Tuple(schemaList, record);
     }
@@ -95,7 +103,7 @@ public class BinaryTupleReader implements TupleReader {
             fin.close();
             FileInputStream fin = new FileInputStream(tablePath);
             fc = fin.getChannel();
-            bb = ByteBuffer.allocate(size);
+            bb = ByteBuffer.allocate(SIZE);
         } catch (IOException e) {
             e.printStackTrace();
         }
