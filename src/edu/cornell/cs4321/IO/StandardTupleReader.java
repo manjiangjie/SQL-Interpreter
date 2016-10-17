@@ -62,18 +62,6 @@ public class StandardTupleReader implements TupleReader {
     }
 
     /**
-     * Close the input stream.
-     */
-    @Override
-    public void close() {
-        try {
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * For debugging use.
      * Print all tuples retrieved to Console.
      */
@@ -93,7 +81,6 @@ public class StandardTupleReader implements TupleReader {
         try {
             fr = new FileReader(tablePath);
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             System.out.println("Table not found! Please check your input");
             fr = null;

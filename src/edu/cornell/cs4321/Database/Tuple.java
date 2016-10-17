@@ -12,19 +12,16 @@ import net.sf.jsqlparser.statement.select.SelectItem;
 
 /**
  * Core data structure, deal with operations on tuples
- * 
  * @author Chenxi Su cs2238, Hao Qian hq43, Jiangjie Man jm2559
- *
  */
-
 public class Tuple {
 	
-	private HashMap<Column, Integer> tupleMap = new HashMap<Column, Integer>();
+	private HashMap<Column, Integer> tupleMap = new HashMap<>();
 	private List<Column> schemaList;
 	private String record;
 	
 	/**
-	 * Construct a tuple given attributes and a record.
+	 * Constructor 1: Construct a tuple given attributes and a record.
 	 * @param schemaList schema of the table
 	 * @param record a line in a table, columns separated by comma
 	 */
@@ -39,7 +36,7 @@ public class Tuple {
 	}	
 	
 	/**
-	 * -Constructor 2: for joinOperator to generate new tuple
+	 * Constructor 2: for joinOperator to generate new tuple
 	 * @param t1 tuple from left(outer) table
 	 * @param t2 tuple from right(inner) table
 	 * */
@@ -62,14 +59,15 @@ public class Tuple {
 		sb.append(",");
 		sb.append(t2.getRecord());
 		record = sb.toString();
-	}	
+	}
+
 	/**
 	 * Constructor 3: for projectionOperator to generate new subset tuple
 	 * @param t Original tuple
 	 * @param projectionList attribute list to project
 	 * */
 	public Tuple(Tuple t, List<SelectItem> projectionList){
-		//initialize schemaList from projectionLsit
+		//initialize schemaList from projectionList
 		this.schemaList = new LinkedList<>();
 		
 		for(SelectItem si : projectionList){
@@ -82,11 +80,6 @@ public class Tuple {
 			this.schemaList.add(c);
 			
 		}
-		//System.out.println(this.schemaList.get(0));
-//		System.out.println("!!!!!!");
-//		System.out.println(inputTupleMap.get("A"));
-//		System.out.println(inputTupleMap.get("B"));
-//		System.out.println(inputTupleMap.get("C"));
 		StringBuilder sb = new StringBuilder();
 		int n = schemaList.size();
 		for(int i = 0; i<n; i++){
@@ -149,10 +142,6 @@ public class Tuple {
 	 */
 	public String getRecord(){
 		return record;
-	}
-
-	public List<Integer> getAttributes() {
-		return (List) tupleMap.values();
 	}
 
 	/**

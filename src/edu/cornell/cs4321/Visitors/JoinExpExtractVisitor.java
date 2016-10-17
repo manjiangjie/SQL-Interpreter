@@ -73,8 +73,8 @@ public class JoinExpExtractVisitor implements ExpressionVisitor {
 	public JoinExpExtractVisitor(String fromTable, List<String> joinTables){
 		this.fromTable = fromTable;
 		this.joinTables = joinTables;
-		singleTableExpression = new HashMap<String,Expression>();
-		joinExpression = new HashMap<String,Expression>();
+		singleTableExpression = new HashMap<>();
+		joinExpression = new HashMap<>();
 	}
 	
 	/**
@@ -117,12 +117,12 @@ public class JoinExpExtractVisitor implements ExpressionVisitor {
 	 */
 	private void addJoinExpr(Expression expr, String tableA, String tableB){
 		String tableName = (joinTables.indexOf(tableA) > joinTables.indexOf(tableB)) ? tableA : tableB; // the table 
-		if(joinExpression.containsKey(tableName)){
+		if (joinExpression.containsKey(tableName)){
 			AndExpression newExpr = new AndExpression();
 			newExpr.setLeftExpression(joinExpression.get(tableName));
 			newExpr.setRightExpression(expr);
 			joinExpression.put(tableName, newExpr);
-		}else{
+		}else {
 			joinExpression.put(tableName, expr);
 		}
 	}

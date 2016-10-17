@@ -83,18 +83,6 @@ public class BinaryTupleReader implements TupleReader {
     }
 
     /**
-     * Close the input stream.
-     */
-    @Override
-    public void close() {
-        try {
-            fin.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Reset the input stream and buffer. Re-read the table data file.
      */
     @Override
@@ -115,7 +103,7 @@ public class BinaryTupleReader implements TupleReader {
     @Override
     public void dump() {
         Tuple t;
-        while((t = readNextTuple()) != null){
+        while((t = readNextTuple()) != null) {
             System.out.println(t);
         }
     }

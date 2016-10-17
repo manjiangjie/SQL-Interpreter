@@ -47,7 +47,6 @@ public class Converter {
             String record = readTuple();
             while (record != null) {
                 pw.println(record);
-                //System.out.println(record);
                 record = readTuple();
             }
         } catch (IOException e) {

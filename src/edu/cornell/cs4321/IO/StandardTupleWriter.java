@@ -26,7 +26,6 @@ public class StandardTupleWriter implements TupleWriter {
 
     /**
      * Write a Tuple to file. If tuples are fit in a page, write to next page.
-     *
      * @param t The Tuple Object to be written in.
      */
     @Override

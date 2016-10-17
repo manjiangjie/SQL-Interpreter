@@ -15,11 +15,6 @@ public interface TupleReader {
     Tuple readNextTuple();
 
     /**
-     * Close the input stream.
-     */
-    void close();
-
-    /**
      * re-generate input stream and re-read the data file
      */
     void reset();

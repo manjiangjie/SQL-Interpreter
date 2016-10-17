@@ -9,10 +9,11 @@ import java.nio.charset.StandardCharsets;
 import edu.cornell.cs4321.Database.*;
 import edu.cornell.cs4321.IO.BinaryTupleWriter;
 import edu.cornell.cs4321.IO.Converter;
-import edu.cornell.cs4321.Operators.*;
+import edu.cornell.cs4321.LogicalOperators.LogicalOperator;
+import edu.cornell.cs4321.PhysicalOperators.*;
+import edu.cornell.cs4321.Visitors.PhysicalPlanBuilderVisitor;
 import net.sf.jsqlparser.parser.CCJSqlParser;
 import net.sf.jsqlparser.statement.Statement;
-import net.sf.jsqlparser.statement.select.*;
 
 /**
  * This is the top-level class which contains main function. It reads queries
@@ -35,11 +36,9 @@ public class Parser {
 		DatabaseCatalog.getInstance(inputDir);
 		
 		String queryFilePath = inputDir + "/queries.sql";
-		BufferedReader br;
-		String queryStr = null;
 		try {
-			br = new BufferedReader(new FileReader(queryFilePath));
-			queryStr = br.readLine();
+			BufferedReader br = new BufferedReader(new FileReader(queryFilePath));
+			String queryStr = br.readLine();
 			int queryNumber = 1;
 			while (queryStr != null) {
 				try {
@@ -51,13 +50,11 @@ public class Parser {
 						CCJSqlParser parser = new CCJSqlParser(stream);
 						Statement statement;
 						if ((statement = parser.Statement()) != null) {
-							Select select = (Select) statement;
-							PlainSelect pSelect = (PlainSelect) select.getSelectBody();
-
 							// Construct query plan tree
-							QueryPlanBuilder qb = new QueryPlanBuilder(pSelect);
-							Operator queryOperator = qb.getRootOperator();
-
+							PhysicalPlanBuilderVisitor visitor = new PhysicalPlanBuilderVisitor(statement);
+							LogicalOperator logicalOperator = visitor.getLogicalOperator();
+							logicalOperator.accept(visitor);
+							Operator queryOperator = visitor.getOperator();
 							// Get tuples repeatedly
 							Tuple t;
 							while ((t = queryOperator.getNextTuple()) != null) {
@@ -74,7 +71,7 @@ public class Parser {
 						queryStr = br.readLine();
 						double timing = (System.currentTimeMillis() - currentTime) / 1000.0;
 						System.out.println("Finish processing query #" + queryNumber + ", " + timing + " seconds");
-						queryNumber = queryNumber + 1;
+						queryNumber += 1;
 					}
 				} catch (Exception e) {
 					e.printStackTrace();

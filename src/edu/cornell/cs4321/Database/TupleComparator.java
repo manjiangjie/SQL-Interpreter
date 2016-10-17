@@ -1,6 +1,7 @@
 package edu.cornell.cs4321.Database;
 
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 
 import net.sf.jsqlparser.schema.Column;
@@ -26,21 +27,31 @@ public class TupleComparator implements Comparator<Object> {
 
 	@Override
 	public int compare(Object t1, Object t2) {
-		if(t1 != null && t2 != null){
-			Integer r1 =null ,r2 = null;
-			for(Column c : sortByColumns){
-				r1 = ((Tuple)t1).getValueByCol(c);
-				r2 = ((Tuple)t2).getValueByCol(c);
-				if(r1!=r2) return r1-r2;
+		List<Column> columns = new LinkedList<>(((Tuple) t1).getSchema());
+
+		if(t1 != null && t2 != null) {
+			Integer r1, r2;
+			for(Column c : sortByColumns) {
+				for (Column column : ((Tuple) t1).getSchema()) {
+					if (column.getColumnName().equals(c.getColumnName())) {
+						columns.remove(column);
+					}
+				}
+				r1 = ((Tuple) t1).getValueByCol(c);
+				r2 = ((Tuple) t2).getValueByCol(c);
+				if(r1 != r2) {
+					return r1 - r2;
+				}
 			}
-			for(Column e : ((Tuple)t1).getSchema()){
-				r1 = ((Tuple)t1).getValueByCol(e);
-				r2 = ((Tuple)t2).getValueByCol(e);
-				if(r1 != r2) return r1-r2;
-			}			
+			for(Column e : columns) {
+				r1 = ((Tuple) t1).getValueByCol(e);
+				r2 = ((Tuple) t2).getValueByCol(e);
+				if(r1 != r2) {
+					return r1 - r2;
+				}
+			}
 		}
 		return 0;
 	}
-	
 
 }

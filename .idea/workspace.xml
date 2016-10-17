@@ -2,35 +2,44 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="39d60c92-5f90-4014-9cce-d731bdbc7322" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/Operators/DuplicateEliminationOperator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/Operators/JoinOperator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/Operators/Operator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/Operators/ProjectionOperator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/Operators/ScanOperator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/Operators/SelectionOperator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/Operators/SortOperator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/QueryPlanBuilder.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/edu/cornell/cs4321/QueryPlanBuilder.java" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/edu/cornell/cs4321/Operators/DuplicateEliminationOperator.java" afterPath="$PROJECT_DIR$/src/edu/cornell/cs4321/PhysicalOperators/DuplicateEliminationOperator.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/edu/cornell/cs4321/Operators/JoinOperator.java" afterPath="$PROJECT_DIR$/src/edu/cornell/cs4321/PhysicalOperators/JoinOperator.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/edu/cornell/cs4321/Operators/Operator.java" afterPath="$PROJECT_DIR$/src/edu/cornell/cs4321/PhysicalOperators/Operator.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/edu/cornell/cs4321/Operators/ProjectionOperator.java" afterPath="$PROJECT_DIR$/src/edu/cornell/cs4321/PhysicalOperators/ProjectionOperator.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/edu/cornell/cs4321/Operators/ScanOperator.java" afterPath="$PROJECT_DIR$/src/edu/cornell/cs4321/PhysicalOperators/ScanOperator.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/edu/cornell/cs4321/Operators/SelectionOperator.java" afterPath="$PROJECT_DIR$/src/edu/cornell/cs4321/PhysicalOperators/SelectionOperator.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/edu/cornell/cs4321/Operators/SortOperator.java" afterPath="$PROJECT_DIR$/src/edu/cornell/cs4321/PhysicalOperators/SortOperator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/Database/DatabaseCatalog.class" afterPath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/Database/DatabaseCatalog.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/Database/Tuple.class" afterPath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/Database/Tuple.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/Database/TupleComparator.class" afterPath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/Database/TupleComparator.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/IO/BinaryTupleReader.class" afterPath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/IO/BinaryTupleReader.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/IO/BinaryTupleWriter.class" afterPath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/IO/BinaryTupleWriter.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/IO/Converter.class" afterPath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/IO/Converter.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/IO/StandardTupleReader.class" afterPath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/IO/StandardTupleReader.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/IO/TupleWriter.class" afterPath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/IO/TupleWriter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/Operators/ScanOperator.class" afterPath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/Operators/ScanOperator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/IO/StandardTupleWriter.class" afterPath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/IO/StandardTupleWriter.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/IO/TupleReader.class" afterPath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/IO/TupleReader.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/Parser.class" afterPath="$PROJECT_DIR$/out/production/SQL-Interpreter/edu/cornell/cs4321/Parser.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/samples/output/query10" afterPath="$PROJECT_DIR$/samples/output/query10" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/samples/output/query11" afterPath="$PROJECT_DIR$/samples/output/query11" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/samples/output/query12" afterPath="$PROJECT_DIR$/samples/output/query12" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/samples/output/query13" afterPath="$PROJECT_DIR$/samples/output/query13" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/samples/output/query14" afterPath="$PROJECT_DIR$/samples/output/query14" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/samples/output/query15" afterPath="$PROJECT_DIR$/samples/output/query15" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/samples/output/query3" afterPath="$PROJECT_DIR$/samples/output/query3" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/samples/output/query4" afterPath="$PROJECT_DIR$/samples/output/query4" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/samples/output/query5" afterPath="$PROJECT_DIR$/samples/output/query5" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/samples/output/query6" afterPath="$PROJECT_DIR$/samples/output/query6" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/samples/output/query8" afterPath="$PROJECT_DIR$/samples/output/query8" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/samples/output/query9" afterPath="$PROJECT_DIR$/samples/output/query9" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/samples/output/query1" afterPath="$PROJECT_DIR$/samples/output/query1" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/samples/output/query2" afterPath="$PROJECT_DIR$/samples/output/query2" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/cornell/cs4321/Database/DatabaseCatalog.java" afterPath="$PROJECT_DIR$/src/edu/cornell/cs4321/Database/DatabaseCatalog.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/cornell/cs4321/Database/Tuple.java" afterPath="$PROJECT_DIR$/src/edu/cornell/cs4321/Database/Tuple.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/cornell/cs4321/Database/TupleComparator.java" afterPath="$PROJECT_DIR$/src/edu/cornell/cs4321/Database/TupleComparator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/cornell/cs4321/IO/BinaryTupleReader.java" afterPath="$PROJECT_DIR$/src/edu/cornell/cs4321/IO/BinaryTupleReader.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/cornell/cs4321/IO/BinaryTupleWriter.java" afterPath="$PROJECT_DIR$/src/edu/cornell/cs4321/IO/BinaryTupleWriter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/cornell/cs4321/IO/Converter.java" afterPath="$PROJECT_DIR$/src/edu/cornell/cs4321/IO/Converter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/cornell/cs4321/IO/StandardTupleReader.java" afterPath="$PROJECT_DIR$/src/edu/cornell/cs4321/IO/StandardTupleReader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/cornell/cs4321/IO/TupleWriter.java" afterPath="$PROJECT_DIR$/src/edu/cornell/cs4321/IO/TupleWriter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/cornell/cs4321/Operators/ScanOperator.java" afterPath="$PROJECT_DIR$/src/edu/cornell/cs4321/Operators/ScanOperator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/cornell/cs4321/IO/StandardTupleWriter.java" afterPath="$PROJECT_DIR$/src/edu/cornell/cs4321/IO/StandardTupleWriter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/cornell/cs4321/IO/TupleReader.java" afterPath="$PROJECT_DIR$/src/edu/cornell/cs4321/IO/TupleReader.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/cornell/cs4321/Parser.java" afterPath="$PROJECT_DIR$/src/edu/cornell/cs4321/Parser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/cornell/cs4321/Visitors/JoinExpExtractVisitor.java" afterPath="$PROJECT_DIR$/src/edu/cornell/cs4321/Visitors/JoinExpExtractVisitor.java" />
     </list>
     <ignored path="SQL-Interpreter.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -52,14 +61,46 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Parser.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Parser.java">
+      <file leaf-file-name="PhysicalPlanBuilderVisitor.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Visitors/PhysicalPlanBuilderVisitor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.59911245">
-              <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#4252#4253#0" expanded="true" />
+                <element signature="e#4290#4291#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SortOperator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/PhysicalOperators/SortOperator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="51" column="79" selection-start-line="51" selection-start-column="66" selection-end-line="51" selection-end-column="79" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TupleComparator.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Database/TupleComparator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.6893491">
+              <caret line="49" column="35" selection-start-line="49" selection-start-column="35" selection-end-line="49" selection-end-column="35" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="queries.sql" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/samples/input/queries.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="14" column="16" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -69,8 +110,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -86,29 +127,45 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/project3/Parser.java" />
-        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/Database/TupleComparator.java" />
-        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/Operators/DuplicateEliminationOperator.java" />
         <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/Operators/JoinOperator.java" />
         <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/Operators/ProjectionOperator.java" />
         <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/Operators/SelectionOperator.java" />
         <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/Operators/SortOperator.java" />
-        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/Visitors/JoinExpExtractVisitor.java" />
         <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/Visitors/WhereExpressionVisitor.java" />
         <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/Database/TupleReader.java" />
         <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/Database/TupleWriter.java" />
         <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/Operators/Operator.java" />
-        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/IO/TupleReader.java" />
-        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/QueryPlanBuilder.java" />
-        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/Database/DatabaseCatalog.java" />
         <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/IO/TupleWriter.java" />
-        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/IO/StandardTupleReader.java" />
-        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/Database/Tuple.java" />
-        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/IO/BinaryTupleWriter.java" />
-        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/IO/StandardTupleWriter.java" />
-        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/IO/Converter.java" />
         <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/Operators/ScanOperator.java" />
-        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/IO/BinaryTupleReader.java" />
+        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/Operators/DuplicateEliminationOperator.java" />
+        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/PhysicalOperators/ScanOperator.java" />
+        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/Visitors/JoinExpExtractVisitor.java" />
+        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/QueryPlanBuilder.java" />
+        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/LogicalOperators/LogicalScanOperator.java" />
         <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/Parser.java" />
+        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/Database/DatabaseCatalog.java" />
+        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/Database/Tuple.java" />
+        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/IO/BinaryTupleReader.java" />
+        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/IO/TupleReader.java" />
+        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/IO/BinaryTupleWriter.java" />
+        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/IO/Converter.java" />
+        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/IO/StandardTupleReader.java" />
+        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/IO/StandardTupleWriter.java" />
+        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/LogicalOperators/LogicalDistinctOperator.java" />
+        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/LogicalOperators/LogicalJoinOperator.java" />
+        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/LogicalOperators/LogicalOperator.java" />
+        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/LogicalOperators/LogicalProjectionOperator.java" />
+        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/LogicalOperators/LogicalSelectionOperator.java" />
+        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/PhysicalOperators/JoinOperator.java" />
+        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/PhysicalOperators/ProjectionOperator.java" />
+        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/PhysicalOperators/SelectionOperator.java" />
+        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/LogicalOperators/LogicalSortOperator.java" />
+        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/PhysicalOperators/DistinctOperator.java" />
+        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/PhysicalOperators/DuplicateEliminationOperator.java" />
+        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/Visitors/PhysicalPlanBuilderVisitor.java" />
+        <option value="$PROJECT_DIR$/samples/input/queries.sql" />
+        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/PhysicalOperators/SortOperator.java" />
+        <option value="$PROJECT_DIR$/src/edu/cornell/cs4321/Database/TupleComparator.java" />
       </list>
     </option>
   </component>
@@ -242,7 +299,29 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Operators" />
+              <option name="myItemId" value="PhysicalOperators" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SQL-Interpreter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SQL-Interpreter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cs4321" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LogicalOperators" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -301,6 +380,10 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="samples" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="output" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -380,7 +463,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="jsqlparser" />
+              <option name="myItemId" value="samples" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="expected" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -726,21 +813,21 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3252841" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24071082" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.328125" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39914772" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -754,13 +841,13 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32776934" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3252841" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24071082" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286119" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.328125" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -780,7 +867,9 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="3" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="antWorkspaceConfiguration">
@@ -788,57 +877,113 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/IO/BinaryTupleReader.java">
+    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/LogicalOperators/LogicalSelectionOperator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.73224854">
+          <caret line="35" column="47" selection-start-line="35" selection-start-column="47" selection-end-line="35" selection-end-column="47" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#1282#1283#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/PhysicalOperators/JoinOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.6420119">
+          <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/PhysicalOperators/Operator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5769231">
+          <caret line="26" column="7" selection-start-line="26" selection-start-column="7" selection-end-line="26" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/LogicalOperators/LogicalOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.22189349">
+          <caret line="10" column="46" selection-start-line="10" selection-start-column="46" selection-end-line="10" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/PhysicalOperators/ProjectionOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.99852073">
+          <caret line="48" column="36" selection-start-line="48" selection-start-column="36" selection-end-line="48" selection-end-column="36" />
+          <folding>
+            <element signature="e#1260#1261#0" expanded="true" />
+            <element signature="e#1290#1291#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/PhysicalOperators/ScanOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.93195266">
+          <caret line="49" column="5" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
+          <folding>
+            <element signature="e#1414#1415#0" expanded="true" />
+            <element signature="e#1431#1432#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/PhysicalOperators/SelectionOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.3535503">
+          <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Visitors/JoinExpExtractVisitor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.6642011">
+          <caret line="123" column="51" selection-start-line="123" selection-start-column="51" selection-end-line="123" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Visitors/WhereExpressionVisitor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33284023">
+          <caret line="22" column="5" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
+          <folding>
+            <element signature="e#902#903#0" expanded="false" />
+            <element signature="e#927#928#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/LogicalOperators/LogicalSortOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.033557046">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#1414#1415#0" expanded="false" />
+            <element signature="e#1450#1451#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Parser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.70469797">
+          <caret line="67" column="36" selection-start-line="67" selection-start-column="36" selection-end-line="67" selection-end-column="36" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Operators/ScanOperator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="101" column="36" selection-start-line="101" selection-start-column="36" selection-end-line="101" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/QueryPlanBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="61" column="43" selection-start-line="61" selection-start-column="43" selection-end-line="61" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Database/DatabaseCatalog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="64" column="45" selection-start-line="64" selection-start-column="45" selection-end-line="64" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Database/TupleComparator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="47" selection-start-line="20" selection-start-column="47" selection-end-line="20" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Database/DatabaseCatalog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="25" column="4" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Parser.java">
+    <entry file="file://$PROJECT_DIR$/samples/output/query2_humanreadable">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -846,23 +991,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Database/TupleComparator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="47" selection-start-line="20" selection-start-column="47" selection-end-line="20" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Database/DatabaseCatalog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="25" column="4" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Parser.java">
+    <entry file="file://$PROJECT_DIR$/samples/expected/query2_humanreadable">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -870,37 +999,201 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/samples/input/db/data/Boats">
+    <entry file="file://$PROJECT_DIR$/samples/expected/query3_humanreadable">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jsqlparser/docs/allclasses-frame.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Database/TupleComparator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.28684628">
-          <caret line="20" column="47" selection-start-line="20" selection-start-column="47" selection-end-line="20" selection-end-column="47" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Operators/SortOperator.java">
+    <entry file="file://$PROJECT_DIR$/samples/output/query3_humanreadable">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23771791">
+        <state vertical-scroll-proportion="-32.65772">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/samples/expected/query4_humanreadable">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-32.75839">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/samples/output/query4_humanreadable">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-32.859062">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/samples/expected/query5_humanreadable">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/samples/output/query5_humanreadable">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-15.375839">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/samples/expected/query6_humanreadable">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/samples/output/query6_humanreadable">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-15.268456">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/samples/output/query7_humanreadable">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/samples/expected/query7_humanreadable">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/samples/expected/query8_humanreadable">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/samples/output/query8_humanreadable">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-167.45638">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/samples/output/query9_humanreadable">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/samples/expected/query9_humanreadable">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-845.4765">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/samples/expected/query10_humanreadable">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="19225" column="0" selection-start-line="19225" selection-start-column="0" selection-end-line="19225" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/samples/output/query10_humanreadable">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.9328859">
+          <caret line="19225" column="15" selection-start-line="19225" selection-start-column="15" selection-end-line="19225" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/samples/output/query12_humanreadable">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="276078.34">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/samples/expected/query12_humanreadable">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-17747.928">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/samples/expected/query13_humanreadable">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/samples/output/query13_humanreadable">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-21.328402">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/samples/expected/query11_humanreadable">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="999" column="10" selection-start-line="999" selection-start-column="10" selection-end-line="999" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/LogicalOperators/LogicalJoinOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33284023">
+          <caret line="16" column="56" selection-start-line="16" selection-start-column="56" selection-end-line="16" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/LogicalOperators/LogicalDistinctOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.060402684">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Database/Tuple.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.5973155">
           <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/samples/input/plan_builder_config.txt">
+    <entry file="file://$PROJECT_DIR$/samples/input/db/data/Sailors_humanreadable">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -908,10 +1201,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/samples/input/db/schema.txt">
+    <entry file="file://$PROJECT_DIR$/samples/output/query11_humanreadable">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="22.16716">
+          <caret line="999" column="10" selection-start-line="999" selection-start-column="10" selection-end-line="999" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/samples/output/query14_humanreadable">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <caret line="10" column="24" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="24" />
           <folding />
         </state>
       </provider>
@@ -924,246 +1225,87 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Operators/Operator.java">
+    <entry file="file://$PROJECT_DIR$/samples/expected/query1_humanreadable">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="21" column="33" selection-start-line="21" selection-start-column="33" selection-end-line="21" selection-end-column="33" />
+        <state vertical-scroll-proportion="0.9328859">
+          <caret line="341" column="6" selection-start-line="341" selection-start-column="6" selection-end-line="341" selection-end-column="6" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Operators/SelectionOperator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="30" column="7" selection-start-line="30" selection-start-column="7" selection-end-line="30" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Operators/DuplicateEliminationOperator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.79881656">
-          <caret line="36" column="9" selection-start-line="36" selection-start-column="9" selection-end-line="36" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Visitors/JoinExpExtractVisitor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="108" column="9" selection-start-line="108" selection-start-column="9" selection-end-line="108" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Operators/JoinOperator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.06656805">
-          <caret line="30" column="35" selection-start-line="30" selection-start-column="35" selection-end-line="30" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Operators/ProjectionOperator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2677515">
-          <caret line="24" column="5" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/IO/TupleReader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.55473375">
-          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/IO/TupleWriter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.44378698">
-          <caret line="20" column="17" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/IO/StandardTupleReader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.28846154">
-          <caret line="13" column="3" selection-start-line="13" selection-start-column="3" selection-end-line="14" selection-end-column="31" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/samples/expected/query11_humanreadable">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-21.322485">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Database/Tuple.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="4.5973153">
-          <caret line="141" column="9" selection-start-line="141" selection-start-column="9" selection-end-line="141" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4295#4296#0" expanded="true" />
-            <element signature="e#4333#4334#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/src.zip!/java/nio/Buffer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="545" column="0" selection-start-line="545" selection-start-column="0" selection-end-line="545" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/src.zip!/java/nio/HeapByteBuffer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334">
-          <caret line="380" column="0" selection-start-line="380" selection-start-column="0" selection-end-line="380" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/samples/output/query2">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/samples/expected/query1">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/samples/output/query1">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/QueryPlanBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="51" column="23" selection-start-line="51" selection-start-column="14" selection-end-line="51" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/IO/BinaryTupleWriter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.06711409">
-          <caret line="52" column="10" selection-start-line="52" selection-start-column="10" selection-end-line="52" selection-end-column="10" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/samples/output/query1_humanreadable">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-52.285713">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="12" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="12" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Visitors/WhereExpressionVisitor.java">
+    <entry file="file://$PROJECT_DIR$/samples/expected/query14_humanreadable">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="131" column="52" selection-start-line="131" selection-start-column="52" selection-end-line="131" selection-end-column="52" />
+          <caret line="14" column="24" selection-start-line="9" selection-start-column="0" selection-end-line="14" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/PhysicalOperators/DuplicateEliminationOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.556213">
+          <caret line="36" column="13" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Visitors/PhysicalPlanBuilderVisitor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
           <folding>
-            <element signature="e#2040#2041#0" expanded="true" />
-            <element signature="e#2106#2107#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#4252#4253#0" expanded="true" />
+            <element signature="e#4290#4291#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/PhysicalOperators/SortOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="51" column="79" selection-start-line="51" selection-start-column="66" selection-end-line="51" selection-end-column="79" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/samples/input/queries.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="55" selection-start-line="11" selection-start-column="55" selection-end-line="11" selection-end-column="55" />
+          <caret line="14" column="16" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/samples/expected/query1_humanreadable">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-21.315435">
-          <caret line="341" column="6" selection-start-line="341" selection-start-column="6" selection-end-line="341" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/IO/StandardTupleWriter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.60402685">
-          <caret line="18" column="19" selection-start-line="18" selection-start-column="19" selection-end-line="18" selection-end-column="19" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/IO/Converter.java">
+    <entry file="file://$PROJECT_DIR$/samples/expected/query15_humanreadable">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="31" selection-start-line="12" selection-start-column="31" selection-end-line="12" selection-end-column="31" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Database/DatabaseCatalog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="114" column="40" selection-start-line="114" selection-start-column="40" selection-end-line="114" selection-end-column="40" />
+          <caret line="27" column="18" selection-start-line="27" selection-start-column="18" selection-end-line="27" selection-end-column="18" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Operators/ScanOperator.java">
+    <entry file="file://$PROJECT_DIR$/samples/output/query15_humanreadable">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="46" column="46" selection-start-line="46" selection-start-column="46" selection-end-line="46" selection-end-column="46" />
+        <state vertical-scroll-proportion="-1.818792">
+          <caret line="24921" column="27" selection-start-line="24921" selection-start-column="27" selection-end-line="24921" selection-end-column="27" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/IO/BinaryTupleReader.java">
+    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Database/TupleComparator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.48816568">
-          <caret line="22" column="27" selection-start-line="22" selection-start-column="27" selection-end-line="22" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/cornell/cs4321/Parser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.59911245">
-          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.6893491">
+          <caret line="49" column="35" selection-start-line="49" selection-start-column="35" selection-end-line="49" selection-end-column="35" />
+          <folding />
         </state>
       </provider>
     </entry>

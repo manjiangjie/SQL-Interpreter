@@ -19,18 +19,12 @@ import net.sf.jsqlparser.schema.Table;
  */
 public class DatabaseCatalog {
 	
-	private static HashMap<String, List<Column>> schemaMap = new HashMap<String, List<Column>>();
-	private static HashMap<String, String> tablePathMap = new HashMap<String, String>();
+	private static HashMap<String, List<Column>> schemaMap = new HashMap<>();
+	private static HashMap<String, String> tablePathMap = new HashMap<>();
 	private static DatabaseCatalog instance = null;
-	
+
 	/**
-	 * Constructor1: Exists only to defeat instantiation
-	 * */
-	protected DatabaseCatalog(){};
-	
-	
-	/**
-	 * Constructor2: Construct an DatabaseCatalog instance for the use of getInstance
+	 * Constructor: Construct an DatabaseCatalog instance for the use of getInstance
 	 * 
 	 * @param inputDir
 	 * schema txt file directory location  
@@ -39,7 +33,6 @@ public class DatabaseCatalog {
 		String schemaDir = inputDir + "/db/schema.txt";
 		FileReader fr;
 		BufferedReader br;
-		
 		//Initialize file reader
 		try {
 			 fr = new FileReader(schemaDir);
@@ -73,7 +66,6 @@ public class DatabaseCatalog {
 					tablePathMap.put(tokens[0], curTablePath);
 				}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -100,21 +92,23 @@ public class DatabaseCatalog {
 	 * @return a string representing the relative path of the table
 	 * */		
 	public static String getPathByTableName(String tableName){
-		//TODO: Implement Me		
 		return tablePathMap.get(tableName);
 	}
-	
-	
+
 	/**
 	 * get the schema of the specified table in parameter
 	 * @param tableName String of table name
 	 * @return A list of Columns of the table, with each column referencing the Table object
 	 * */	
 	public static List<Column> getSchemaByTable(String tableName){
-		//TODO: Implement Me
 		return schemaMap.get(tableName);
 	}
 
+	/**
+	 * Set schemaMap by specific table and columns
+	 * @param tableName table name
+	 * @param schemaList A list of Columns of the table
+     */
 	public static void setSchemaByTable(String tableName, List<Column> schemaList) {
 		schemaMap.put(tableName, schemaList);
 	}

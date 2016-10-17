@@ -76,7 +76,6 @@ public class BinaryTupleWriter implements TupleWriter {
                 e.printStackTrace();
             }
         }
-
     }
 
     /**
