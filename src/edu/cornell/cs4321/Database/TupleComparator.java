@@ -30,22 +30,23 @@ public class TupleComparator implements Comparator<Object> {
 		List<Column> columns = new LinkedList<>(((Tuple) t1).getSchema());
 
 		if(t1 != null && t2 != null) {
-			Integer r1, r2;
+			int r1, r2;
 			for(Column c : sortByColumns) {
 				for (Column column : ((Tuple) t1).getSchema()) {
 					if (column.getColumnName().equals(c.getColumnName())) {
 						columns.remove(column);
 					}
 				}
-				r1 = ((Tuple) t1).getValueByCol(c);
-				r2 = ((Tuple) t2).getValueByCol(c);
+				r1 = ((Tuple) t1).getValueByCol(c).intValue();
+				r2 = ((Tuple) t2).getValueByCol(c).intValue();
 				if(r1 != r2) {
 					return r1 - r2;
 				}
 			}
+			//System.out.println(columns.toString());
 			for(Column e : columns) {
-				r1 = ((Tuple) t1).getValueByCol(e);
-				r2 = ((Tuple) t2).getValueByCol(e);
+				r1 = ((Tuple) t1).getValueByCol(e).intValue();
+				r2 = ((Tuple) t2).getValueByCol(e).intValue();
 				if(r1 != r2) {
 					return r1 - r2;
 				}

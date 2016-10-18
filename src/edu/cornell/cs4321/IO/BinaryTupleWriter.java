@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -20,6 +21,8 @@ public class BinaryTupleWriter implements TupleWriter {
     private int index = 0;
     private int numAttributes;
     private int numTuples;
+    private ByteBuffer copy;
+    private List<Integer> lastPageTuples = new LinkedList<>();
 
     /**
      * Constructor for BinaryTupleWriter class. Initiate FileOutputStream and ByteBuffer.
@@ -30,6 +33,7 @@ public class BinaryTupleWriter implements TupleWriter {
             fout = new FileOutputStream(queryPath);
             fc = fout.getChannel();
             bb = ByteBuffer.allocate(SIZE);
+            copy = ByteBuffer.allocate(SIZE);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -53,6 +57,7 @@ public class BinaryTupleWriter implements TupleWriter {
         //System.out.println(attributes);
         for (int i = 0; i < numAttributes; i++) {
             bb.putInt(attributes.get(i));
+            lastPageTuples.add(attributes.get(i));
             index += 4;
         }
 
@@ -71,7 +76,9 @@ public class BinaryTupleWriter implements TupleWriter {
                 } else {
                     bb.clear();
                 }
+                copy = bb.duplicate();
                 index = 0;
+                lastPageTuples.clear();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -86,17 +93,25 @@ public class BinaryTupleWriter implements TupleWriter {
         try {
             // fill last page
             if (index != 0) {
+                numTuples = lastPageTuples.size() / numAttributes;
+                copy.putInt(numAttributes);
+                copy.putInt(numTuples);
+                for (Integer n : lastPageTuples) {
+                    copy.putInt(n);
+                }
                 while (index < SIZE) {
-                    bb.putInt(0);
+                    copy.putInt(0);
                     index += 4;
                 }
-                bb.flip();
-                fc.write(bb);
-                if (bb.hasRemaining()) {
-                    bb.compact();
-                    bb.flip();
-                    fc.write(bb);
+                copy.flip();
+                fc.write(copy);
+                if (copy.hasRemaining()) {
+                    copy.compact();
                 }
+            }
+            if (copy.hasRemaining()) {
+                copy.flip();
+                fc.write(copy);
             }
             // close output stream
             fout.close();
@@ -104,4 +119,5 @@ public class BinaryTupleWriter implements TupleWriter {
             e.printStackTrace();
         }
     }
+
 }
