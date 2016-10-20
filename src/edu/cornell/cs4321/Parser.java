@@ -22,7 +22,7 @@ import net.sf.jsqlparser.statement.Statement;
  * a query plan tree. Then it invokes getNextTuple() on the root operator of
  * query plan repeatedly until it retrieves all tuples.
  * 
- * @author Chenxi Su cs2238, Hao Qian hq43, Jiangjie Man jm2559
+ * @author Heng Kuang hk856, Hao Qian hq43, Jiangjie Man jm2559
  *
  */
 public class Parser {
@@ -30,16 +30,22 @@ public class Parser {
 	public static void main(String[] args) {
 		String inputDir = args[0];
 		String outputDir = args[1];
-		//String tempDir = args[2];
+		String tempDir = args[2];
 
 		// Initialize database catalog
 		DatabaseCatalog.getInstance(inputDir);
 		
 		String queryFilePath = inputDir + "/queries.sql";
+		String configFilePath = tempDir + "/plan_builder_config.txt";
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(queryFilePath));
 			String queryStr = br.readLine();
 			int queryNumber = 1;
+			
+			BufferedReader br2 = new BufferedReader(new FileReader(configFilePath));
+			String[] joinMethod = br2.readLine().split("\\s+");
+			String[] sortMethod = br2.readLine().split("\\s+");
+			br2.close();
 			while (queryStr != null) {
 				try {
 					String queryPath = outputDir + "/query" + queryNumber;
@@ -51,7 +57,7 @@ public class Parser {
 						Statement statement;
 						if ((statement = parser.Statement()) != null) {
 							// Construct query plan tree
-							PhysicalPlanBuilderVisitor visitor = new PhysicalPlanBuilderVisitor(statement);
+							PhysicalPlanBuilderVisitor visitor = new PhysicalPlanBuilderVisitor(statement,joinMethod,sortMethod);
 							LogicalOperator logicalOperator = visitor.getLogicalOperator();
 							logicalOperator.accept(visitor);
 							Operator queryOperator = visitor.getOperator();

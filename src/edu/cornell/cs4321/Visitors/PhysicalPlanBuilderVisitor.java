@@ -25,8 +25,10 @@ public class PhysicalPlanBuilderVisitor {
     private String alias;
     private Operator operator;
     private LogicalOperator logicalOperator;
+    private String[] joinMethod;
+    private String[] sortMethod;
 
-    public PhysicalPlanBuilderVisitor(Statement statement) {
+    public PhysicalPlanBuilderVisitor(Statement statement, String[] joinMethod, String[] sortMethod) {
         // parse the statement
         Select select = (Select) statement;
         PlainSelect pSelect = (PlainSelect) select.getSelectBody();
@@ -39,6 +41,9 @@ public class PhysicalPlanBuilderVisitor {
         d = pSelect.getDistinct();
         alias = fromTable.getAlias();
 
+        this.joinMethod = joinMethod;
+        this.sortMethod = sortMethod;
+        
         // build the logical query tree
         boolean useAlias = false;
         if (fromTable.getAlias() != null) {
@@ -143,7 +148,18 @@ public class PhysicalPlanBuilderVisitor {
         joinOperator.getLeftChildOperator().accept(this);
         Operator leftOperator = operator;
         joinOperator.getRightChildOperator().accept(this);
-        operator = new JoinOperator(leftOperator, operator, joinOperator.getJoinExpression());
+        
+        //use the join operator specified in the conf file
+        if(joinMethod[0].equals("0")){
+        	operator = new JoinOperator(leftOperator, operator, joinOperator.getJoinExpression());
+        }else if(joinMethod[0].equals("1")){
+        	int nPage = Integer.parseInt(joinMethod[1]);
+        	operator = new BNLJOperator(leftOperator, operator, joinOperator.getJoinExpression(),nPage);
+        }else{
+        	int nPage = Integer.parseInt(joinMethod[1]);
+        	//TODO: Deploy SMJ here
+        }
+        
     }
     /**
      * Visitor method for LogicalSortOperator.
