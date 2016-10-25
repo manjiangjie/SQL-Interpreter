@@ -27,8 +27,9 @@ public class PhysicalPlanBuilderVisitor {
     private LogicalOperator logicalOperator;
     private String[] joinMethod;
     private String[] sortMethod;
+    private String tempDir;
 
-    public PhysicalPlanBuilderVisitor(Statement statement, String[] joinMethod, String[] sortMethod) {
+    public PhysicalPlanBuilderVisitor(Statement statement, String[] joinMethod, String[] sortMethod, String tempDir) {
         // parse the statement
         Select select = (Select) statement;
         PlainSelect pSelect = (PlainSelect) select.getSelectBody();
@@ -43,6 +44,7 @@ public class PhysicalPlanBuilderVisitor {
 
         this.joinMethod = joinMethod;
         this.sortMethod = sortMethod;
+        this.tempDir = tempDir;
         
         // build the logical query tree
         boolean useAlias = false;
@@ -168,7 +170,12 @@ public class PhysicalPlanBuilderVisitor {
     public void visit(LogicalSortOperator sortOperator) {
         sortOperator.getChildOperator().accept(this);
         if (orderByList != null || (orderByList == null && d != null)) {
-            operator = new SortOperator(operator, orderByList);
+        	if(sortMethod[0].equals("0")){
+        		operator = new SortOperator(operator, orderByList);
+        	}else if(sortMethod[0].equals("1")){//external sort
+        		int nPage = Integer.parseInt(sortMethod[1]);
+        		operator = new ExternalSortOperator(operator, orderByList, nPage, tempDir);
+        	}
         }
     }
 

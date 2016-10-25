@@ -36,7 +36,7 @@ public class Parser {
 		DatabaseCatalog.getInstance(inputDir);
 		
 		String queryFilePath = inputDir + "/queries.sql";
-		String configFilePath = tempDir + "/plan_builder_config.txt";
+		String configFilePath = inputDir + "/plan_builder_config.txt";
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(queryFilePath));
 			String queryStr = br.readLine();
@@ -57,7 +57,8 @@ public class Parser {
 						Statement statement;
 						if ((statement = parser.Statement()) != null) {
 							// Construct query plan tree
-							PhysicalPlanBuilderVisitor visitor = new PhysicalPlanBuilderVisitor(statement,joinMethod,sortMethod);
+							PhysicalPlanBuilderVisitor visitor = 
+									new PhysicalPlanBuilderVisitor(statement,joinMethod,sortMethod,tempDir);
 							LogicalOperator logicalOperator = visitor.getLogicalOperator();
 							logicalOperator.accept(visitor);
 							Operator queryOperator = visitor.getOperator();

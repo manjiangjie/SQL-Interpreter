@@ -18,9 +18,9 @@ public class BNLJOperator extends Operator {
 	private Operator leftChildOperator;
 	private Operator rightChildOperator;
 	private Expression joinExpression;
-	private ArrayList<ArrayList<Tuple>> buffers;
+	private ArrayList<Tuple> block;
 	private Tuple lastRightTuple;
-	private int bufferIndex;
+	private int nPages;
 	private int tupleIndex;
 
 	/**
@@ -31,35 +31,34 @@ public class BNLJOperator extends Operator {
 	 * @param buffer size in pages
 	 */
 	public BNLJOperator(Operator leftChild, Operator rightChild, Expression joinExpression, int nBufferPages) {
+		
 		leftChildOperator = leftChild;
 		rightChildOperator = rightChild;
 		this.joinExpression = joinExpression;
-		buffers = new ArrayList<ArrayList<Tuple>>();
-		bufferIndex = 0;
+		nPages = nBufferPages;
+		block = new ArrayList<Tuple>();
 		tupleIndex = 0;
 		
-		Tuple t = leftChild.getNextTuple();
-		ArrayList<Tuple> singleBuffer = new ArrayList<Tuple>();
+	}
+
+	/**
+	 * Clear the block and fill it up with tuples from left child
+	 */
+	private void loadTheBuffer(){
+		block.clear();
+		Tuple t = leftChildOperator.getNextTuple();
 		
 		if(t!=null){
 			//keep adding tuples to a buffer until the it is full
 			//then add the full buffer to the buffer list...
-			int pageMaxSize = 1024 / t.getValues().size();
-			int bufferMaxSize = pageMaxSize * nBufferPages;
-			while(t!=null){
-				singleBuffer.add(t);
-				t = leftChild.getNextTuple();
-				if (singleBuffer.size()==bufferMaxSize){
-					buffers.add(singleBuffer);
-					singleBuffer = new ArrayList<Tuple>();
-				}
-			}
-			if(singleBuffer.size()<bufferMaxSize){
-				buffers.add(singleBuffer);
+			int bufferMaxSize = nPages * 1024 / t.getValues().size();
+			while(t!=null && block.size() < bufferMaxSize ){
+				block.add(t);
+				t = leftChildOperator.getNextTuple();
 			}
 		}
 	}
-
+	
 	/**
 	 * implement block nested loop join algorithm.
 	 * Scan each block of the outer child, scan inner child completely and scan all tuple in the block.
@@ -68,24 +67,28 @@ public class BNLJOperator extends Operator {
 	 */
 	@Override
 	public Tuple getNextTuple() {	
-		//loop over every buffer in the buffer list
-		for (int i = bufferIndex; i < buffers.size(); i ++){
-			ArrayList<Tuple> buffer = buffers.get(i);
-			bufferIndex = i;
+		
+		if(block.isEmpty()){
+			loadTheBuffer();
+		}
+		
+		//loop over every block
+		while(!block.isEmpty()){
 			Tuple rightTuple;
 			if(lastRightTuple == null){
 				rightTuple = rightChildOperator.getNextTuple();
 			}else{
 				rightTuple = lastRightTuple;
 			}
+			
 			//loop over every tuple in the right relation
 			while(rightTuple != null){
 				
-				//loop over every tuple in the buffer
-				for(int j = tupleIndex; j < buffer.size();j++){
+				//loop over every tuple in the buffer(left child)
+				for(int j = tupleIndex; j < block.size();j++){
 					tupleIndex = j+1;
-					Tuple leftTuple = buffer.get(j);
-					
+					Tuple leftTuple = block.get(j);
+					//return based on condition
 					if(joinExpression != null){
 						WhereExpressionVisitor visitor = new WhereExpressionVisitor(new Tuple(leftTuple, rightTuple));
 						joinExpression.accept(visitor);
@@ -99,9 +102,10 @@ public class BNLJOperator extends Operator {
 				tupleIndex = 0;
 				rightTuple = rightChildOperator.getNextTuple();
 			}
+			loadTheBuffer();
 			rightChildOperator.reset();
+			lastRightTuple = null;
 		}
-		bufferIndex = 0;
 		return null;	
 	}
 
