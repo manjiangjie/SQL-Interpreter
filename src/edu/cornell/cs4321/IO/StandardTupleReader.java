@@ -90,7 +90,7 @@ public class StandardTupleReader implements TupleReader {
      */
     public Tuple peek(){
     	try {
-    		br.mark(1);
+    		br.mark(1000);
             String record = br.readLine();
             br.reset();
             if(record == null) {

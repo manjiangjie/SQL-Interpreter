@@ -24,7 +24,7 @@ public class ExternalSortOperator extends Operator {
 	private List<Tuple> sortedTupleList;
 	private Operator childOperator;
 	private List<Column> sortByColumns;
-	private boolean isBinaryTuple=false;
+	private boolean isBinaryTuple=true;
 	private String tempDir;
 	private String tempSubDirName;
 	private int nPages;
@@ -38,6 +38,7 @@ public class ExternalSortOperator extends Operator {
 	 * @param orderByList
 	 * @param nPages
 	 */
+	//credit: http://www.ashishsharma.me/2011/08/external-merge-sort.html
 	public ExternalSortOperator(Operator childOperator, List<OrderByElement> orderByList, int nPages, String tempDir) {
 		this.childOperator = childOperator;
 		sortedTupleList = new LinkedList<>();
@@ -57,9 +58,10 @@ public class ExternalSortOperator extends Operator {
 		}
 		
 		pass0();
-		mergePass();
+		mergePass(1);
 		
 		File folder = new File(tempDir+"/"+tempSubDirName);
+		if(folder.listFiles().length==0)return;
 		File lastFile = folder.listFiles()[0];
 		if (folder.listFiles().length>1){
 			System.out.println("merge unfinished");
@@ -134,7 +136,7 @@ public class ExternalSortOperator extends Operator {
 	 * Recursively read all files available in the the directory and do B-1 way merge
 	 * until there is only one file left
 	 */
-	private void mergePass() {
+	private void mergePass(int level) {
 		File folder = new File(tempDir+"/"+tempSubDirName);
 		//file Array hold all files
 		File[] fileArray = folder.listFiles();
@@ -149,7 +151,7 @@ public class ExternalSortOperator extends Operator {
 			fileList.add(fileArray[i]);
 			if(fileList.size() == nPages-1 || i == fileArray.length-1){
 				allFiles.add(fileList);
-				fileList.clear();
+				fileList = new ArrayList<File>();
 			}
 		}
 		
@@ -173,7 +175,7 @@ public class ExternalSortOperator extends Operator {
 					readerQueue.add(new BinaryTupleReader(f, schemaList));
 				}
 				fileCount++;
-				String outputDir = tempDir+"/"+tempSubDirName+"/interOutput"+fileCount;
+				String outputDir = tempDir+"/"+tempSubDirName+"/interOutput"+level+fileCount;
 				BinaryTupleWriter btw = new BinaryTupleWriter(outputDir);
 				try{
 					while(!readerQueue.isEmpty()){
@@ -194,7 +196,7 @@ public class ExternalSortOperator extends Operator {
 			}
 			
 			//call itself recursively
-			mergePass();
+			mergePass(level+1);
 			
 		}else{
 			PriorityQueue<StandardTupleReader> readerQueue = new PriorityQueue<StandardTupleReader>(nPages-1, 
@@ -212,7 +214,7 @@ public class ExternalSortOperator extends Operator {
 					readerQueue.add(new StandardTupleReader(f, schemaList));
 				}
 				fileCount++;
-				String outputDir = tempDir+"/"+tempSubDirName+"/interOutput"+fileCount;
+				String outputDir = tempDir+"/"+tempSubDirName+"/interOutput"+level+fileCount;
 				StandardTupleWriter btw = new StandardTupleWriter(outputDir);
 				try{
 					while(!readerQueue.isEmpty()){
@@ -231,8 +233,9 @@ public class ExternalSortOperator extends Operator {
 				}				
 			}
 			
-			//call itself recursively
-			mergePass();
+			//call itself recursively	
+				mergePass(level+1);
+
 			
 		}
 	}
@@ -252,9 +255,10 @@ public class ExternalSortOperator extends Operator {
 	@Override
 	public Tuple getNextTuple() {
 		if(isBinaryTuple){
-			return binaryReader.readNextTuple();
+			
+			return binaryReader==null ? null : binaryReader.readNextTuple();
 		}else{
-			return standardReader.readNextTuple();
+			return standardReader==null ? null : standardReader.readNextTuple();
 		}
 	}
 
