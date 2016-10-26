@@ -2,6 +2,7 @@ package edu.cornell.cs4321.PhysicalOperators;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -13,6 +14,7 @@ import edu.cornell.cs4321.Database.Tuple;
 import edu.cornell.cs4321.Database.TupleComparator;
 import edu.cornell.cs4321.IO.BinaryTupleReader;
 import edu.cornell.cs4321.IO.BinaryTupleWriter;
+import edu.cornell.cs4321.IO.StandardTupleReader;
 import edu.cornell.cs4321.IO.StandardTupleWriter;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.statement.select.OrderByElement;
@@ -22,11 +24,13 @@ public class ExternalSortOperator extends Operator {
 	private List<Tuple> sortedTupleList;
 	private Operator childOperator;
 	private List<Column> sortByColumns;
-	private boolean isBinaryTuple=true;
+	private boolean isBinaryTuple=false;
 	private String tempDir;
 	private String tempSubDirName;
 	private int nPages;
-	private int fileCount;
+	private List<Column> schemaList;
+	private BinaryTupleReader binaryReader;
+	private StandardTupleReader standardReader;
 	
 	/**
 	 * 
@@ -37,13 +41,13 @@ public class ExternalSortOperator extends Operator {
 	public ExternalSortOperator(Operator childOperator, List<OrderByElement> orderByList, int nPages, String tempDir) {
 		this.childOperator = childOperator;
 		sortedTupleList = new LinkedList<>();
+		sortByColumns = new LinkedList<>();
 		this.tempDir = tempDir;
 		this.nPages = nPages;
-		fileCount = 0;
 		//tempSubDir is the directory for this ES operator
 		UUID uuid = UUID.randomUUID();
 		tempSubDirName = uuid.toString();
-		new File(tempSubDirName).mkdir();
+		new File(tempDir+"/"+tempSubDirName).mkdir();
 		
 		if (orderByList != null) {
 			for (OrderByElement e : orderByList) {
@@ -54,13 +58,27 @@ public class ExternalSortOperator extends Operator {
 		
 		pass0();
 		mergePass();
+		
+		File folder = new File(tempDir+"/"+tempSubDirName);
+		File lastFile = folder.listFiles()[0];
+		if (folder.listFiles().length>1){
+			System.out.println("merge unfinished");
+			return;
+		}
+		if(isBinaryTuple){
+			binaryReader = new BinaryTupleReader(lastFile, schemaList);
+		}else{
+			standardReader = new StandardTupleReader(lastFile, schemaList);
+		}
 	}
 
 	
 	private void pass0(){
 		Tuple t = childOperator.getNextTuple();
 		if (t != null) {
+			schemaList = t.getSchema();
 			int pageMaxSize = 1024 / t.getValues().size();
+			int fileCount = 0 ;
 			while (t != null) {
 				sortedTupleList.add(t);
 				t = childOperator.getNextTuple();
@@ -68,9 +86,10 @@ public class ExternalSortOperator extends Operator {
 				// if buffer is full, sort and write to file
 				if (sortedTupleList.size() == pageMaxSize) {
 					fileCount++;
+					
 					Collections.sort(sortedTupleList, new TupleComparator(sortByColumns));
 					
-					String outputDir = tempDir+"/"+tempSubDirName+"/interOutput"+fileCount;
+					String outputDir = tempDir+"/"+tempSubDirName+"/phase0Output"+fileCount;
 					if (isBinaryTuple) {
 						BinaryTupleWriter bw = new BinaryTupleWriter(outputDir);
 						for (Tuple tempTuple : sortedTupleList) {
@@ -91,7 +110,7 @@ public class ExternalSortOperator extends Operator {
 			if(!sortedTupleList.isEmpty()){
 				fileCount++;
 				Collections.sort(sortedTupleList, new TupleComparator(sortByColumns));
-				String outputDir = tempDir+"/"+tempSubDirName+"/interOutput"+fileCount;
+				String outputDir = tempDir+"/"+tempSubDirName+"/phase0Output"+fileCount;
 				if (isBinaryTuple) {
 					BinaryTupleWriter bw = new BinaryTupleWriter(outputDir);
 					for (Tuple tempTuple : sortedTupleList) {
@@ -111,56 +130,143 @@ public class ExternalSortOperator extends Operator {
 		}
 	}
 	
-	private void mergePass(){
+	/**
+	 * Recursively read all files available in the the directory and do B-1 way merge
+	 * until there is only one file left
+	 */
+	private void mergePass() {
 		File folder = new File(tempDir+"/"+tempSubDirName);
+		//file Array hold all files
 		File[] fileArray = folder.listFiles();
+		if(fileArray.length==1)return;
+		
+		//store B-1 files in a list(buffer)
+		//store all buffers into another list
 		ArrayList<ArrayList<File>> allFiles = new ArrayList<ArrayList<File>>();
-		int currBuffSize = 0;
-		ArrayList<File> fileList;
+		
+		ArrayList<File> fileList = new ArrayList<File>();
 		for (int i = 0; i < fileArray.length; i++){
-			if(currBuffSize == 0){
-				fileList = new ArrayList<File>();
+			fileList.add(fileArray[i]);
+			if(fileList.size() == nPages-1 || i == fileArray.length-1){
+				allFiles.add(fileList);
+				fileList.clear();
 			}
-			fileList.add(fileArray)
 		}
 		
-		
+		//put a buffer into a priority queue
+		//poll the queue until it is empty and move on to the next buffer
 		TupleComparator tcmp = new TupleComparator(sortByColumns);
+		
 		if(isBinaryTuple){
-			PriorityQueue<BinaryTupleReader> pq = new PriorityQueue<BinaryTupleReader>(nPages-1, 
+			PriorityQueue<BinaryTupleReader> readerQueue = new PriorityQueue<BinaryTupleReader>(nPages-1, 
 					new Comparator<BinaryTupleReader>() {
 		              	public int compare(BinaryTupleReader i, BinaryTupleReader j) {
-		              		int res = tcmp.compare(i.readNextTuple(), j.readNextTuple());
-		              		i.reset();
-		              		j.reset();
+		              		int res = tcmp.compare(i.peek(), j.peek());
 		              		return res;
 		              	}
 	            	});
-			BinaryTupleReader btr = new BinaryTupleReader();
+			
+			int fileCount = 0;
+			for (ArrayList<File> fileBuffer : allFiles){
+				//add all pages of a buffer into the queue
+				for (File f : fileBuffer){
+					readerQueue.add(new BinaryTupleReader(f, schemaList));
+				}
+				fileCount++;
+				String outputDir = tempDir+"/"+tempSubDirName+"/interOutput"+fileCount;
+				BinaryTupleWriter btw = new BinaryTupleWriter(outputDir);
+				try{
+					while(!readerQueue.isEmpty()){
+						BinaryTupleReader smallestReader = readerQueue.poll();
+						Tuple smallestTuple = smallestReader.readNextTuple();
+						btw.writeNextTuple(smallestTuple);
+						if(smallestReader.peek()==null){
+							//reader queue is empty, delete the original file
+							smallestReader.deleteFile();
+						}else{
+							readerQueue.add(smallestReader);
+						}
+					}
+				}finally{
+					btw.close();
+					//TODO: Close the reader??
+				}				
+			}
+			
+			//call itself recursively
+			mergePass();
+			
 		}else{
+			PriorityQueue<StandardTupleReader> readerQueue = new PriorityQueue<StandardTupleReader>(nPages-1, 
+					new Comparator<StandardTupleReader>() {
+		              	public int compare(StandardTupleReader i, StandardTupleReader j) {
+		              		int res = tcmp.compare(i.peek(), j.peek());
+		              		return res;
+		              	}
+	            	});
 			
+			int fileCount = 0;
+			for (ArrayList<File> fileBuffer : allFiles){
+				//add all pages of a buffer into the queue
+				for (File f : fileBuffer){
+					readerQueue.add(new StandardTupleReader(f, schemaList));
+				}
+				fileCount++;
+				String outputDir = tempDir+"/"+tempSubDirName+"/interOutput"+fileCount;
+				StandardTupleWriter btw = new StandardTupleWriter(outputDir);
+				try{
+					while(!readerQueue.isEmpty()){
+						StandardTupleReader smallestReader = readerQueue.poll();
+						Tuple smallestTuple = smallestReader.readNextTuple();
+						btw.writeNextTuple(smallestTuple);
+						if(smallestReader.peek()==null){
+							//reader queue is empty, delete the original file
+							smallestReader.deleteFile();
+						}else{
+							readerQueue.add(smallestReader);
+						}
+					}
+				}finally{
+					btw.close();
+				}				
+			}
 			
-			
+			//call itself recursively
+			mergePass();
 			
 		}
 	}
 	
 	/**
+	 * delete the sorted file in the file system
 	 * 
+	 * **/
+	public void deleteFileFolder(){
+		File folder = new File(tempDir+"/"+tempSubDirName);
+		folder.delete();
+	}
+	
+	/**
+	 * @return the next tuple in the sorted file
 	 */
 	@Override
 	public Tuple getNextTuple() {
-		// TODO Auto-generated method stub
-		return null;
+		if(isBinaryTuple){
+			return binaryReader.readNextTuple();
+		}else{
+			return standardReader.readNextTuple();
+		}
 	}
 
 	/**
-	 * 
+	 * reset the tuple reader
 	 */
 	@Override
 	public void reset() {
-		// TODO Auto-generated method stub
-
+		if(isBinaryTuple){
+			binaryReader.reset();
+		}else{
+			standardReader.reset();
+		}
 	}
-
 }

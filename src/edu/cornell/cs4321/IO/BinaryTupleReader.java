@@ -4,10 +4,12 @@ import edu.cornell.cs4321.Database.DatabaseCatalog;
 import edu.cornell.cs4321.Database.Tuple;
 import net.sf.jsqlparser.schema.Column;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.nio.file.Files;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -27,7 +29,7 @@ public class BinaryTupleReader implements TupleReader {
     private int numTuples = 0;
     private FileInputStream fin;
     private Queue<String> records = new LinkedList<>();
-
+   
     /**
      * Construct a binaryTupleReader by table
      * @param tableName the table to be read in
@@ -44,6 +46,23 @@ public class BinaryTupleReader implements TupleReader {
         }
     }
 
+    /**
+     * Construct a binaryTupleReader by file
+     * @param file: file to be read; schemaList the schema list of the file
+     */
+    public BinaryTupleReader(File file, List<Column> schemaList) {
+    	tablePath = file.getAbsolutePath();
+        this.schemaList = schemaList;
+        try {
+            fin = new FileInputStream(tablePath);
+            fc = fin.getChannel();
+            bb = ByteBuffer.allocate(SIZE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    
     /**
      * Read the next tuple from binary file.
      * @return the next tuple
@@ -82,6 +101,53 @@ public class BinaryTupleReader implements TupleReader {
         return new Tuple(schemaList, record);
     }
 
+    
+    /**
+     * Read the next tuple from binary file 
+     * without changing the elements in the record queue.
+     * @return the next tuple
+     */
+    public Tuple peek(){
+    	String record = "";
+        if (records.isEmpty()) {
+            try {
+                bb.clear();
+                int r = fc.read(bb);
+                if (r == -1) {
+                    return null;
+                }
+                index = 0;
+                numAttributes = bb.getInt(index);
+                numTuples = bb.getInt(index + 4);
+                index += 8;
+                for (int i = 0; i < numTuples; i++) {
+                    for (int j = 0; j < numAttributes; j++) {
+                        int value = bb.getInt(index);
+                        record += Integer.toString(value) + ",";
+                        index += 4;
+                    }
+                    records.add(record);
+                    record = "";
+                }
+                index = 8;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+		record = records.peek();
+		record = record.substring(0, record.length() - 1);
+        return new Tuple(schemaList, record);	
+    }
+    
+    
+    /**
+     * delete the file that is being read
+     * **/
+    public void deleteFile(){	
+    	File readingFile = new File(tablePath);
+    	readingFile.delete();
+    }
+    
     /**
      * Reset the input stream and buffer. Re-read the table data file.
      */
