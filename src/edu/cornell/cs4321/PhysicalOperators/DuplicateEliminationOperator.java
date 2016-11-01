@@ -47,4 +47,10 @@ public class DuplicateEliminationOperator extends Operator {
 		lastTuple = null;
 		childOperator.reset();
 	}
+
+	@Override
+	public void reset(int index) {
+		// TODO Auto-generated method stub
+		
+	}
 }

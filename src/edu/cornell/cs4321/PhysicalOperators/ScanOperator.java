@@ -61,4 +61,10 @@ public class ScanOperator extends Operator{
 		return t;
 	}
 
+	@Override
+	public void reset(int index) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

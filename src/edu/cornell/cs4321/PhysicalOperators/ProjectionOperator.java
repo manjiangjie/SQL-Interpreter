@@ -53,4 +53,10 @@ public class ProjectionOperator extends Operator{
 		childOperator.reset();		
 	}
 
+	@Override
+	public void reset(int index) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

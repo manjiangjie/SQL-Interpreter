@@ -64,4 +64,10 @@ public class SelectionOperator extends Operator {
 		return visitor.getResult();
 	}
 
+	@Override
+	public void reset(int index) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

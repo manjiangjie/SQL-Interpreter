@@ -273,4 +273,8 @@ public class ExternalSortOperator extends Operator {
 			standardReader.reset();
 		}
 	}
+	
+	public void reset(int index) {
+		//TODO to be called by SMJ
+	}
 }

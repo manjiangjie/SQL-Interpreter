@@ -119,4 +119,10 @@ public class BNLJOperator extends Operator {
 		rightChildOperator.reset();
 	}
 
+	@Override
+	public void reset(int index) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
