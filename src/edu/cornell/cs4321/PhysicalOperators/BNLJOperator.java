@@ -52,9 +52,11 @@ public class BNLJOperator extends Operator {
 			//keep adding tuples to a buffer until the it is full
 			//then add the full buffer to the buffer list...
 			int bufferMaxSize = nPages * 1024 / t.getValues().size();
-			while(t!=null && block.size() < bufferMaxSize ){
-				block.add(t);
+			block.add(t);
+			while(block.size() < bufferMaxSize ){
 				t = leftChildOperator.getNextTuple();
+				if(t==null) break;
+				block.add(t);
 			}
 		}
 	}
@@ -77,6 +79,7 @@ public class BNLJOperator extends Operator {
 			Tuple rightTuple;
 			if(lastRightTuple == null){
 				rightTuple = rightChildOperator.getNextTuple();
+				lastRightTuple = rightTuple;
 			}else{
 				rightTuple = lastRightTuple;
 			}
@@ -101,6 +104,7 @@ public class BNLJOperator extends Operator {
 				}
 				tupleIndex = 0;
 				rightTuple = rightChildOperator.getNextTuple();
+				lastRightTuple = rightTuple;
 			}
 			loadTheBuffer();
 			rightChildOperator.reset();
