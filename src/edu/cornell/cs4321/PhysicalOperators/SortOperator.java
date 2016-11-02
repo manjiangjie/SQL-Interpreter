@@ -1,5 +1,6 @@
 package edu.cornell.cs4321.PhysicalOperators;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,24 +18,22 @@ import net.sf.jsqlparser.statement.select.OrderByElement;
  */
 public class SortOperator extends Operator {
 	
-	private List<Tuple> sortedTupleList = new LinkedList<>();
+	private List<Tuple> sortedTupleList = new ArrayList<>();
 	private Operator childOperator;
 	private List<Column> sortByColumns;
 	private boolean isSorted = false;
+	private int index = 0;
 	
 	/**
 	 * Construct a sort operator, will sort by columns specified.
 	 * @param childOperator child operator in a query plan(tree)
 	 * @param orderByList attributes to sort by
 	 */
-	public SortOperator(Operator childOperator, List<OrderByElement> orderByList){
+	public SortOperator(Operator childOperator, List<Column> orderByList){
 		this.childOperator = childOperator;
 		sortByColumns = new LinkedList<>();
 		if (orderByList != null) {
-			for (OrderByElement e : orderByList) {
-				Column c = (Column) e.getExpression();
-				sortByColumns.add(c);
-			}
+			this.sortByColumns = orderByList;
 		}
 	}
 
@@ -52,7 +51,8 @@ public class SortOperator extends Operator {
 			Collections.sort(sortedTupleList, new TupleComparator(sortByColumns));
 			isSorted = true;
 		}
-		return sortedTupleList.size() > 0 ? sortedTupleList.remove(0) : null;
+		this.index++;
+		return sortedTupleList.size() >= this.index ? sortedTupleList.get(this.index - 1) : null;
 	}
 
 	/**
@@ -60,15 +60,23 @@ public class SortOperator extends Operator {
 	 */
 	@Override
 	public void reset() {
-		this.sortedTupleList = new LinkedList<>();
+		this.index = 0;
+		this.sortedTupleList = new ArrayList<>();
 		this.isSorted = false;
 		childOperator.reset();
 	}
 
 	@Override
 	public void reset(int index) {
-		// TODO Auto-generated method stub
-		
+		this.index = index;
+	}
+	
+	/**
+	 * Return current tuple index
+	 */
+	@Override
+	public int getIndex() {
+		return this.index;
 	}
 
 }

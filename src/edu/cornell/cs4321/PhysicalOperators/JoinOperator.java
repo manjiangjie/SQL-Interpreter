@@ -81,4 +81,10 @@ public class JoinOperator extends Operator {
 		
 	}
 
+	@Override
+	public int getIndex() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

@@ -9,7 +9,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
-import java.nio.file.Files;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -161,6 +160,27 @@ public class BinaryTupleReader implements TupleReader {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    /**
+     * Set the tuple reader at specified index
+     */
+    public void reset(int index) {
+    	fc = fin.getChannel();
+    	this.records.clear();
+    	int maxTuplesPerPage = 1022 / this.numAttributes;
+    	int pageNum = index / maxTuplesPerPage;
+    	int tupleIdxOfPage = index - pageNum * maxTuplesPerPage;
+    	try {
+			fc.position((long)(pageNum*SIZE));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	bb = ByteBuffer.allocate(SIZE);
+    	bb.clear();
+    	for(int i=0; i<tupleIdxOfPage; i++){
+    		this.readNextTuple();
+    	}
     }
 
     /**

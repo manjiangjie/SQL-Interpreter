@@ -59,4 +59,10 @@ public class ProjectionOperator extends Operator{
 		
 	}
 
+	@Override
+	public int getIndex() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

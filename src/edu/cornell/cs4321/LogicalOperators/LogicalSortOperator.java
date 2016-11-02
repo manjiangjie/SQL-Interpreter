@@ -15,15 +15,12 @@ public class LogicalSortOperator implements LogicalOperator {
     private LogicalOperator childOperator;
     private List<Column> sortByColumns;
 
-    public LogicalSortOperator(LogicalOperator childOperator, List<OrderByElement> orderByList) {
+    public LogicalSortOperator(LogicalOperator childOperator, List<Column> orderByList) {
         this.childOperator = childOperator;
         if (orderByList != null) {
             List<Column> sortByCols = new LinkedList<>();
             if (orderByList != null) {
-                for (OrderByElement e : orderByList) {
-                    Column c = (Column) e.getExpression();
-                    sortByCols.add(c);
-                }
+                sortByColumns = orderByList;
             }
             this.sortByColumns = sortByCols;
         } else {

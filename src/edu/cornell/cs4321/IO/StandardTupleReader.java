@@ -138,4 +138,8 @@ public class StandardTupleReader implements TupleReader {
         }
         br = new BufferedReader(fr);
     }
+    
+    public void reset(int index) {
+    	
+    }
 }

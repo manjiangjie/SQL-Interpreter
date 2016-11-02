@@ -1,5 +1,6 @@
 package edu.cornell.cs4321.Visitors;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import net.sf.jsqlparser.expression.AllComparisonExpression;
@@ -47,6 +48,11 @@ public class JoinAttrExtractVisitor implements ExpressionVisitor {
 	
 	private List<Column> leftAttr;
 	private List<Column> rightAttr;
+	
+	public JoinAttrExtractVisitor() {
+		this.leftAttr = new LinkedList<Column>();
+		this.rightAttr = new LinkedList<Column>();
+	}
 	
 	public List<Column> getLeftAttrList() {
 		return leftAttr;

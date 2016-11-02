@@ -1,7 +1,6 @@
 package edu.cornell.cs4321.Database;
 
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
 
 import net.sf.jsqlparser.schema.Column;
@@ -31,6 +30,10 @@ public class JoinTupleComparator implements Comparator<Object> {
 	public int compare(Object t1, Object t2) {
 		Tuple lt = (Tuple)t1;
 		Tuple rt = (Tuple)t2;
+
+		if(t1==null||t2==null){
+			System.out.println("xx");
+		}
 		
 		for(int i = 0; i < joinAttrLeft.size(); i++) {
 			Column lc = joinAttrLeft.get(i);
