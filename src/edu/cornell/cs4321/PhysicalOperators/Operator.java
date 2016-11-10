@@ -31,5 +31,14 @@ public abstract class Operator {
 			System.out.println(t);
 		}
 	}
+	
+	/**
+	 * Reset state to a specified index, only need to be implemented in sort operators.
+	 */
+	public abstract void reset(int index);
+	/**
+	 * Get current tuple index, only need to be implemented in sort operators.
+	 */
+	public abstract int getIndex();
 }
 

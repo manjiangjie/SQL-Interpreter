@@ -3,12 +3,14 @@ package edu.cornell.cs4321.Visitors;
 import edu.cornell.cs4321.LogicalOperators.*;
 import edu.cornell.cs4321.PhysicalOperators.*;
 import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.select.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -20,7 +22,7 @@ public class PhysicalPlanBuilderVisitor {
     private Table fromTable;
     private List<SelectItem> projectionList;
     private Expression expr;
-    private List<OrderByElement> orderByList;
+    private List<Column> orderByList;
     private Distinct d;
     private String alias;
     private Operator operator;
@@ -38,7 +40,13 @@ public class PhysicalPlanBuilderVisitor {
         expr = pSelect.getWhere();
         projectionList = pSelect.getSelectItems();
         fromTable = (Table) pSelect.getFromItem();
-        orderByList = pSelect.getOrderByElements();
+        orderByList = new LinkedList<Column>();
+        List<OrderByElement> orderByColumns = pSelect.getOrderByElements();
+        if(orderByColumns != null) {
+            for(OrderByElement e : orderByColumns) {
+            	orderByList.add((Column)e.getExpression());
+            }        	
+        }
         d = pSelect.getDistinct();
         alias = fromTable.getAlias();
 
@@ -96,8 +104,15 @@ public class PhysicalPlanBuilderVisitor {
             }
         }
         logicalOperator = new LogicalProjectionOperator(logicalOperator);
-        logicalOperator = new LogicalSortOperator(logicalOperator, orderByList);
-        logicalOperator = new LogicalDistinctOperator(logicalOperator);
+        if(orderByList!=null && !orderByList.isEmpty()){
+            logicalOperator = new LogicalSortOperator(logicalOperator, orderByList);
+        }
+        if(d!=null){
+        	if(orderByList.isEmpty()){
+        		logicalOperator = new LogicalSortOperator(logicalOperator, orderByList);
+        	}
+            logicalOperator = new LogicalDistinctOperator(logicalOperator);
+        }
     }
 
     /**
@@ -158,8 +173,27 @@ public class PhysicalPlanBuilderVisitor {
         	int nPage = Integer.parseInt(joinMethod[1]);
         	operator = new BNLJOperator(leftOperator, operator, joinOperator.getJoinExpression(),nPage);
         }else{
-        	int nPage = Integer.parseInt(joinMethod[1]);
-        	//TODO: Deploy SMJ here
+        	// SMJ
+        	Expression joinExpr = joinOperator.getJoinExpression();
+        	JoinAttrExtractVisitor visitor = new JoinAttrExtractVisitor();
+        	joinExpr.accept(visitor);
+        	//insert sort operator to leftChild
+        	if(sortMethod[0].equals("0")){
+        		leftOperator = new SortOperator(leftOperator, visitor.getLeftAttrList());
+        	}else if(sortMethod[0].equals("1")){//external sort
+        		int nPage = Integer.parseInt(sortMethod[1]);
+        		leftOperator = new ExternalSortOperator(leftOperator, visitor.getLeftAttrList(), nPage, tempDir);
+        	}
+        	//insert sort operator to rightChild
+        	Operator rightOperator = null;
+        	if(sortMethod[0].equals("0")){
+        		rightOperator = new SortOperator(operator, visitor.getRightAttrList());
+        	}else if(sortMethod[0].equals("1")){//external sort
+        		int nPage = Integer.parseInt(sortMethod[1]);
+        		rightOperator = new ExternalSortOperator(operator, visitor.getRightAttrList(), nPage, tempDir);
+        	}
+        	
+        	operator = new SMJOperator(leftOperator, rightOperator, joinExpr);
         }
         
     }

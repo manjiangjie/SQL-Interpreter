@@ -28,6 +28,9 @@ public class TupleComparator implements Comparator<Object> {
 	@Override
 	public int compare(Object t1, Object t2) {
 		List<Column> columns = new LinkedList<>(((Tuple) t1).getSchema());
+		if(t1==null||t2==null){
+			System.out.println("ss");
+		}
 
 		if(t1 != null && t2 != null) {
 			int r1, r2;

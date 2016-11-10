@@ -5,6 +5,7 @@ import java.util.List;
 
 import edu.cornell.cs4321.Database.*;
 import edu.cornell.cs4321.IO.BinaryTupleReader;
+import edu.cornell.cs4321.IO.StandardTupleReader;
 import edu.cornell.cs4321.IO.TupleReader;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
@@ -59,6 +60,18 @@ public class ScanOperator extends Operator{
 		Tuple t = tr.readNextTuple();
 		//System.out.println(t);
 		return t;
+	}
+
+	@Override
+	public void reset(int index) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getIndex() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

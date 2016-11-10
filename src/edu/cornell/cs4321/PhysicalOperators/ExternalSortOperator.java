@@ -30,6 +30,7 @@ public class ExternalSortOperator extends Operator {
 	private List<Column> schemaList;
 	private BinaryTupleReader binaryReader;
 	private StandardTupleReader standardReader;
+	private int index;
 	
 	/**
 	 * 
@@ -38,7 +39,7 @@ public class ExternalSortOperator extends Operator {
 	 * @param nPages
 	 */
 	//credit: http://www.ashishsharma.me/2011/08/external-merge-sort.html
-	public ExternalSortOperator(Operator childOperator, List<OrderByElement> orderByList, int nPages, String tempDir) {
+	public ExternalSortOperator(Operator childOperator, List<Column> orderByList, int nPages, String tempDir) {
 		this.childOperator = childOperator;
 		sortedTupleList = new LinkedList<>();
 		sortByColumns = new LinkedList<>();
@@ -49,12 +50,7 @@ public class ExternalSortOperator extends Operator {
 		tempSubDirName = uuid.toString();
 		new File(tempDir+"/"+tempSubDirName).mkdir();
 		
-		if (orderByList != null) {
-			for (OrderByElement e : orderByList) {
-				Column c = (Column) e.getExpression();
-				sortByColumns.add(c);
-			}
-		}
+		sortByColumns = orderByList;
 		
 		pass0();
 		mergePass(1);
@@ -254,10 +250,13 @@ public class ExternalSortOperator extends Operator {
 	@Override
 	public Tuple getNextTuple() {
 		if(isBinaryTuple){
-			
-			return binaryReader==null ? null : binaryReader.readNextTuple();
+			Tuple t = binaryReader.readNextTuple();	
+			this.index++;
+			return binaryReader==null ? null : t;
 		}else{
-			return standardReader==null ? null : standardReader.readNextTuple();
+			Tuple t = standardReader.readNextTuple();	
+			this.index++;
+			return standardReader==null ? null : t;
 		}
 	}
 
@@ -267,9 +266,32 @@ public class ExternalSortOperator extends Operator {
 	@Override
 	public void reset() {
 		if(isBinaryTuple){
+			this.index = 0;
 			binaryReader.reset();
 		}else{
+			this.index = 0;
 			standardReader.reset();
 		}
+	}
+	
+	/**
+	 * reset the tuple reader to a specified index
+	 */
+	public void reset(int index) {
+		if(isBinaryTuple){
+			this.index = index;
+			binaryReader.reset(index);
+		}else{
+			this.index = index;
+			standardReader.reset(index);
+		}
+	}
+	
+	/**
+	 * get the current index
+	 */
+	@Override
+	public int getIndex() {
+		return this.index;
 	}
 }
