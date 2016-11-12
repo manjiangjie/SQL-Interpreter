@@ -27,10 +27,11 @@ public class BPlusTree {
 	}
 
 	/**
+	 * build the very bottom layer of the tree(leaves)
 	 * 
 	 * @param tableName
 	 * @param column
-	 * @return
+	 * @return an array list to store all leaf nodes
 	 */
 	private ArrayList<leafNode> buildLeafLayer(String tableName, Column column) {
 		BinaryTupleReader btr = new BinaryTupleReader(tableName);
@@ -47,14 +48,18 @@ public class BPlusTree {
 			Tuple t = btr.readNextTuple();
 			int key = t.getValueByCol(column);
 			if (nodeMap.containsKey(key))
+				// if the node have key
 				nodeMap.get(key).add(new dataEntry(fileId, tupleId));
 			else if (nodeMap.size() == 2 * D) {
+				// if the node does not have the key
+				// and map is full -> size == 2*D
 				leafNodes.add(new leafNode(nodeMap));
 				nodeMap = new TreeMap<Integer, List<dataEntry>>();
 				ArrayList<dataEntry> tempList = new ArrayList<dataEntry>();
 				tempList.add(new dataEntry(fileId, tupleId));
 				nodeMap.put(key, tempList);
 			} else {
+				// map does not have the key but is not full
 				ArrayList<dataEntry> tempList = new ArrayList<dataEntry>();
 				tempList.add(new dataEntry(fileId, tupleId));
 				nodeMap.put(key, tempList);
@@ -68,7 +73,11 @@ public class BPlusTree {
 
 		// deal with the last one or two node(s).
 		int remaining;
-		if (nodeMap.size() != 2 * D && (remaining = nodeMap.size()) < D) {
+		if (nodeMap.isEmpty()) {
+			return null;
+		} else if (leafNodes.isEmpty()) {
+			leafNodes.add(new leafNode(nodeMap));
+		} else if ((remaining = nodeMap.size()) < D) {
 			remaining += 2 * D;
 			int k = remaining / 2;
 
@@ -83,7 +92,7 @@ public class BPlusTree {
 
 			leafNodes.add(new leafNode(tempMap));
 			leafNodes.add(new leafNode(nodeMap));
-		} else if (nodeMap.size() != D) {
+		} else {// 2D >= nodeMap.size() > D
 			leafNodes.add(new leafNode(nodeMap));
 		}
 
@@ -93,115 +102,129 @@ public class BPlusTree {
 	private void buildIndexLayers() {
 		// build the first index layer
 		if (cluster) {
-			ArrayList<indexNode> firstLayerIndex = new ArrayList<indexNode>();
-			ArrayList<leafNode> indexChildren = new ArrayList<leafNode>();
-			ArrayList<Integer> key = new ArrayList<Integer>();
+			ArrayList<indexNode> firstIndexLayer = new ArrayList<indexNode>();
+			ArrayList<leafNode> leafChildren = new ArrayList<leafNode>();
+			ArrayList<Integer> keyList = new ArrayList<Integer>();
+			if(leafNodes.isEmpty()) {
+				root = null;
+				return;
+			}
 			for (leafNode ln : leafNodes) {
-				key.add(ln.getMap().firstKey());
-				indexChildren.add(ln);
-				if (key.size() == 2 * D + 1) {
-					key.remove(0);
-					firstLayerIndex.add(new indexNode(key, indexChildren));
-					indexChildren = new ArrayList<leafNode>();
-					key = new ArrayList<Integer>();
+				keyList.add(ln.getMap().firstKey());
+				leafChildren.add(ln);
+				if (keyList.size() == 2 * D + 1) {
+					keyList.remove(0);
+					firstIndexLayer.add(new indexNode(keyList, leafChildren));
+					leafChildren = new ArrayList<leafNode>();
+					keyList = new ArrayList<Integer>();
 				}
 			}
-			
-			
+
 			// handle last one or two node
-			if (key.size() < D && key.size() > 0) {
-				int k = key.size() + 2 * D;
-				indexNode tempNode = firstLayerIndex.get(firstLayerIndex.size() - 1);
-				firstLayerIndex.remove(firstLayerIndex.size() - 1);
-				for (int i = 0; i < 2 * D - k; i++) {
-					ArrayList<leafNode> al = tempNode.getChildren();
-					leafNode tempLeafNode = al.get(al.size() - 1);
-					indexChildren.add(0, tempLeafNode);
-					tempNode.getChildren().remove(al.size() - 1);
+			if (firstIndexLayer.isEmpty()) {
+				if(keyList.size()>1)
+					keyList.remove(0);
+				else
+					leafChildren.add(0, null);
+				firstIndexLayer.add(new indexNode(keyList, leafChildren));
+			}else if (keyList.size() > 0 && keyList.size() < D + 1 ) {
+				int k = keyList.size()-1 + 2 * D;
+				//pop the last node from the layer
+				indexNode tempNode = firstIndexLayer.get(firstIndexLayer.size() - 1);
+				firstIndexLayer.remove(firstIndexLayer.size() - 1);
+				ArrayList<leafNode> firstChildren = tempNode.getChildren();
+				ArrayList<leafNode> secondChildren = new ArrayList<leafNode>();
+				ArrayList<Integer> keyList1 = new ArrayList<Integer>();
+				ArrayList<Integer> keyList2 = new ArrayList<Integer>();
+				firstChildren.addAll(leafChildren);
+				
+				while(firstChildren.size()>k/2) {
+					secondChildren.add(firstChildren.get(k/2));
+					keyList2.add(firstChildren.get(k/2).getMap().firstKey());
+					firstChildren.remove(k/2);
 				}
-				firstLayerIndex.add(tempNode);
-				ArrayList<Integer> keylist = new ArrayList<Integer>();
-				for (leafNode n : indexChildren) {
-					keylist.add(n.getMap().firstKey());
+				for(leafNode ln : firstChildren){
+					keyList1.add(ln.getMap().firstKey());
 				}
-				keylist.remove(0);
-				firstLayerIndex.add(new indexNode(keylist, indexChildren));
-			} else if (key.size() != 0) {
-				firstLayerIndex.add(new indexNode(key, indexChildren));
+				keyList1.remove(0);
+				keyList2.remove(0);
+				
+				firstIndexLayer.add(new indexNode(keyList1, firstChildren));
+				firstIndexLayer.add(new indexNode(keyList2, secondChildren));
+				
+			} else if (keyList.size() != 0) {//D <= size <= 2D 
+				keyList.remove(0);
+				firstIndexLayer.add(new indexNode(keyList, leafChildren));
 			}
 
 			// after building the first layer, build the rest of the index
-			// layers
-			if(firstLayerIndex.size()==1){
-				root = firstLayerIndex.get(0);
-				return;
-			}
-			
-			// build recursively until reach to root;
-			buildUpperLayers(firstLayerIndex);
-			
+			// layers recursively until reach to root;
+			buildUpperLayers(firstIndexLayer);
+
 		} else {// uncluster
 			System.out.println("need to implement uncluster");
 		}
 	}
 
-	private void buildUpperLayers(ArrayList<indexNode> IndexLayer){
+	private void buildUpperLayers(ArrayList<indexNode> IndexLayer) {
 		ArrayList<indexNode> output = new ArrayList<indexNode>();
-		
+
 		ArrayList<indexNode> indexChildren = new ArrayList<indexNode>();
 		ArrayList<Integer> keyList = new ArrayList<Integer>();
-		for(indexNode index : IndexLayer){
+		for (indexNode index : IndexLayer) {
 			indexChildren.add(index);
 			keyList.add(index.getKeys().get(0));
-			if(keyList.size()==2*D+1){
+			if (keyList.size() == 2 * D + 1) {
 				keyList.remove(0);
 				output.add(new indexNode(keyList, indexChildren, true));
 				keyList = new ArrayList<Integer>();
 				indexChildren = new ArrayList<indexNode>();
 			}
 		}
-		
-		//if the last node underflow, pop the last node from output
-		//merge the children between the two nodes, split them.
-		//generate new keys for the new sets of children
-		//add both new nodes to output
-		if(!keyList.isEmpty()&&keyList.size()-1<D){
-			indexNode tempNode = output.get(output.size()-1);
+
+		// if the last node underflow, pop the last node from output
+		// merge the children between the two nodes, split them.
+		// generate new keys for the new sets of children
+		// add both new nodes to output
+		if (output.isEmpty() && !keyList.isEmpty()) {
+			if(keyList.size()>1)
+				keyList.remove(0);
+			else
+				indexChildren.add(0, null);
+			root = new indexNode(keyList, indexChildren, true);
+			return;
+		} else if (!keyList.isEmpty() && keyList.size() - 1 < D) {
+			indexNode tempNode = output.get(output.size() - 1);
 			ArrayList<indexNode> firstChildren = tempNode.getIndexChildren();
 			firstChildren.addAll(indexChildren);
-			output.remove(output.size()-1);
-			//split firstChildren to make two new nodes
+			output.remove(output.size() - 1);
+			// split firstChildren to make two new nodes
 			int k = firstChildren.size();
 			ArrayList<indexNode> secondChildren = new ArrayList<indexNode>();
 			ArrayList<Integer> keyList1 = new ArrayList<Integer>();
 			ArrayList<Integer> keyList2 = new ArrayList<Integer>();
-			while(firstChildren.size()>k/2){
-				secondChildren.add(firstChildren.get(k/2));
-				keyList2.add(firstChildren.get(k/2).getKeys().get(0));
-				firstChildren.remove(k/2);
+			while (firstChildren.size() > k / 2) {
+				secondChildren.add(firstChildren.get(k / 2));
+				keyList2.add(firstChildren.get(k / 2).getKeys().get(0));
+				firstChildren.remove(k / 2);
 			}
-			for(indexNode in : firstChildren){
+			for (indexNode in : firstChildren) {
 				keyList1.add(in.getKeys().get(0));
 			}
 			keyList1.remove(0);
 			keyList2.remove(0);
-			
+
 			output.add(new indexNode(keyList1, firstChildren, true));
 			output.add(new indexNode(keyList2, secondChildren, true));
-			
-		}else if(!keyList.isEmpty()){
+
+		} else if (!keyList.isEmpty()) {
 			keyList.remove(0);
 			output.add(new indexNode(keyList, indexChildren, true));
 		}
-		
-		if(output.size()==1){
-			root = output.get(0);
-			return;
-		}else{
-			buildUpperLayers(output);
-		}
+		// recursion
+		buildUpperLayers(output);
 	}
-	
+
 	public ArrayList<leafNode> getAllChildren() {
 		return leafNodes;
 	}
