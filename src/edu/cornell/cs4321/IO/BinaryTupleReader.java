@@ -154,7 +154,8 @@ public class BinaryTupleReader implements TupleReader {
     public void reset() {
         try {
             fin.close();
-            FileInputStream fin = new FileInputStream(tablePath);
+            @SuppressWarnings("resource")
+			FileInputStream fin = new FileInputStream(tablePath);
             fc = fin.getChannel();
             bb = ByteBuffer.allocate(SIZE);
         } catch (IOException e) {

@@ -8,7 +8,6 @@ import java.util.List;
 import edu.cornell.cs4321.Database.Tuple;
 import edu.cornell.cs4321.Database.TupleComparator;
 import net.sf.jsqlparser.schema.Column;
-import net.sf.jsqlparser.statement.select.OrderByElement;
 
 /**
  * SortOperator to support ORDER BY clause
