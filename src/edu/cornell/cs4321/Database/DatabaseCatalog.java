@@ -21,6 +21,7 @@ public class DatabaseCatalog {
 	
 	private static HashMap<String, List<Column>> schemaMap = new HashMap<>();
 	private static HashMap<String, String> tablePathMap = new HashMap<>();
+	private static HashMap<String, IndexInfo> indexMap = new HashMap<>();
 	private static DatabaseCatalog instance = null;
 
 	/**
@@ -69,9 +70,52 @@ public class DatabaseCatalog {
 				e.printStackTrace();
 			}
 		}
+		
+		this.setIndexMap(inputDir);
 	}
 	
 	
+	/**
+	 * Set the field indexMap, <tablename, column_with_index>
+	 * @param inputDir
+	 * index_info txt file directory location  
+	 */
+	private void setIndexMap(String inputDir){
+		String indexDir = inputDir + "/db/index_info.txt";
+		FileReader fr;
+		BufferedReader br;
+		//Initialize file reader
+		try {
+			 fr = new FileReader(indexDir);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			System.out.println("Index info not found! Please check your input");
+			fr = null;
+		}
+		
+		//Initialize SchemaMap
+		if(fr != null){
+			br = new BufferedReader(fr);
+			String curLine;
+			try {
+				while((curLine = br.readLine()) != null){
+					String[] tokens = curLine.split("\\s+");
+					Table t = new Table();
+					t.setName(tokens[0]);
+					Column c = new Column();
+					c.setColumnName(tokens[1]);
+					c.setTable(t);
+					
+					boolean isClustered = Boolean.parseBoolean(tokens[2]);
+					int order = Integer.parseInt(tokens[3]);
+					
+					indexMap.put(tokens[0], new IndexInfo(c, isClustered, order));
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	/**
 	 * Acquired an DatabaseCatalog instance
 	 * 
@@ -102,6 +146,15 @@ public class DatabaseCatalog {
 	 * */	
 	public static List<Column> getSchemaByTable(String tableName){
 		return schemaMap.get(tableName);
+	}
+	
+	/**
+	 * get the index information of the specified table in parameter
+	 * @param tableName String of table name
+	 * @return an IndexInfo object of the specified table.
+	 * */	
+	public static IndexInfo getIndexInfoByTable(String tableName){
+		return indexMap.get(tableName);
 	}
 
 	/**

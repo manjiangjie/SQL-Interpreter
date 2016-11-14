@@ -45,6 +45,7 @@ public class Parser {
 			BufferedReader br2 = new BufferedReader(new FileReader(configFilePath));
 			String[] joinMethod = br2.readLine().split("\\s+");
 			String[] sortMethod = br2.readLine().split("\\s+");
+			boolean useIndex = Boolean.parseBoolean(br2.readLine());
 			br2.close();
 			while (queryStr != null) {
 				try {
@@ -58,7 +59,7 @@ public class Parser {
 						if ((statement = parser.Statement()) != null) {
 							// Construct query plan tree
 							PhysicalPlanBuilderVisitor visitor = 
-									new PhysicalPlanBuilderVisitor(statement,joinMethod,sortMethod,tempDir);
+									new PhysicalPlanBuilderVisitor(statement,joinMethod,sortMethod,tempDir,useIndex);
 							LogicalOperator logicalOperator = visitor.getLogicalOperator();
 							logicalOperator.accept(visitor);
 							Operator queryOperator = visitor.getOperator();

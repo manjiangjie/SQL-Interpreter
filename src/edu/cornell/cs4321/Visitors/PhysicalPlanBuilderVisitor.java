@@ -1,5 +1,7 @@
 package edu.cornell.cs4321.Visitors;
 
+import edu.cornell.cs4321.Database.DatabaseCatalog;
+import edu.cornell.cs4321.Database.IndexInfo;
 import edu.cornell.cs4321.LogicalOperators.*;
 import edu.cornell.cs4321.PhysicalOperators.*;
 import net.sf.jsqlparser.expression.Expression;
@@ -30,8 +32,9 @@ public class PhysicalPlanBuilderVisitor {
     private String[] joinMethod;
     private String[] sortMethod;
     private String tempDir;
+    private boolean useIndex;
 
-    public PhysicalPlanBuilderVisitor(Statement statement, String[] joinMethod, String[] sortMethod, String tempDir) {
+    public PhysicalPlanBuilderVisitor(Statement statement, String[] joinMethod, String[] sortMethod, String tempDir, boolean useIndex) {
         // parse the statement
         Select select = (Select) statement;
         PlainSelect pSelect = (PlainSelect) select.getSelectBody();
@@ -53,6 +56,7 @@ public class PhysicalPlanBuilderVisitor {
         this.joinMethod = joinMethod;
         this.sortMethod = sortMethod;
         this.tempDir = tempDir;
+        this.useIndex = useIndex;
         
         // build the logical query tree
         boolean useAlias = false;
@@ -145,6 +149,24 @@ public class PhysicalPlanBuilderVisitor {
      */
     public void visit(LogicalSelectionOperator selectionOperator) {
         selectionOperator.getChildOperator().accept(this);
+        if(useIndex){
+        	LogicalScanOperator scanOperator = (LogicalScanOperator)selectionOperator.getChildOperator();
+        	IndexInfo indexInfo = DatabaseCatalog.getIndexInfoByTable(scanOperator.getTableName());
+        	if(indexInfo != null){
+        		IndexExpExtractVisitor visitor = new IndexExpExtractVisitor(indexInfo.getColumn().getColumnName());
+        		Expression selectionCondition = selectionOperator.getSelectionCondition();
+        		if(selectionCondition != null)
+        			selectionCondition.accept(visitor);
+        		// Now selection conditions are divided into two groups in visitor.
+        		if( (visitor.getHighkey() != null) || (visitor.getLowkey() != null) ){
+        			operator = new IndexScanOperator(scanOperator.getTableName(), scanOperator.getAlias(),visitor.getLowkey(),visitor.getHighkey(),visitor.isLowOpen(),visitor.isHighOpen(),indexInfo);
+        			if(visitor.getExprWithoutIndex() != null){
+        				operator = new SelectionOperator(operator, visitor.getExprWithoutIndex());
+        			}
+        			return;
+        		}
+        	}
+        }
         operator = new SelectionOperator(operator, selectionOperator.getSelectionCondition());
     }
 
