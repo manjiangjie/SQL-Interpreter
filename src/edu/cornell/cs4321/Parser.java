@@ -86,7 +86,7 @@ public class Parser {
 		String configFilePath = inputDir + "/plan_builder_config.txt";
 
 		BufferedReader br = new BufferedReader(new FileReader(queryFilePath));
-		String queryStr = br.readLine();
+		String queryStr = br.readLine().trim();
 		int queryNumber = 1;
 
 		BufferedReader br2 = new BufferedReader(new FileReader(configFilePath));
@@ -94,7 +94,7 @@ public class Parser {
 		String[] sortMethod = br2.readLine().split("\\s+");
 		boolean useIndex = (Integer.parseInt(br2.readLine())==1);
 		br2.close();
-		while (queryStr != null) {
+		while (queryStr != null && queryStr.length() > 0) {
 			try {
 				String queryPath = outputDir + "/query" + queryNumber;
 				BinaryTupleWriter btw = new BinaryTupleWriter(queryPath);

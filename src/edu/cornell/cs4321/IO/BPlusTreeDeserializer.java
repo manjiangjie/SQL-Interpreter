@@ -37,6 +37,7 @@ public class BPlusTreeDeserializer {
             bb = ByteBuffer.allocate(SIZE);
     		bb.clear();
     		fc.read(bb); // Read header page which stores metadata about the BPlusTree.
+    		bb.flip();
     		treeRootAddr = bb.getInt(0);
     		numLeaves = bb.getInt(4); 
         } catch (IOException e) {
@@ -88,6 +89,7 @@ public class BPlusTreeDeserializer {
 					bb = ByteBuffer.allocate(SIZE);
 					bb.clear();				
 					fc.read(bb);
+					bb.flip();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -102,6 +104,7 @@ public class BPlusTreeDeserializer {
 					bb = ByteBuffer.allocate(SIZE);
 					bb.clear();				
 					fc.read(bb);
+					bb.flip();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}				
@@ -122,6 +125,7 @@ public class BPlusTreeDeserializer {
 						results.add(entry);
 					}
 				}
+				pageNum++;
 			}
 		}
 		return results;
@@ -139,6 +143,7 @@ public class BPlusTreeDeserializer {
 			bb = ByteBuffer.allocate(SIZE);
 			bb.clear();			
 			fc.read(bb);
+			bb.flip();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -157,6 +162,7 @@ public class BPlusTreeDeserializer {
 				bb = ByteBuffer.allocate(SIZE);
 				bb.clear();				
 				fc.read(bb);
+				bb.flip();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -198,6 +204,7 @@ public class BPlusTreeDeserializer {
 					bb = ByteBuffer.allocate(SIZE);
 					bb.clear();				
 					fc.read(bb);
+					bb.flip();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -212,6 +219,7 @@ public class BPlusTreeDeserializer {
 				bb = ByteBuffer.allocate(SIZE);
 				bb.clear();				
 				fc.read(bb);
+				bb.flip();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

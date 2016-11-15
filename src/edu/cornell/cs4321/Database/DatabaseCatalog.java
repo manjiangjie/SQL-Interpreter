@@ -106,7 +106,7 @@ public class DatabaseCatalog {
 					c.setColumnName(tokens[1]);
 					c.setTable(t);
 					
-					boolean isClustered = Boolean.parseBoolean(tokens[2]);
+					boolean isClustered = (tokens[2].equals("1"));
 					int order = Integer.parseInt(tokens[3]);
 					String indexPath = inputDir + "/db/indexes/" + tokens[0] + "." + tokens[1];
 					

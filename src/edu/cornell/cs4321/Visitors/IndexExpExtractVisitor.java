@@ -244,12 +244,12 @@ public class IndexExpExtractVisitor implements ExpressionVisitor {
 		} else {
 			if(leftChild instanceof LongValue) {  // 3 > R.A
 				long val = ((LongValue)leftChild).getValue();
-				this.highkey = this.highkey >= val ? val : this.highkey;
-				this.highOpen = this.highkey >= val ? true : this.highOpen;
+				this.highkey = (this.highkey == null || this.highkey >= val) ? val : this.highkey;
+				this.highOpen = (this.highkey == null || this.highkey >= val) ? true : this.highOpen;
 			} else if(rightChild instanceof LongValue) { // R.A > 3
 				long val = ((LongValue)rightChild).getValue();
-				this.lowkey = this.lowkey <= val ? val : this.lowkey;
-				this.lowOpen = this.lowkey <= val ? true : this.lowOpen;
+				this.lowkey = (this.lowkey == null || this.lowkey <= val) ? val : this.lowkey;
+				this.lowOpen = (this.lowkey == null || this.lowkey <= val) ? true : this.lowOpen;
 			}
 		}
 	}
@@ -266,12 +266,12 @@ public class IndexExpExtractVisitor implements ExpressionVisitor {
 		} else {
 			if(leftChild instanceof LongValue) {  // 3 >= R.A
 				long val = ((LongValue)leftChild).getValue();
-				this.highkey = this.highkey > val ? val : this.highkey;
-				this.highOpen = this.highkey > val ? false : this.highOpen;
+				this.highkey = (this.highkey == null || this.highkey > val) ? val : this.highkey;
+				this.highOpen = (this.highkey == null || this.highkey > val) ? false : this.highOpen;
 			} else if(rightChild instanceof LongValue) { // R.A >= 3
 				long val = ((LongValue)rightChild).getValue();
-				this.lowkey = this.lowkey < val ? val : this.lowkey;
-				this.lowOpen = this.lowkey < val ? false : this.lowOpen;
+				this.lowkey = (this.lowkey == null || this.lowkey < val) ? val : this.lowkey;
+				this.lowOpen = (this.lowkey == null || this.lowkey < val) ? false : this.lowOpen;
 			}
 		}
 	}
@@ -306,12 +306,12 @@ public class IndexExpExtractVisitor implements ExpressionVisitor {
 		} else {
 			if(leftChild instanceof LongValue) {  // 3 < R.A
 				long val = ((LongValue)leftChild).getValue();
-				this.lowkey = this.lowkey <= val ? val : this.lowkey;
-				this.lowOpen = this.lowkey <= val ? true : this.lowOpen;
+				this.lowkey = (this.lowkey == null || this.lowkey <= val) ? val : this.lowkey;
+				this.lowOpen = (this.lowkey == null || this.lowkey <= val) ? true : this.lowOpen;
 			} else if(rightChild instanceof LongValue) { // R.A < 3
 				long val = ((LongValue)rightChild).getValue();
-				this.highkey = this.highkey >= val ? val : this.highkey;
-				this.highOpen = this.highkey >= val ? true : this.highOpen;
+				this.highkey = (this.highkey == null || this.highkey >= val) ? val : this.highkey;
+				this.highOpen = (this.highkey == null || this.highkey >= val) ? true : this.highOpen;
 			}
 		}
 	}
@@ -328,12 +328,12 @@ public class IndexExpExtractVisitor implements ExpressionVisitor {
 		} else {
 			if(leftChild instanceof LongValue) {  // 3 <= R.A
 				long val = ((LongValue)leftChild).getValue();
-				this.lowkey = this.lowkey < val ? val : this.lowkey;
-				this.lowOpen = this.lowkey < val ? false : this.lowOpen;
+				this.lowkey = (this.lowkey == null || this.lowkey < val) ? val : this.lowkey;
+				this.lowOpen = (this.lowkey == null || this.lowkey < val) ? false : this.lowOpen;
 			} else if(rightChild instanceof LongValue) { // R.A <= 3
 				long val = ((LongValue)rightChild).getValue();
-				this.highkey = this.highkey > val ? val : this.highkey;
-				this.highOpen = this.highkey > val ? false : this.highOpen;
+				this.highkey = (this.highkey == null || this.highkey > val) ? val : this.highkey;
+				this.highOpen = (this.highkey == null || this.highkey > val) ? false : this.highOpen;
 			}
 		}
 	}
