@@ -1,6 +1,7 @@
 package edu.cornell.cs4321.BPlusTree;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -99,6 +100,7 @@ public class BPlusTree {
 				fileId++;
 				tupleId = 0;
 			}
+			t = btr.readNextTuple();
 		}
 
 		// split the whole tree map into leaf nodes based on D
@@ -235,13 +237,20 @@ public class BPlusTree {
 		// generate new keys for the new sets of children
 		// add both new nodes to output
 		if (output.isEmpty() && !keyList.isEmpty()) {
-			if (keyList.size() > 1)
-				keyList.remove(0);
+			if (keyList.size() > 1){
+				keyList.remove(0);				
+			}
 			else
 				indexChildren.add(0, null);
-			root = new indexNode(keyList, indexChildren, true);
-			return;
+			if(keyList.size()==1){
+				root = new indexNode(keyList, indexChildren, true);
+				return;
+			}else{
+				output.add(new indexNode(keyList, indexChildren, true));
+			}
+
 		} else if (!keyList.isEmpty() && keyList.size() - 1 < D) {
+			
 			indexNode tempNode = output.get(output.size() - 1);
 			ArrayList<indexNode> firstChildren = tempNode.getIndexChildren();
 			firstChildren.addAll(indexChildren);
