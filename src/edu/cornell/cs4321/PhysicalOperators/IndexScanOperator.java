@@ -1,7 +1,18 @@
 package edu.cornell.cs4321.PhysicalOperators;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+
+import edu.cornell.cs4321.BPlusTree.DataEntry;
+import edu.cornell.cs4321.Database.DatabaseCatalog;
 import edu.cornell.cs4321.Database.IndexInfo;
 import edu.cornell.cs4321.Database.Tuple;
+import edu.cornell.cs4321.IO.BPlusTreeDeserializer;
+import edu.cornell.cs4321.IO.BinaryTupleReader;
+import edu.cornell.cs4321.IO.TupleReader;
+import net.sf.jsqlparser.schema.Column;
+import net.sf.jsqlparser.schema.Table;
 
 public class IndexScanOperator extends Operator {
 	
@@ -12,6 +23,11 @@ public class IndexScanOperator extends Operator {
 	private Boolean lowOpen;
 	private Boolean highOpen;
 	private IndexInfo indexInfo;
+	private List<DataEntry> dataEntries;
+	private BPlusTreeDeserializer deserializer;
+	private ListIterator<DataEntry> iterator;
+	private BinaryTupleReader tr;
+	private boolean entryFound; // for clustered index
 	
 	public IndexScanOperator(String tableName, String alias, Long lowkey, Long highkey, Boolean lowOpen, Boolean highOpen, IndexInfo indexInfo) {
 		this.tableName = tableName;
@@ -21,18 +37,59 @@ public class IndexScanOperator extends Operator {
 		this.lowOpen = lowOpen;
 		this.highOpen = highOpen;
 		this.indexInfo = indexInfo;
+		this.deserializer = new BPlusTreeDeserializer(indexInfo);
+		this.entryFound = false;
+		if(!indexInfo.isClustered()) {
+			this.dataEntries = deserializer.getDataEntriesByIndex(lowkey, highkey, lowOpen, highOpen);
+			this.iterator = this.dataEntries.listIterator();
+		}
+		
+		if (alias != null) {
+			List<Column> newSchemaList = new ArrayList<Column>();
+			List<Column> schemaList = DatabaseCatalog.getSchemaByTable(tableName);
+			for (Column c : schemaList) {
+				Table t = new Table();
+				t.setName(alias);
+				Column newColumn = new Column();
+				newColumn.setTable(t);
+				newColumn.setColumnName(c.getColumnName());
+				newSchemaList.add(newColumn);
+			}
+			DatabaseCatalog.setSchemaByTable(tableName, newSchemaList);
+		}
+		this.tr = new BinaryTupleReader(tableName);
 	}
 
 	@Override
 	public Tuple getNextTuple() {
-		// TODO Auto-generated method stub
-		return null;
+		if(this.indexInfo.isClustered()){
+			if(!entryFound){
+				DataEntry entry = deserializer.getLeftMostEntry(lowkey, lowOpen, highkey, highOpen);
+				if(entry!=null){
+					entryFound = true;
+					tr.reset(entry.getPageId(), entry.getTupleId());
+					return tr.readNextTuple();
+				}
+				return null;
+			} else {
+				return tr.readNextTuple();
+			}
+		} else {
+			if(this.iterator.hasNext()){
+				DataEntry entry = this.iterator.next();
+				int pageId = entry.getPageId();
+				int tupleId = entry.getTupleId();			
+				tr.reset(pageId, tupleId);
+				return tr.readNextTuple();
+			} else {
+				return null;
+			}
+		}		
 	}
 
 	@Override
 	public void reset() {
-		// TODO Auto-generated method stub
-
+		tr.reset();
 	}
 
 	@Override

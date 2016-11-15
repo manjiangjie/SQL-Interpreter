@@ -183,6 +183,24 @@ public class BinaryTupleReader implements TupleReader {
     		this.readNextTuple();
     	}
     }
+    
+    /**
+     * Set the tuple reader at specified pageId and tuple index of that page.
+     */
+    public void reset(int pageNum, int index) {
+    	fc = fin.getChannel();
+    	this.records.clear();
+    	try {
+			fc.position((long)(pageNum*SIZE));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	bb = ByteBuffer.allocate(SIZE);
+    	bb.clear();
+    	for(int i=0; i<index; i++){
+    		this.readNextTuple();
+    	}
+    }
 
     /**
      * For debugging use. Print all the tuples from this table

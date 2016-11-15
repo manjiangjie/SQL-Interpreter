@@ -108,8 +108,9 @@ public class DatabaseCatalog {
 					
 					boolean isClustered = Boolean.parseBoolean(tokens[2]);
 					int order = Integer.parseInt(tokens[3]);
+					String indexPath = inputDir + "/db/indexes/" + tokens[0] + "." + tokens[1];
 					
-					indexMap.put(tokens[0], new IndexInfo(c, isClustered, order));
+					indexMap.put(tokens[0], new IndexInfo(c, isClustered, order, indexPath));
 				}
 			} catch (IOException e) {
 				e.printStackTrace();

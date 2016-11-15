@@ -77,7 +77,7 @@ public class BPlusTree {
 		int fileId = 0;
 		int tupleId = 0;
 		ArrayList<leafNode> leafNodes = new ArrayList<leafNode>();
-		TreeMap<Integer, List<dataEntry>> wholeMap = new TreeMap<>();
+		TreeMap<Integer, List<DataEntry>> wholeMap = new TreeMap<>();
 
 		// scan all tuples and build a tree map to store all key/dataEntry pairs
 		Tuple t = btr.readNextTuple();
@@ -86,11 +86,11 @@ public class BPlusTree {
 			key = t.getValueByCol(column);
 			if (wholeMap.containsKey(key))
 				// if the node have key
-				wholeMap.get(key).add(new dataEntry(fileId, tupleId));
+				wholeMap.get(key).add(new DataEntry(fileId, tupleId));
 			else {
 				// map does not have the key but is not full
-				ArrayList<dataEntry> tempList = new ArrayList<dataEntry>();
-				tempList.add(new dataEntry(fileId, tupleId));
+				ArrayList<DataEntry> tempList = new ArrayList<DataEntry>();
+				tempList.add(new DataEntry(fileId, tupleId));
 				wholeMap.put(key, tempList);
 			}
 			tupleId++;
@@ -101,13 +101,13 @@ public class BPlusTree {
 		}
 
 		// split the whole tree map into leaf nodes based on D
-		TreeMap<Integer, List<dataEntry>> tempMap = new TreeMap<Integer, List<dataEntry>>();
-		for (Entry<Integer, List<dataEntry>> entry : wholeMap.entrySet()) {
+		TreeMap<Integer, List<DataEntry>> tempMap = new TreeMap<Integer, List<DataEntry>>();
+		for (Entry<Integer, List<DataEntry>> entry : wholeMap.entrySet()) {
 			if (tempMap.isEmpty() || tempMap.size() < D * 2)
 				tempMap.put(entry.getKey(), entry.getValue());
 			else {
 				leafNodes.add(new leafNode(tempMap));
-				tempMap = new TreeMap<Integer, List<dataEntry>>();
+				tempMap = new TreeMap<Integer, List<DataEntry>>();
 				tempMap.put(entry.getKey(), entry.getValue());
 			}
 		}
@@ -122,11 +122,11 @@ public class BPlusTree {
 			remaining += 2 * D;
 			int k = remaining / 2;
 
-			TreeMap<Integer, List<dataEntry>> lastMap = leafNodes.get(leafNodes.size() - 1).getMap();
+			TreeMap<Integer, List<DataEntry>> lastMap = leafNodes.get(leafNodes.size() - 1).getMap();
 			leafNodes.remove(leafNodes.size() - 1);
 			for (int i = 0; i < 2 * D - k; i++) {
 				int lastKey = lastMap.lastKey();
-				List<dataEntry> lastEntryList = lastMap.get(lastKey);
+				List<DataEntry> lastEntryList = lastMap.get(lastKey);
 				tempMap.put(lastKey, lastEntryList);
 				lastMap.remove(lastKey);
 			}
