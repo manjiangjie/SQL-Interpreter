@@ -44,6 +44,8 @@ public class Parser {
 			boolean evalQueries = (Integer.parseInt(configReader.readLine()) == 1);
 			configReader.close();
 			
+			DatabaseCatalog.getInstance(inputDir);
+			
 			if(buildIndexes){
 				buildIndexes(inputDir);
 			}
@@ -90,7 +92,7 @@ public class Parser {
 		BufferedReader br2 = new BufferedReader(new FileReader(configFilePath));
 		String[] joinMethod = br2.readLine().split("\\s+");
 		String[] sortMethod = br2.readLine().split("\\s+");
-		boolean useIndex = Boolean.parseBoolean(br2.readLine());
+		boolean useIndex = (Integer.parseInt(br2.readLine())==1);
 		br2.close();
 		while (queryStr != null) {
 			try {
