@@ -28,7 +28,8 @@ public class BPlusTree {
 	 * @param column:
 	 *            column of the table as index
 	 */
-	public BPlusTree(boolean cluster, String tableName, Column column) {
+	public BPlusTree(boolean cluster, String tableName, Column column, int order) {
+		this.D = order;
 		if (cluster)
 			sortCluster(tableName, column);
 		leafNodes = buildLeafLayer(tableName, column);
