@@ -170,6 +170,7 @@ public class BPlusTree {
 
 		// handle last one or two node
 		if (firstIndexLayer.isEmpty()) {
+
 			if (keyList.size() > 1)
 				keyList.remove(0);
 			else
@@ -186,10 +187,10 @@ public class BPlusTree {
 			ArrayList<Integer> keyList2 = new ArrayList<Integer>();
 			firstChildren.addAll(leafChildren);
 
-			while (firstChildren.size() > k / 2) {
-				secondChildren.add(firstChildren.get(k / 2));
-				keyList2.add(firstChildren.get(k / 2).getMap().firstKey());
-				firstChildren.remove(k / 2);
+			while (firstChildren.size() > k / 2 + 1) {
+				secondChildren.add(firstChildren.get(k / 2 + 1));
+				keyList2.add(firstChildren.get(k / 2 +1 ).getMap().firstKey());
+				firstChildren.remove(k / 2 + 1 );
 			}
 			for (leafNode ln : firstChildren) {
 				keyList1.add(ln.getMap().firstKey());
@@ -204,7 +205,6 @@ public class BPlusTree {
 			keyList.remove(0);
 			firstIndexLayer.add(new indexNode(keyList, leafChildren));
 		}
-
 		// after building the first layer, build the rest of the index
 		// layers recursively until reach to root;
 		buildUpperLayers(firstIndexLayer);
@@ -218,7 +218,6 @@ public class BPlusTree {
 
 	private void buildUpperLayers(ArrayList<indexNode> IndexLayer) {
 		ArrayList<indexNode> output = new ArrayList<indexNode>();
-
 		ArrayList<indexNode> indexChildren = new ArrayList<indexNode>();
 		ArrayList<Integer> keyList = new ArrayList<Integer>();
 		for (indexNode index : IndexLayer) {
@@ -231,7 +230,6 @@ public class BPlusTree {
 				indexChildren = new ArrayList<indexNode>();
 			}
 		}
-
 		// if the last node underflow, pop the last node from output
 		// merge the children between the two nodes, split them.
 		// generate new keys for the new sets of children
@@ -249,8 +247,7 @@ public class BPlusTree {
 				output.add(new indexNode(keyList, indexChildren, true));
 			}
 
-		} else if (!keyList.isEmpty() && keyList.size() - 1 < D) {
-			
+		} else if (!keyList.isEmpty() && keyList.size() < D + 1) {
 			indexNode tempNode = output.get(output.size() - 1);
 			ArrayList<indexNode> firstChildren = tempNode.getIndexChildren();
 			firstChildren.addAll(indexChildren);
@@ -278,6 +275,7 @@ public class BPlusTree {
 			keyList.remove(0);
 			output.add(new indexNode(keyList, indexChildren, true));
 		}
+		
 		// recursion
 		buildUpperLayers(output);
 	}
