@@ -118,7 +118,7 @@ public class BPlusTree {
 				LeafNode n = new LeafNode(tempMap, size);
 				leafNodes.add(n);
 				serializer.writeNextNode(n);
-				tempMap.clear();
+				tempMap = new TreeMap<>();
 				tempMap.put(entry.getKey(), entry.getValue());
 			}
 		}
