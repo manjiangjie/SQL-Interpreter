@@ -73,7 +73,7 @@ public class Parser {
 			Table t = new Table();
 			t.setName(tableName);
 			c.setTable(t);
-			BPlusTree indexTree = new BPlusTree(clustered, tableName, c, order);
+			BPlusTree indexTree = new BPlusTree(clustered, tableName, c, order, inputDir + "/db/");
 		}
 	}
 

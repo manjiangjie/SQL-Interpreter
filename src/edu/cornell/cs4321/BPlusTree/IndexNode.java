@@ -2,21 +2,23 @@ package edu.cornell.cs4321.BPlusTree;
 
 import java.util.ArrayList;
 
-public class indexNode extends Node{
+public class IndexNode extends Node{
 	private ArrayList<Integer> key;
-	private ArrayList<leafNode> children;
-	private ArrayList<indexNode> indexChildren;
+	private ArrayList<LeafNode> children;
+	private ArrayList<IndexNode> indexChildren;
 	private boolean isIndex;
+	private int address;
 	
 	/**
 	 * Constructor for building the first layer of indexes
 	 * @param key list of the node (d<=key size<=2d)
-	 * @param indexChildren: list of leafNode
+	 * @param leafChildren: list of LeafNode
 	 */
-	public indexNode(ArrayList<Integer> key, ArrayList<leafNode> leafChildren){
+	public IndexNode(ArrayList<Integer> key, ArrayList<LeafNode> leafChildren, int address) {
 		this.key = key;
 		this.children = leafChildren;
 		isIndex = false;
+		this.address = address;
 	}
 	
 	/**
@@ -25,17 +27,18 @@ public class indexNode extends Node{
 	 * @param indexChildren
 	 * @param isIndex
 	 */
-	public indexNode(ArrayList<Integer> key, ArrayList<indexNode> indexChildren, boolean isIndex){
+	public IndexNode(ArrayList<Integer> key, ArrayList<IndexNode> indexChildren, boolean isIndex, int address) {
 		this.key = key;
 		this.indexChildren = indexChildren;
 		this.isIndex = isIndex;
+		this.address = address;
 	}
 	
-	public ArrayList<leafNode> getChildren(){
+	public ArrayList<LeafNode> getChildren(){
 		return children;
 	}
 	
-	public ArrayList<indexNode> getIndexChildren(){
+	public ArrayList<IndexNode> getIndexChildren(){
 		return indexChildren;
 	}
 	
@@ -45,5 +48,9 @@ public class indexNode extends Node{
 	
 	public ArrayList<Integer> getKeys(){
 		return key;
+	}
+
+	public int getAddress() {
+		return address;
 	}
 }
