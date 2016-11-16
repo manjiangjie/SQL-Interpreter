@@ -13,7 +13,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by manjiangjie on 11/15/16.
+ *  This class is used for serializing a B+-tree to a file. The file is laid out in pages,
+ *  with each page being 4096 bytes long. The first page in the file is a header page,
+ *  and then every node in the tree is laid out on its own page. You may assume every node will fit in a 4096-byte page.
+ *
+ *  @author Jiangjie Man: jm2559
  */
 public class BPlusTreeSerializer {
     private FileOutputStream fout;
@@ -103,11 +107,13 @@ public class BPlusTreeSerializer {
             ArrayList<IndexNode> children = n.getIndexChildren();
             for (IndexNode child : children) {
                 bb.putInt(child.getAddress());
+                index += 4;
             }
         } else {
             ArrayList<LeafNode> children = n.getChildren();
             for (LeafNode child : children) {
                 bb.putInt(child.getAddress());
+                index += 4;
             }
         }
         while (index < SIZE) {
