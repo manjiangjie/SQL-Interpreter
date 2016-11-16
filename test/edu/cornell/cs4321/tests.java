@@ -1,7 +1,5 @@
 package edu.cornell.cs4321;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -23,17 +21,17 @@ public class tests {
 		c.setTable(t);
 		c.setColumnName("D");
 		DatabaseCatalog.getInstance("samples/input");
-		BPlusTree b = new BPlusTree(false, "Boats", c, 2);
-		indexNode root = b.getRoot();
+		BPlusTree b = new BPlusTree(false, "Boats", c, 2, "samples/input/db/");
+		IndexNode root = b.getRoot();
 		System.out.println(Arrays.toString(root.getKeys().toArray()));
 		if(root.isUpperLayer())
 			bfs(root.getIndexChildren());
 	}
 	
-	public void bfs(ArrayList<indexNode> input){
-		ArrayList<indexNode> next = new ArrayList<indexNode>();
-		ArrayList<leafNode> leaves = new ArrayList<leafNode>();
-		for(indexNode eachNode: input){
+	public void bfs(ArrayList<IndexNode> input){
+		ArrayList<IndexNode> next = new ArrayList<IndexNode>();
+		ArrayList<LeafNode> leaves = new ArrayList<LeafNode>();
+		for(IndexNode eachNode: input){
 			if(eachNode == null)
 				System.out.print(null + " ");
 			else{
@@ -46,11 +44,10 @@ public class tests {
 		}
 		System.out.println();
 		if(!leaves.isEmpty()){
-			for(leafNode ln : leaves){
+			for(LeafNode ln : leaves){
 				System.out.print(Arrays.toString(ln.getMap().keySet().toArray())+" ");
 			}
 		}
-		
 		
 		if(!next.isEmpty())
 			bfs(next);
