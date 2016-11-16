@@ -26,6 +26,8 @@ public class BinaryTupleReader implements TupleReader {
 	private int index = 0;
 	private int numAttributes = 0;
 	private int numTuples = 0;
+	private int pageId = -1;
+	private int tupleId = -1;
 	private FileInputStream fin;
 	private Queue<String> records = new LinkedList<>();
    
@@ -79,7 +81,9 @@ public class BinaryTupleReader implements TupleReader {
 				index = 0;
 				numAttributes = bb.getInt(index);
 				numTuples = bb.getInt(index + 4);
-				index += 8;
+				pageId += 1;
+				tupleId = -1;
+				index = 8;
 				for (int i = 0; i < numTuples; i++) {
 					for (int j = 0; j < numAttributes; j++) {
 						int value = bb.getInt(index);
@@ -95,7 +99,8 @@ public class BinaryTupleReader implements TupleReader {
 			}
 		}
 		record = records.poll();
-		index += 4;
+		//index += 4 * numAttributes;
+		tupleId += 1;
 		record = record.substring(0, record.length() - 1);
 		return new Tuple(schemaList, record);
 	}
@@ -105,7 +110,7 @@ public class BinaryTupleReader implements TupleReader {
 	 * without changing the elements in the record queue.
 	 * @return the next tuple
 	 */
-	public Tuple peek(){
+	public Tuple peek() {
 		String record = "";
 		if (records.isEmpty()) {
 			try {
@@ -208,5 +213,21 @@ public class BinaryTupleReader implements TupleReader {
 		while((t = readNextTuple()) != null) {
 			System.out.println(t);
 		}
+	}
+
+	/**
+	 * Get page ID for this binary file.
+	 * @return pageId
+     */
+	public int getPageId() {
+		return pageId;
+	}
+
+	/**
+	 * Get tuple ID for this binary file.
+	 * @return tupleId
+     */
+	public int getTupleId() {
+		return tupleId;
 	}
 }

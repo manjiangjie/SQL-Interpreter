@@ -3,9 +3,7 @@
  */
 package edu.cornell.cs4321.IO;
 
-import edu.cornell.cs4321.Database.DatabaseCatalog;
 import edu.cornell.cs4321.Database.IndexInfo;
-import edu.cornell.cs4321.Database.Tuple;
 
 import java.io.FileInputStream;
 import java.io.IOException;

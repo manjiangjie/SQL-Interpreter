@@ -14,6 +14,12 @@ import edu.cornell.cs4321.IO.BinaryTupleReader;
 import edu.cornell.cs4321.IO.BinaryTupleWriter;
 import net.sf.jsqlparser.schema.Column;
 
+/**
+ * This class constructs a B+ tree via bulk loading. Begin by scanning the relation file and
+ * generating all the data entries in the format described above, in sorted order by key.
+ *
+ * @author Heng Kuang: hk856; Jiangjie Man: jm2559
+ */
 public class BPlusTree {
 	private IndexNode root;
 	private ArrayList<LeafNode> leafNodes;
@@ -21,6 +27,7 @@ public class BPlusTree {
 	private int SIZE = 4096;
 	private int size = 0;
 	private BPlusTreeSerializer serializer;
+	private String filePath;
 
 	/**
 	 * constructor of a B+ Tree. Will build a tree once get called.
@@ -33,9 +40,10 @@ public class BPlusTree {
 	 */
 	public BPlusTree(boolean clustered, String tableName, Column column, int order, String filePath) {
 		this.D = order;
+		this.filePath = filePath;
 		serializer = new BPlusTreeSerializer(filePath + "indexes/" + tableName + "." + column.getColumnName());
 		if (clustered) {
-			sortCluster(filePath + "data/" + tableName, column);
+			sortCluster(tableName, column);
 		}
 		leafNodes = buildLeafLayer(tableName, column);
 		root = buildIndexLayers();
@@ -63,7 +71,7 @@ public class BPlusTree {
 		cl.add(column);
 		Collections.sort(tl, new TupleComparator(cl));
 		btr.deleteFile();
-		BinaryTupleWriter btw = new BinaryTupleWriter(tableName);
+		BinaryTupleWriter btw = new BinaryTupleWriter(filePath + "data/" + tableName);
 		for (Tuple nt : tl) {
 			btw.writeNextTuple(nt);
 		}
@@ -79,32 +87,23 @@ public class BPlusTree {
 	 */
 	private ArrayList<LeafNode> buildLeafLayer(String tableName, Column column) {
 		BinaryTupleReader btr = new BinaryTupleReader(tableName);
-		Tuple firstTuple = btr.peek();
-		int tupleSize = firstTuple.getSchema().size();
-		int maxNumTuple = (SIZE - 8) / (tupleSize * 4);
-		int fileId = 0;
-		int tupleId = 0;
 		leafNodes = new ArrayList<LeafNode>();
 		TreeMap<Integer, List<DataEntry>> wholeMap = new TreeMap<>();
-
 		// scan all tuples and build a tree map to store all key/dataEntry pairs
 		Tuple t = btr.readNextTuple();
 		int key;
 		while (t != null) {
 			key = t.getValueByCol(column);
+			int pageId = btr.getPageId();
+			int tupleId = btr.getTupleId();
 			if (wholeMap.containsKey(key))
 				// if the node have key
-				wholeMap.get(key).add(new DataEntry(fileId, tupleId));
+				wholeMap.get(key).add(new DataEntry(pageId, tupleId));
 			else {
 				// map does not have the key but is not full
 				ArrayList<DataEntry> tempList = new ArrayList<DataEntry>();
-				tempList.add(new DataEntry(fileId, tupleId));
+				tempList.add(new DataEntry(pageId, tupleId));
 				wholeMap.put(key, tempList);
-			}
-			tupleId++;
-			if (tupleId == maxNumTuple) {
-				fileId += 1;
-				tupleId = 0;
 			}
 			t = btr.readNextTuple();
 		}
@@ -112,14 +111,14 @@ public class BPlusTree {
 		// split the whole tree map into leaf nodes based on D
 		TreeMap<Integer, List<DataEntry>> tempMap = new TreeMap<Integer, List<DataEntry>>();
 		for (Entry<Integer, List<DataEntry>> entry : wholeMap.entrySet()) {
-			if (tempMap.isEmpty() || tempMap.size() < D * 2)
+			if (tempMap.size() < D * 2) {
 				tempMap.put(entry.getKey(), entry.getValue());
-			else {
+			} else {
 				size += 1;
 				LeafNode n = new LeafNode(tempMap, size);
 				leafNodes.add(n);
 				serializer.writeNextNode(n);
-				tempMap = new TreeMap<>();
+				tempMap.clear();
 				tempMap.put(entry.getKey(), entry.getValue());
 			}
 		}
