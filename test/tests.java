@@ -17,11 +17,11 @@ public class tests {
 	public void test() {
 		Column c =  new Column();
 		Table t = new Table();
-		t.setName("Sailors");
+		t.setName("Boats");
 		c.setTable(t);
-		c.setColumnName("B");
+		c.setColumnName("D");
 		DatabaseCatalog.getInstance("samples/input");
-		BPlusTree b = new BPlusTree(false, "Sailors", c, 2);
+		BPlusTree b = new BPlusTree(false, "Boats", c, 2);
 		indexNode root = b.getRoot();
 		System.out.println(Arrays.toString(root.getKeys().toArray()));
 		if(root.isUpperLayer())
