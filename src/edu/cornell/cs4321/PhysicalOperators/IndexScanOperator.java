@@ -10,10 +10,14 @@ import edu.cornell.cs4321.Database.IndexInfo;
 import edu.cornell.cs4321.Database.Tuple;
 import edu.cornell.cs4321.IO.BPlusTreeDeserializer;
 import edu.cornell.cs4321.IO.BinaryTupleReader;
-import edu.cornell.cs4321.IO.TupleReader;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
 
+/**
+ * @author Hao Qian hq43
+ * 
+ * IndexScanOperator retrieves matched data entries(leaf nodes in BPlusTree).
+ */
 public class IndexScanOperator extends Operator {
 	
 	private String tableName;
@@ -71,8 +75,16 @@ public class IndexScanOperator extends Operator {
 					return tr.readNextTuple();
 				}
 				return null;
-			} else {
-				return tr.readNextTuple();
+			} else { //tuple t, check if in the range
+				Tuple t = tr.readNextTuple();
+				if(t!=null){
+					int val = t.getValueByCol(indexInfo.getColumn());
+					if( highOpen.booleanValue() && val < highkey ||
+						!highOpen.booleanValue() && val <= highkey ) {
+						return t;
+					}
+				}				
+				return null;
 			}
 		} else {
 			if(this.iterator.hasNext()){
@@ -80,7 +92,8 @@ public class IndexScanOperator extends Operator {
 				int pageId = entry.getPageId();
 				int tupleId = entry.getTupleId();			
 				tr.reset(pageId, tupleId);
-				return tr.readNextTuple();
+				Tuple t = tr.readNextTuple();
+				return t;
 			} else {
 				return null;
 			}
@@ -90,6 +103,9 @@ public class IndexScanOperator extends Operator {
 	@Override
 	public void reset() {
 		tr.reset();
+		if(!indexInfo.isClustered()) {
+			this.iterator = this.dataEntries.listIterator();
+		}
 	}
 
 	@Override

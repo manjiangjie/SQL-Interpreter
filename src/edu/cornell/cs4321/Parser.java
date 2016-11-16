@@ -48,6 +48,7 @@ public class Parser {
 			
 			if(buildIndexes){
 				buildIndexes(inputDir);
+				System.out.println("finshed building index!");
 			}
 			
 			if(evalQueries){
@@ -82,7 +83,7 @@ public class Parser {
 		// Initialize database catalog
 		DatabaseCatalog.getInstance(inputDir);
 
-		String queryFilePath = inputDir + "/queries.sql";
+		String queryFilePath = inputDir + "/testquery.sql";
 		String configFilePath = inputDir + "/plan_builder_config.txt";
 
 		BufferedReader br = new BufferedReader(new FileReader(queryFilePath));

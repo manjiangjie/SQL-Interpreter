@@ -46,7 +46,11 @@ public class BPlusTree {
 			sortCluster(tableName, column);
 		}
 		leafNodes = buildLeafLayer(tableName, column);
+		//System.out.println(column.getColumnName());
+		//System.out.println(leafNodes.size());
 		root = buildIndexLayers();
+		//System.out.println(size);
+		serializer.writeNextNode(root);
 		serializer.writeHeadPage(size, leafNodes.size(), D);
 		serializer.close();
 	}
@@ -162,7 +166,6 @@ public class BPlusTree {
 	/**
 	 * Build the first layer of index nodes at the beginning and then build the
 	 * upper levels recursively
-	 * @return root of the tree
 	 */
 	private IndexNode buildIndexLayers() {
 		// build the first index layer
@@ -193,13 +196,14 @@ public class BPlusTree {
 				keyList.remove(0);
 			}
 			else {
-				leafChildren.add(0, null);
+				//leafChildren.add(0, null);
 			}
 			size += 1;
 			IndexNode n = new IndexNode(keyList, leafChildren, size);
 			firstIndexLayer.add(n);
 			serializer.writeNextNode(n);
 		} else if (keyList.size() > 0 && keyList.size() < D + 1) {
+
 			// pop the last node from the layer
 			IndexNode tempNode = firstIndexLayer.get(firstIndexLayer.size() - 1);
 			firstIndexLayer.remove(firstIndexLayer.size() - 1);
@@ -209,11 +213,11 @@ public class BPlusTree {
 			ArrayList<Integer> keyList1 = new ArrayList<Integer>();
 			ArrayList<Integer> keyList2 = new ArrayList<Integer>();
 			firstChildren.addAll(leafChildren);
-			int k = firstChildren.size() - 1;
-			while (firstChildren.size() > k / 2) {
-				secondChildren.add(firstChildren.get(k / 2));
-				keyList2.add(firstChildren.get(k / 2).getMap().firstKey());
-				firstChildren.remove(k / 2);
+			int k = firstChildren.size();
+			while (firstChildren.size() > k / 2 ) {
+				secondChildren.add(firstChildren.get(k / 2 ));
+				keyList2.add(firstChildren.get(k / 2 ).getMap().firstKey());
+				firstChildren.remove(k / 2 );
 			}
 			for (LeafNode ln : firstChildren) {
 				keyList1.add(ln.getMap().firstKey());
@@ -242,7 +246,6 @@ public class BPlusTree {
 	 * @param IndexLayer:
 	 *            arrayList of index nodes build the upper level from the input
 	 *            arrayList call itself recursively until reaches the root
-	 * @return root of the tree
 	 */
 
 
@@ -258,7 +261,9 @@ public class BPlusTree {
 			if (keyList.size() == 2 * D + 1) {
 				keyList.remove(0);
 				size += 1;
-				output.add(new IndexNode(keyList, indexChildren, true, size));
+				IndexNode n = new IndexNode(keyList, indexChildren, true, size);
+				output.add(n);
+				serializer.writeNextNode(n);
 				keyList = new ArrayList<Integer>();
 				indexChildren = new ArrayList<IndexNode>();
 			}
@@ -271,23 +276,19 @@ public class BPlusTree {
 			if (keyList.size() > 1) {
 				keyList.remove(0);
 			} else {
-				indexChildren.add(0, null);
+				//indexChildren.add(0, null);
 			}
-
 			size += 1;
-			if (keyList.size() == 1) {
-				return new IndexNode(keyList, indexChildren, true, size);
-			} else {
-				output.add(new IndexNode(keyList, indexChildren, true, size));
-			}
+			return new IndexNode(keyList, indexChildren, true, size);
 		} else if (!keyList.isEmpty() && keyList.size() - 1 < D) {
 			IndexNode tempNode = output.get(output.size() - 1);
 			ArrayList<IndexNode> firstChildren = tempNode.getIndexChildren();
 
 			firstChildren.addAll(indexChildren);
 			output.remove(output.size() - 1);
+			serializer.setPage(tempNode.getAddress());
 			// split firstChildren to make two new nodes
-			int k = firstChildren.size() - 1 ;
+			int k = firstChildren.size();
 			ArrayList<IndexNode> secondChildren = new ArrayList<IndexNode>();
 			ArrayList<Integer> keyList1 = new ArrayList<Integer>();
 			ArrayList<Integer> keyList2 = new ArrayList<Integer>();
@@ -301,15 +302,20 @@ public class BPlusTree {
 			}
 			keyList1.remove(0);
 			keyList2.remove(0);
-
-			output.add(new IndexNode(keyList1, firstChildren, true, size));
+			IndexNode n = new IndexNode(keyList1, indexChildren, true, size);
+			output.add(n);
+			serializer.writeNextNode(n);
 			size += 1;
-			output.add(new IndexNode(keyList2, secondChildren, true, size));
+			n = new IndexNode(keyList2, indexChildren, true, size);
+			output.add(n);
+			serializer.writeNextNode(n);
 
 		} else if (!keyList.isEmpty()) {
 			keyList.remove(0);
 			size += 1;
-			output.add(new IndexNode(keyList, indexChildren, true, size));
+			IndexNode n = new IndexNode(keyList, indexChildren, true, size);
+			output.add(n);
+			serializer.writeNextNode(n);
 		}
 		
 		// recursion

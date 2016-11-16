@@ -43,6 +43,11 @@ import net.sf.jsqlparser.expression.operators.relational.NotEqualsTo;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.statement.select.SubSelect;
 
+/**
+ * IndexExpExtractVisitor can visit a selectionExpression, divide the expression
+ * into lwokey/highkey part which indexes help and the part that indexes can't help.
+ * 
+ */
 public class IndexExpExtractVisitor implements ExpressionVisitor {
 	
 	private String indexedColName;
@@ -244,12 +249,16 @@ public class IndexExpExtractVisitor implements ExpressionVisitor {
 		} else {
 			if(leftChild instanceof LongValue) {  // 3 > R.A
 				long val = ((LongValue)leftChild).getValue();
-				this.highkey = (this.highkey == null || this.highkey >= val) ? val : this.highkey;
-				this.highOpen = (this.highkey == null || this.highkey >= val) ? true : this.highOpen;
+				if(this.highkey == null || this.highkey >= val){
+					this.highkey = val;
+					this.highOpen = true;
+				}
 			} else if(rightChild instanceof LongValue) { // R.A > 3
 				long val = ((LongValue)rightChild).getValue();
-				this.lowkey = (this.lowkey == null || this.lowkey <= val) ? val : this.lowkey;
-				this.lowOpen = (this.lowkey == null || this.lowkey <= val) ? true : this.lowOpen;
+				if(this.lowkey == null || this.lowkey <= val) {
+					this.lowkey = val;
+					this.lowOpen = true;
+				}
 			}
 		}
 	}
@@ -266,12 +275,16 @@ public class IndexExpExtractVisitor implements ExpressionVisitor {
 		} else {
 			if(leftChild instanceof LongValue) {  // 3 >= R.A
 				long val = ((LongValue)leftChild).getValue();
-				this.highkey = (this.highkey == null || this.highkey > val) ? val : this.highkey;
-				this.highOpen = (this.highkey == null || this.highkey > val) ? false : this.highOpen;
+				if(this.highkey == null || this.highkey > val){
+					this.highkey = val;
+					this.highOpen = false;
+				}
 			} else if(rightChild instanceof LongValue) { // R.A >= 3
 				long val = ((LongValue)rightChild).getValue();
-				this.lowkey = (this.lowkey == null || this.lowkey < val) ? val : this.lowkey;
-				this.lowOpen = (this.lowkey == null || this.lowkey < val) ? false : this.lowOpen;
+				if(this.lowkey == null || this.lowkey < val){
+					this.lowkey = val;
+					this.lowOpen = false;
+				}
 			}
 		}
 	}
@@ -306,12 +319,16 @@ public class IndexExpExtractVisitor implements ExpressionVisitor {
 		} else {
 			if(leftChild instanceof LongValue) {  // 3 < R.A
 				long val = ((LongValue)leftChild).getValue();
-				this.lowkey = (this.lowkey == null || this.lowkey <= val) ? val : this.lowkey;
-				this.lowOpen = (this.lowkey == null || this.lowkey <= val) ? true : this.lowOpen;
+				if(this.lowkey == null || this.lowkey <= val){
+					this.lowkey = val;
+					this.lowOpen = true;
+				}
 			} else if(rightChild instanceof LongValue) { // R.A < 3
 				long val = ((LongValue)rightChild).getValue();
-				this.highkey = (this.highkey == null || this.highkey >= val) ? val : this.highkey;
-				this.highOpen = (this.highkey == null || this.highkey >= val) ? true : this.highOpen;
+				if(this.highkey == null || this.highkey >= val){
+					this.highkey = val;
+					this.highOpen = true;
+				}
 			}
 		}
 	}
@@ -328,12 +345,16 @@ public class IndexExpExtractVisitor implements ExpressionVisitor {
 		} else {
 			if(leftChild instanceof LongValue) {  // 3 <= R.A
 				long val = ((LongValue)leftChild).getValue();
-				this.lowkey = (this.lowkey == null || this.lowkey < val) ? val : this.lowkey;
-				this.lowOpen = (this.lowkey == null || this.lowkey < val) ? false : this.lowOpen;
+				if(this.lowkey == null || this.lowkey < val){
+					this.lowkey = val;
+					this.lowOpen = false;
+				}
 			} else if(rightChild instanceof LongValue) { // R.A <= 3
 				long val = ((LongValue)rightChild).getValue();
-				this.highkey = (this.highkey == null || this.highkey > val) ? val : this.highkey;
-				this.highOpen = (this.highkey == null || this.highkey > val) ? false : this.highOpen;
+				if(this.highkey == null || this.highkey > val){
+					this.highkey = val;
+					this.highOpen = false;
+				}
 			}
 		}
 	}
