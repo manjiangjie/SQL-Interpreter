@@ -3,6 +3,7 @@ package edu.cornell.cs4321;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import edu.cornell.cs4321.IO.Converter;
 import org.junit.Test;
 
 import edu.cornell.cs4321.BPlusTree.*;
@@ -21,7 +22,9 @@ public class tests {
 		c.setTable(t);
 		c.setColumnName("D");
 		DatabaseCatalog.getInstance("samples/input");
-		BPlusTree b = new BPlusTree(false, "Boats", c, 2, "samples/input/db/");
+		BPlusTree b = new BPlusTree(true, "Boats", c, 2, "samples/input/db/");
+		Converter converter = new Converter("samples/input/db/data/Boats");
+		converter.writeToFile("samples/input/db/data/Boats_clustered");
 		IndexNode root = b.getRoot();
 		System.out.println(Arrays.toString(root.getKeys().toArray()));
 		if(root.isUpperLayer())
@@ -44,7 +47,7 @@ public class tests {
 		}
 		System.out.println();
 		if(!leaves.isEmpty()){
-			for(LeafNode ln : leaves){
+			for(LeafNode ln : leaves) {
 				System.out.print(Arrays.toString(ln.getMap().keySet().toArray())+" ");
 			}
 		}
