@@ -15,8 +15,9 @@ import edu.cornell.cs4321.IO.BinaryTupleWriter;
 import net.sf.jsqlparser.schema.Column;
 
 /**
- * This class constructs a B+ tree via bulk loading. Begin by scanning the relation file and
- * generating all the data entries in the format described above, in sorted order by key.
+ * This class constructs a B+ tree via bulk loading. Begin by scanning the
+ * relation file and generating all the data entries in the format described
+ * above, in sorted order by key.
  *
  * @author Heng Kuang: hk856; Jiangjie Man: jm2559
  */
@@ -32,11 +33,16 @@ public class BPlusTree {
 	/**
 	 * constructor of a B+ Tree. Will build a tree once get called.
 	 *
-	 * @param clustered clustered or unclustered
-	 * @param tableName Relation name
-	 * @param column Column for this relation
-	 * @param order B+ tree order
-	 * @param filePath the index file path to be written
+	 * @param clustered
+	 *            clustered or unclustered
+	 * @param tableName
+	 *            Relation name
+	 * @param column
+	 *            Column for this relation
+	 * @param order
+	 *            B+ tree order
+	 * @param filePath
+	 *            the index file path to be written
 	 */
 	public BPlusTree(boolean clustered, String tableName, Column column, int order, String filePath) {
 		this.D = order;
@@ -162,6 +168,7 @@ public class BPlusTree {
 	/**
 	 * Build the first layer of index nodes at the beginning and then build the
 	 * upper levels recursively
+	 * 
 	 * @return root of the tree
 	 */
 	private IndexNode buildIndexLayers() {
@@ -191,8 +198,7 @@ public class BPlusTree {
 		if (firstIndexLayer.isEmpty()) {
 			if (keyList.size() > 1) {
 				keyList.remove(0);
-			}
-			else {
+			} else {
 				leafChildren.add(0, null);
 			}
 			size += 1;
@@ -209,7 +215,8 @@ public class BPlusTree {
 			ArrayList<Integer> keyList1 = new ArrayList<Integer>();
 			ArrayList<Integer> keyList2 = new ArrayList<Integer>();
 			firstChildren.addAll(leafChildren);
-			int k = firstChildren.size() - 1;
+
+			int k = firstChildren.size();
 			while (firstChildren.size() > k / 2) {
 				secondChildren.add(firstChildren.get(k / 2));
 				keyList2.add(firstChildren.get(k / 2).getMap().firstKey());
@@ -244,7 +251,6 @@ public class BPlusTree {
 	 *            arrayList call itself recursively until reaches the root
 	 * @return root of the tree
 	 */
-
 
 	private IndexNode buildUpperLayers(ArrayList<IndexNode> IndexLayer) {
 		ArrayList<IndexNode> output = new ArrayList<IndexNode>();
@@ -287,7 +293,7 @@ public class BPlusTree {
 			firstChildren.addAll(indexChildren);
 			output.remove(output.size() - 1);
 			// split firstChildren to make two new nodes
-			int k = firstChildren.size() - 1 ;
+			int k = firstChildren.size();
 			ArrayList<IndexNode> secondChildren = new ArrayList<IndexNode>();
 			ArrayList<Integer> keyList1 = new ArrayList<Integer>();
 			ArrayList<Integer> keyList2 = new ArrayList<Integer>();
@@ -311,19 +317,20 @@ public class BPlusTree {
 			size += 1;
 			output.add(new IndexNode(keyList, indexChildren, true, size));
 		}
-		
+
 		// recursion
 		return buildUpperLayers(output);
 	}
 
 	/**
 	 * get the root of this tree
+	 * 
 	 * @return index node: root
 	 */
-	public IndexNode getRoot(){
+	public IndexNode getRoot() {
 		return root;
 	}
-	
+
 	/**
 	 * get all leaf nodes
 	 * 
