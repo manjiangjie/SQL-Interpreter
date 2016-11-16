@@ -4,7 +4,6 @@
 package edu.cornell.cs4321.IO;
 
 import edu.cornell.cs4321.Database.IndexInfo;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -60,12 +59,13 @@ public class BPlusTreeDeserializer {
 				
 				for (int i = 0; i < numDataEntries; i++) {
 					int k = bb.getInt();
+					//System.out.println(k);
 					if( lowOpen.booleanValue() && (k>lowkey.intValue()) ||
 						!lowOpen.booleanValue() && (k>=lowkey.intValue()) ) {
 						
 						if( highkey!=null ){
 							if( highOpen.booleanValue() && (k>=highkey.intValue()) ||
-								!highOpen.booleanValue() && (k>lowkey.intValue()) ){
+								!highOpen.booleanValue() && (k>highkey.intValue()) ){
 								return results;
 							}
 						}
@@ -76,6 +76,12 @@ public class BPlusTreeDeserializer {
 							int tupleId = bb.getInt();
 							DataEntry entry = new DataEntry(pageId, tupleId);
 							results.add(entry);
+						}
+					}else{
+						int numRids = bb.getInt();
+						for (int j = 0; j < numRids; j++) {
+							int pageId = bb.getInt();
+							int tupleId = bb.getInt();
 						}
 					}
 				}
@@ -169,6 +175,10 @@ public class BPlusTreeDeserializer {
 		return pageNum;
 	}
 	
+	/**
+	 * Find the left-most leaf node which has the matched key, return the first entry. This class helps the implementation of clustered index.
+	 * @return page number of the leaf node.
+	 */
 	public DataEntry getLeftMostEntry(Long lowkey, Boolean lowOpen, Long highkey, Boolean highOpen) {
 		if(lowkey!=null){
 			int pageNum = locateMatchedNode(lowkey);
@@ -183,7 +193,7 @@ public class BPlusTreeDeserializer {
 						
 						if( highkey!=null ){
 							if( highOpen.booleanValue() && (k>=highkey.intValue()) ||
-								!highOpen.booleanValue() && (k>lowkey.intValue()) ){
+								!highOpen.booleanValue() && (k>highkey.intValue()) ){
 								return null;
 							}
 						}
@@ -223,7 +233,7 @@ public class BPlusTreeDeserializer {
 			}
 			int k = bb.getInt(2*4);
 			if( highOpen.booleanValue() && (k>=highkey.intValue()) ||
-				!highOpen.booleanValue() && (k>lowkey.intValue()) ){
+				!highOpen.booleanValue() && (k>highkey.intValue()) ){
 					return null;
 			}
 			int pageId = bb.getInt(4*4);

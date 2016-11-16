@@ -179,18 +179,18 @@ public class BinaryTupleReader implements TupleReader {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		bb = ByteBuffer.allocate(SIZE);
-		bb.clear();
-		for(int i=0; i<tupleIdxOfPage; i++){
-			this.readNextTuple();
-		}
-	}
+    	bb = ByteBuffer.allocate(SIZE);
+    	bb.clear();
+    	for(int i=0; i<tupleIdxOfPage; i++){
+    		this.readNextTuple();
+    	}
+    }
+    
 
 	/**
 	 * Set the tuple reader at specified pageId and tuple index of that page.
 	 */
 	public void reset(int pageNum, int index) {
-		fc = fin.getChannel();
 		this.records.clear();
 		try {
 			fc.position((long)(pageNum * SIZE));
