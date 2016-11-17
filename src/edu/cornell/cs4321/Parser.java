@@ -2,6 +2,7 @@ package edu.cornell.cs4321;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -83,7 +84,7 @@ public class Parser {
 		// Initialize database catalog
 		DatabaseCatalog.getInstance(inputDir);
 
-		String queryFilePath = inputDir + "/testquery.sql";
+		String queryFilePath = inputDir + "/query.sql";
 		String configFilePath = inputDir + "/plan_builder_config.txt";
 
 		BufferedReader br = new BufferedReader(new FileReader(queryFilePath));
@@ -128,6 +129,11 @@ public class Parser {
 					double timing = (System.currentTimeMillis() - currentTime) / 1000.0;
 					System.out.println("Finish processing query #" + queryNumber + ", " + timing + " seconds");
 					queryNumber += 1;
+					
+					//TODO: add this at the end of every query scan
+					File temp = new File(tempDir);
+					deleteFolder(temp);
+					
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -135,4 +141,18 @@ public class Parser {
 		}
 		br.close();
 	}
+	
+	//TODO: add this method
+	private static void deleteFolder(File folder){
+		File[] files = folder.listFiles();
+		for(File f: files){
+			if(f.isDirectory()) {
+                deleteFolder(f);
+                f.delete();
+            } else {
+                f.delete();
+            }
+		}
+	}
+	
 }
