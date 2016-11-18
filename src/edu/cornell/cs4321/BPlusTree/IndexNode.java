@@ -8,8 +8,8 @@ public class IndexNode extends Node{
 	private ArrayList<IndexNode> indexChildren;
 	private boolean isIndex;
 	private int address;
-	//TODO:fix
-	public int leafKey;
+	//TODO: added leaf key
+	private int leafKey;
 	
 	/**
 	 * Constructor for building the first layer of indexes
@@ -21,7 +21,7 @@ public class IndexNode extends Node{
 		this.children = leafChildren;
 		isIndex = false;
 		this.address = address;
-		//TODO: fix
+		//TODO: assign leaf key
 		this.leafKey = leafKey;
 	}
 	
@@ -39,7 +39,7 @@ public class IndexNode extends Node{
 		this.leafKey = leafKey;
 	}
 	
-	//TODO: fix
+	//TODO: method to get leaf key
 	public int getLeafKey(){
 		return leafKey;
 	}
