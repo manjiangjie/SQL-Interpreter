@@ -12,17 +12,17 @@ import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
 
 
-public class tests {
+public class testBPlusTree {
 
 	@Test
 	public void test() {
 		Column c =  new Column();
 		Table t = new Table();
-		t.setName("Boats");
+		t.setName("Sailors");
 		c.setTable(t);
-		c.setColumnName("D");
+		c.setColumnName("A");
 		DatabaseCatalog.getInstance("samples/input");
-		BPlusTree b = new BPlusTree(true, "Boats", c, 2, "samples/input/db/");
+		BPlusTree b = new BPlusTree(true, "Sailors", c, 15, "samples/input/db/");
 		Converter converter = new Converter("samples/input/db/data/Boats");
 		converter.writeToFile("samples/input/db/data/Boats_clustered");
 		IndexNode root = b.getRoot();
@@ -39,6 +39,7 @@ public class tests {
 				System.out.print(null + " ");
 			else{
 				System.out.print(Arrays.toString(eachNode.getKeys().toArray())+" ");
+
 				if(eachNode.isUpperLayer())
 					next.addAll(eachNode.getIndexChildren());
 				else

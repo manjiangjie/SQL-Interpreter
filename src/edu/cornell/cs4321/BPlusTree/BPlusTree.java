@@ -24,7 +24,6 @@ public class BPlusTree {
 	private IndexNode root;
 	private ArrayList<LeafNode> leafNodes;
 	private int D;
-	private int SIZE = 4096;
 	private int size = 0;
 	private BPlusTreeSerializer serializer;
 	private String filePath;
@@ -46,7 +45,11 @@ public class BPlusTree {
 			sortCluster(tableName, column);
 		}
 		leafNodes = buildLeafLayer(tableName, column);
+		//System.out.println(column.getColumnName());
+		//System.out.println(leafNodes.size());
 		root = buildIndexLayers();
+		//System.out.println(size);
+		serializer.writeNextNode(root);
 		serializer.writeHeadPage(size, leafNodes.size(), D);
 		serializer.close();
 	}
@@ -136,8 +139,9 @@ public class BPlusTree {
 			int k = remaining / 2;
 
 			TreeMap<Integer, List<DataEntry>> lastMap = leafNodes.get(leafNodes.size() - 1).getMap();
-			leafNodes.remove(leafNodes.size() - 1);
-			serializer.setPage(leafNodes.size() - 1);
+			LeafNode ln = leafNodes.remove(leafNodes.size() - 1);
+			//TODO: fix
+			serializer.setPage(ln.getAddress());
 			for (int i = 0; i < 2 * D - k; i++) {
 				int lastKey = lastMap.lastKey();
 				List<DataEntry> lastEntryList = lastMap.get(lastKey);
@@ -176,9 +180,10 @@ public class BPlusTree {
 			keyList.add(ln.getMap().firstKey());
 			leafChildren.add(ln);
 			if (keyList.size() == 2 * D + 1) {
-				keyList.remove(0);
+				//TODO: get leaf key
+				int leafKey = keyList.remove(0);
 				size += 1;
-				IndexNode n = new IndexNode(keyList, leafChildren, size);
+				IndexNode n = new IndexNode(keyList, leafChildren, size, leafKey);
 				firstIndexLayer.add(n);
 				serializer.writeNextNode(n);
 				leafChildren = new ArrayList<LeafNode>();
@@ -188,18 +193,19 @@ public class BPlusTree {
 
 		// handle last one or two node
 		if (firstIndexLayer.isEmpty()) {
+			//TODO: get the first leaf key
+			int leafKey = keyList.get(0);
 			if (keyList.size() > 1) {
 				keyList.remove(0);
 			}
-			else {
-				leafChildren.add(0, null);
-			}
+			
 			size += 1;
-			IndexNode n = new IndexNode(keyList, leafChildren, size);
+			//TODO: added new parameter leaf key
+			IndexNode n = new IndexNode(keyList, leafChildren, size, leafKey);
 			firstIndexLayer.add(n);
 			serializer.writeNextNode(n);
 		} else if (keyList.size() > 0 && keyList.size() < D + 1) {
-			int k = keyList.size() - 1 + 2 * D;
+
 			// pop the last node from the layer
 			IndexNode tempNode = firstIndexLayer.get(firstIndexLayer.size() - 1);
 			firstIndexLayer.remove(firstIndexLayer.size() - 1);
@@ -209,29 +215,35 @@ public class BPlusTree {
 			ArrayList<Integer> keyList1 = new ArrayList<Integer>();
 			ArrayList<Integer> keyList2 = new ArrayList<Integer>();
 			firstChildren.addAll(leafChildren);
-
-			while (firstChildren.size() > k / 2 + 1) {
-				secondChildren.add(firstChildren.get(k / 2 + 1));
-				keyList2.add(firstChildren.get(k / 2 +1 ).getMap().firstKey());
-				firstChildren.remove(k / 2 + 1 );
+			int k = firstChildren.size();
+			while (firstChildren.size() > k / 2 ) {
+				secondChildren.add(firstChildren.get(k / 2 ));
+				keyList2.add(firstChildren.get(k / 2 ).getMap().firstKey());
+				firstChildren.remove(k / 2 );
 			}
 			for (LeafNode ln : firstChildren) {
 				keyList1.add(ln.getMap().firstKey());
 			}
-			keyList1.remove(0);
-			keyList2.remove(0);
-			IndexNode n = new IndexNode(keyList1, firstChildren, size);
+			
+			//TODO: get the first key to be leaf key 
+			int leafKey1 = keyList1.remove(0);
+			int leafKey2 = keyList2.remove(0);
+
+			IndexNode n = new IndexNode(keyList1, firstChildren, size, leafKey1);
 			firstIndexLayer.add(n);
 			serializer.writeNextNode(n);
 			size += 1;
-			n = new IndexNode(keyList2, secondChildren, size);
+			n = new IndexNode(keyList2, secondChildren, size, leafKey2);
 			firstIndexLayer.add(n);
 			serializer.writeNextNode(n);
 
 		} else if (keyList.size() != 0) {// D <= size <= 2D
-			keyList.remove(0);
+			//TODO: get leaf key
+			int leafKey = keyList.remove(0);
 			size += 1;
-			firstIndexLayer.add(new IndexNode(keyList, leafChildren, size));
+			IndexNode in = new IndexNode(keyList, leafChildren, size, leafKey);
+			firstIndexLayer.add(in);
+			serializer.writeNextNode(in);
 		}
 		// after building the first layer, build the rest of the index
 		// layers recursively until reach to root;
@@ -253,11 +265,15 @@ public class BPlusTree {
 		ArrayList<Integer> keyList = new ArrayList<Integer>();
 		for (IndexNode index : IndexLayer) {
 			indexChildren.add(index);
-			keyList.add(index.getKeys().get(0));
+			//TODO: fixed the way to add key
+			keyList.add(index.getLeafKey());
 			if (keyList.size() == 2 * D + 1) {
-				keyList.remove(0);
+				//TODO: leaf key is the key from the most left leaf node
+				int leafKey = keyList.remove(0);
 				size += 1;
-				output.add(new IndexNode(keyList, indexChildren, true, size));
+				IndexNode n = new IndexNode(keyList, indexChildren, true, size, leafKey);
+				output.add(n);
+				serializer.writeNextNode(n);
 				keyList = new ArrayList<Integer>();
 				indexChildren = new ArrayList<IndexNode>();
 			}
@@ -267,24 +283,19 @@ public class BPlusTree {
 		// generate new keys for the new sets of children
 		// add both new nodes to output
 		if (output.isEmpty() && !keyList.isEmpty()) {
+			int leafKey = keyList.get(0);
 			if (keyList.size() > 1) {
 				keyList.remove(0);
-			} else {
-				indexChildren.add(0, null);
 			}
-
 			size += 1;
-			if (keyList.size() == 1) {
-				return new IndexNode(keyList, indexChildren, true, size);
-			} else {
-				output.add(new IndexNode(keyList, indexChildren, true, size));
-			}
+			return new IndexNode(keyList, indexChildren, true, size, leafKey);
 		} else if (!keyList.isEmpty() && keyList.size() - 1 < D) {
 			IndexNode tempNode = output.get(output.size() - 1);
 			ArrayList<IndexNode> firstChildren = tempNode.getIndexChildren();
 
 			firstChildren.addAll(indexChildren);
 			output.remove(output.size() - 1);
+			serializer.setPage(tempNode.getAddress());
 			// split firstChildren to make two new nodes
 			int k = firstChildren.size();
 			ArrayList<IndexNode> secondChildren = new ArrayList<IndexNode>();
@@ -292,23 +303,29 @@ public class BPlusTree {
 			ArrayList<Integer> keyList2 = new ArrayList<Integer>();
 			while (firstChildren.size() > k / 2) {
 				secondChildren.add(firstChildren.get(k / 2));
-				keyList2.add(firstChildren.get(k / 2).getKeys().get(0));
+				keyList2.add(firstChildren.get(k / 2).getLeafKey());
 				firstChildren.remove(k / 2);
 			}
 			for (IndexNode in : firstChildren) {
-				keyList1.add(in.getKeys().get(0));
+				keyList1.add(in.getLeafKey());
 			}
-			keyList1.remove(0);
-			keyList2.remove(0);
-
-			output.add(new IndexNode(keyList1, firstChildren, true, size));
+			//TODO: get leaf key
+			int leafKey1 = keyList1.remove(0);
+			int leafKey2 = keyList2.remove(0);
+			IndexNode n = new IndexNode(keyList1, indexChildren, true, size, leafKey1);
+			output.add(n);
+			serializer.writeNextNode(n);
 			size += 1;
-			output.add(new IndexNode(keyList2, secondChildren, true, size));
+			n = new IndexNode(keyList2, indexChildren, true, size, leafKey2);
+			output.add(n);
+			serializer.writeNextNode(n);
 
 		} else if (!keyList.isEmpty()) {
-			keyList.remove(0);
+			int leafKey = keyList.remove(0);
 			size += 1;
-			output.add(new IndexNode(keyList, indexChildren, true, size));
+			IndexNode n = new IndexNode(keyList, indexChildren, true, size, leafKey);
+			output.add(n);
+			serializer.writeNextNode(n);
 		}
 		
 		// recursion
@@ -322,13 +339,5 @@ public class BPlusTree {
 	public IndexNode getRoot(){
 		return root;
 	}
-	
-	/**
-	 * get all leaf nodes
-	 * 
-	 * @return an arrayList of leaf node
-	 */
-	public ArrayList<LeafNode> getAllChildren() {
-		return leafNodes;
-	}
+
 }

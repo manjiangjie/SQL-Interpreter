@@ -135,7 +135,7 @@ public class ExternalSortOperator extends Operator {
 		File folder = new File(tempDir+"/"+tempSubDirName);
 		//file Array hold all files
 		File[] fileArray = folder.listFiles();
-		if(fileArray.length==1) return;
+		if(fileArray.length<=1)return;
 		
 		//store B-1 files in a list(buffer)
 		//store all buffers into another list
@@ -250,13 +250,15 @@ public class ExternalSortOperator extends Operator {
 	@Override
 	public Tuple getNextTuple() {
 		if(isBinaryTuple){
+			if(binaryReader == null) return null;
 			Tuple t = binaryReader.readNextTuple();	
 			this.index++;
-			return binaryReader==null ? null : t;
+			return t;
 		}else{
+			if(standardReader == null) return null;
 			Tuple t = standardReader.readNextTuple();	
 			this.index++;
-			return standardReader==null ? null : t;
+			return t;
 		}
 	}
 
