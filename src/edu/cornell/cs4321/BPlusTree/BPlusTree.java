@@ -24,6 +24,7 @@ public class BPlusTree {
 	private IndexNode root;
 	private ArrayList<LeafNode> leafNodes;
 	private int D;
+	private int SIZE = 4096;
 	private int size = 0;
 	private BPlusTreeSerializer serializer;
 	private String filePath;
@@ -340,4 +341,12 @@ public class BPlusTree {
 		return root;
 	}
 
+	/**
+	 * get all leaf nodes
+	 *
+	 * @return an arrayList of leaf node
+	 */
+	public ArrayList<LeafNode> getAllChildren() {
+		return leafNodes;
+	}
 }
