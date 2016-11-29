@@ -322,4 +322,12 @@ public class BPlusTree {
 		return root;
 	}
 
+	/**
+	 * get all leaf nodes
+	 *
+	 * @return an arrayList of leaf node
+	 */
+	public ArrayList<LeafNode> getAllChildren() {
+		return leafNodes;
+	}
 }
