@@ -2,13 +2,12 @@ package edu.cornell.cs4321.BPlusTree;
 
 import java.util.ArrayList;
 
-public class IndexNode extends Node{
+public class IndexNode implements Node{
 	private ArrayList<Integer> key;
 	private ArrayList<LeafNode> children;
 	private ArrayList<IndexNode> indexChildren;
 	private boolean isIndex;
 	private int address;
-	//TODO: added leaf key
 	private int leafKey;
 	
 	/**
@@ -21,7 +20,6 @@ public class IndexNode extends Node{
 		this.children = leafChildren;
 		isIndex = false;
 		this.address = address;
-		//TODO: assign leaf key
 		this.leafKey = leafKey;
 	}
 	
@@ -38,8 +36,7 @@ public class IndexNode extends Node{
 		this.address = address;
 		this.leafKey = leafKey;
 	}
-	
-	//TODO: method to get leaf key
+
 	public int getLeafKey(){
 		return leafKey;
 	}
@@ -60,6 +57,11 @@ public class IndexNode extends Node{
 		return key;
 	}
 
+	/**
+	 * Return the index of the node's page in the index file
+	 * @return address of the node
+	 */
+	@Override
 	public int getAddress() {
 		return address;
 	}

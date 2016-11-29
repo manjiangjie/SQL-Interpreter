@@ -12,7 +12,7 @@ import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
 
 
-public class tests {
+public class testBPlusTree {
 
 	@Test
 	public void test() {

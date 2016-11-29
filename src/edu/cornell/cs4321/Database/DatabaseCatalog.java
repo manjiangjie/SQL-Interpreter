@@ -1,13 +1,12 @@
 package edu.cornell.cs4321.Database;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
+import edu.cornell.cs4321.IO.BinaryTupleReader;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
 
@@ -30,7 +29,7 @@ public class DatabaseCatalog {
 	 * @param inputDir
 	 * schema txt file directory location  
 	 */
-	private DatabaseCatalog(String inputDir){
+	private DatabaseCatalog(String inputDir) {
 		String schemaDir = inputDir + "/db/schema.txt";
 		FileReader fr;
 		BufferedReader br;
@@ -44,7 +43,7 @@ public class DatabaseCatalog {
 		}
 		
 		//Initialize SchemaMap
-		if(fr != null){
+		if(fr != null) {
 			br = new BufferedReader(fr);
 			String curLine;
 			try {
@@ -56,7 +55,7 @@ public class DatabaseCatalog {
 					List<Column> curSchemaList = new LinkedList<Column>();
 					Table t = new Table();
 					t.setName(tokens[0]);
-					for(int i = 1; i<n; i++){
+					for(int i = 1; i < n; i++) {
 						Column c = new Column();
 						c.setColumnName(tokens[i]);
 						c.setTable(t);
@@ -70,8 +69,8 @@ public class DatabaseCatalog {
 				e.printStackTrace();
 			}
 		}
-		
-		this.setIndexMap(inputDir);
+		statistics(inputDir);
+		setIndexMap(inputDir);
 	}
 	
 	
@@ -80,7 +79,7 @@ public class DatabaseCatalog {
 	 * @param inputDir
 	 * index_info txt file directory location  
 	 */
-	private void setIndexMap(String inputDir){
+	private void setIndexMap(String inputDir) {
 		String indexDir = inputDir + "/db/index_info.txt";
 		FileReader fr;
 		BufferedReader br;
@@ -124,11 +123,51 @@ public class DatabaseCatalog {
 	 * schema txt file directory location
 	 * @return the singleton instance of DatabaseCatalog
 	 */
-	public static DatabaseCatalog getInstance(String inputDir){
+	public static DatabaseCatalog getInstance(String inputDir) {
 		if(instance == null){
 			instance = new DatabaseCatalog(inputDir);
 		}
 		return instance;
+	}
+
+	/**
+	 * Gather and write statistics about data in a stats.txt file
+	 */
+	public static void statistics(String inputDir) {
+		try {
+			FileWriter fw = new FileWriter(inputDir + "/db/stats.txt");
+			BufferedWriter bw = new BufferedWriter(fw);
+			for (String table : tablePathMap.keySet()) {
+				BinaryTupleReader btr = new BinaryTupleReader(table);
+				int numTuples = 0;
+				Tuple t;
+				Map<Column, int[]> stats = new HashMap<>();
+				for (Column c : schemaMap.get(table)) {
+					stats.put(c, new int[]{Integer.MAX_VALUE, Integer.MIN_VALUE});
+				}
+				while ((t = btr.readNextTuple()) != null) {
+					numTuples += 1;
+					for (Column c : stats.keySet()) {
+						int value = t.getValueByCol(c);
+						if (value < stats.get(c)[0]) {
+							stats.put(c, new int[]{value, stats.get(c)[1]});
+						}
+						if (value > stats.get(c)[1]) {
+							stats.put(c, new int[]{stats.get(c)[0], value});
+						}
+					}
+				}
+				bw.write(table + " " + Integer.toString(numTuples));
+				for (Column c : schemaMap.get(table)) {
+					bw.write(" " + c.getColumnName() + "," + Integer.toString(stats.get(c)[0]) +
+							"," + Integer.toString(stats.get(c)[1]));
+				}
+				bw.write("\n");
+			}
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**

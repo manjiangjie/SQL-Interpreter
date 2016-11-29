@@ -63,7 +63,6 @@ public class BinaryTupleReader implements TupleReader {
 		}
 	}
 
-
 	/**
 	 * Read the next tuple from binary file.
 	 * @return the next tuple
@@ -145,7 +144,7 @@ public class BinaryTupleReader implements TupleReader {
 	/**
 	 * delete the file that is being read
 	 * **/
-	public void deleteFile(){
+	public void deleteFile() {
 		File readingFile = new File(tablePath);
 		readingFile.delete();
 	}

@@ -22,9 +22,8 @@ import net.sf.jsqlparser.schema.Column;
  */
 public class BPlusTree {
 	private IndexNode root;
-	private ArrayList<LeafNode> leafNodes;
+	private ArrayList<LeafNode> leafNodes = new ArrayList<>();;
 	private int D;
-	private int SIZE = 4096;
 	private int size = 0;
 	private BPlusTreeSerializer serializer;
 	private String filePath;
@@ -42,10 +41,7 @@ public class BPlusTree {
 		this.D = order;
 		this.filePath = filePath;
 		serializer = new BPlusTreeSerializer(filePath + "indexes/" + tableName + "." + column.getColumnName());
-		if (clustered) {
-			sortCluster(tableName, column);
-		}
-		leafNodes = buildLeafLayer(tableName, column);
+		leafNodes = buildLeafLayer(tableName, column, clustered);
 		//System.out.println(column.getColumnName());
 		//System.out.println(leafNodes.size());
 		root = buildIndexLayers();
@@ -58,10 +54,8 @@ public class BPlusTree {
 	/**
 	 * Sort the file if cluster is specified
 	 * 
-	 * @param tableName:
-	 *            table to sort
-	 * @param column:
-	 *            sort based on indicated column
+	 * @param tableName: table to sort
+	 * @param column: sort based on indicated column
 	 */
 	private void sortCluster(String tableName, Column column) {
 		BinaryTupleReader btr = new BinaryTupleReader(tableName);
@@ -85,19 +79,20 @@ public class BPlusTree {
 	/**
 	 * build the very bottom layer of the tree(leaves)
 	 * 
-	 * @param tableName
-	 * @param column
+	 * @param tableName Relation name
+	 * @param column Column for this relation
 	 * @return an array list to store all leaf nodes
 	 */
-	private ArrayList<LeafNode> buildLeafLayer(String tableName, Column column) {
+	private ArrayList<LeafNode> buildLeafLayer(String tableName, Column column, boolean clustered) {
+		if (clustered) {
+			sortCluster(tableName, column);
+		}
 		BinaryTupleReader btr = new BinaryTupleReader(tableName);
-		leafNodes = new ArrayList<LeafNode>();
 		TreeMap<Integer, List<DataEntry>> wholeMap = new TreeMap<>();
 		// scan all tuples and build a tree map to store all key/dataEntry pairs
 		Tuple t = btr.readNextTuple();
-		int key;
 		while (t != null) {
-			key = t.getValueByCol(column);
+			int key = t.getValueByCol(column);
 			int pageId = btr.getPageId();
 			int tupleId = btr.getTupleId();
 			if (wholeMap.containsKey(key))
@@ -141,7 +136,6 @@ public class BPlusTree {
 
 			TreeMap<Integer, List<DataEntry>> lastMap = leafNodes.get(leafNodes.size() - 1).getMap();
 			LeafNode ln = leafNodes.remove(leafNodes.size() - 1);
-			//TODO: fix
 			serializer.setPage(ln.getAddress());
 			for (int i = 0; i < 2 * D - k; i++) {
 				int lastKey = lastMap.lastKey();
@@ -181,7 +175,6 @@ public class BPlusTree {
 			keyList.add(ln.getMap().firstKey());
 			leafChildren.add(ln);
 			if (keyList.size() == 2 * D + 1) {
-				//TODO: get leaf key
 				int leafKey = keyList.remove(0);
 				size += 1;
 				IndexNode n = new IndexNode(keyList, leafChildren, size, leafKey);
@@ -194,14 +187,11 @@ public class BPlusTree {
 
 		// handle last one or two node
 		if (firstIndexLayer.isEmpty()) {
-			//TODO: get the first leaf key
 			int leafKey = keyList.get(0);
 			if (keyList.size() > 1) {
 				keyList.remove(0);
 			}
-			
 			size += 1;
-			//TODO: added new parameter leaf key
 			IndexNode n = new IndexNode(keyList, leafChildren, size, leafKey);
 			firstIndexLayer.add(n);
 			serializer.writeNextNode(n);
@@ -225,8 +215,7 @@ public class BPlusTree {
 			for (LeafNode ln : firstChildren) {
 				keyList1.add(ln.getMap().firstKey());
 			}
-			
-			//TODO: get the first key to be leaf key 
+
 			int leafKey1 = keyList1.remove(0);
 			int leafKey2 = keyList2.remove(0);
 
@@ -239,7 +228,6 @@ public class BPlusTree {
 			serializer.writeNextNode(n);
 
 		} else if (keyList.size() != 0) {// D <= size <= 2D
-			//TODO: get leaf key
 			int leafKey = keyList.remove(0);
 			size += 1;
 			IndexNode in = new IndexNode(keyList, leafChildren, size, leafKey);
@@ -251,13 +239,10 @@ public class BPlusTree {
 		return buildUpperLayers(firstIndexLayer);
 	}
 
-	/**
-	 * @param IndexLayer:
-	 *            arrayList of index nodes build the upper level from the input
+	/** Build upper layer for B+ tree
+	 * @param IndexLayer: arrayList of index nodes build the upper level from the input
 	 *            arrayList call itself recursively until reaches the root
 	 */
-
-
 	private IndexNode buildUpperLayers(ArrayList<IndexNode> IndexLayer) {
 		ArrayList<IndexNode> output = new ArrayList<IndexNode>();
 
@@ -266,10 +251,8 @@ public class BPlusTree {
 		ArrayList<Integer> keyList = new ArrayList<Integer>();
 		for (IndexNode index : IndexLayer) {
 			indexChildren.add(index);
-			//TODO: fixed the way to add key
 			keyList.add(index.getLeafKey());
 			if (keyList.size() == 2 * D + 1) {
-				//TODO: leaf key is the key from the most left leaf node
 				int leafKey = keyList.remove(0);
 				size += 1;
 				IndexNode n = new IndexNode(keyList, indexChildren, true, size, leafKey);
@@ -310,7 +293,6 @@ public class BPlusTree {
 			for (IndexNode in : firstChildren) {
 				keyList1.add(in.getLeafKey());
 			}
-			//TODO: get leaf key
 			int leafKey1 = keyList1.remove(0);
 			int leafKey2 = keyList2.remove(0);
 			IndexNode n = new IndexNode(keyList1, indexChildren, true, size, leafKey1);
@@ -328,7 +310,6 @@ public class BPlusTree {
 			output.add(n);
 			serializer.writeNextNode(n);
 		}
-		
 		// recursion
 		return buildUpperLayers(output);
 	}
@@ -340,13 +321,5 @@ public class BPlusTree {
 	public IndexNode getRoot(){
 		return root;
 	}
-	
-	/**
-	 * get all leaf nodes
-	 * 
-	 * @return an arrayList of leaf node
-	 */
-	public ArrayList<LeafNode> getAllChildren() {
-		return leafNodes;
-	}
+
 }

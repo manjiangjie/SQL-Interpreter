@@ -1,19 +1,19 @@
 package edu.cornell.cs4321.BPlusTree;
 
 public class DataEntry {
-	private int pageid; 
-	private int tupleid;
+	private int pageId;
+	private int tupleId;
 	
-	public DataEntry(int pageid, int tupleid){
-		this.pageid = pageid;
-		this.tupleid = tupleid;
+	public DataEntry(int pageId, int tupleId){
+		this.pageId = pageId;
+		this.tupleId = tupleId;
 	}
 	
 	public int getPageId(){
-		return pageid;
+		return pageId;
 	}
 	
 	public int getTupleId(){
-		return tupleid;
+		return tupleId;
 	}
 }

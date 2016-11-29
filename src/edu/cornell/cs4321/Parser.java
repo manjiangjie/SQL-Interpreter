@@ -13,6 +13,7 @@ import edu.cornell.cs4321.BPlusTree.BPlusTree;
 import edu.cornell.cs4321.Database.*;
 import edu.cornell.cs4321.IO.BinaryTupleWriter;
 import edu.cornell.cs4321.IO.Converter;
+import edu.cornell.cs4321.IO.DataGenerator;
 import edu.cornell.cs4321.LogicalOperators.LogicalOperator;
 import edu.cornell.cs4321.PhysicalOperators.*;
 import edu.cornell.cs4321.Visitors.PhysicalPlanBuilderVisitor;
@@ -34,27 +35,24 @@ import net.sf.jsqlparser.statement.Statement;
 public class Parser {
 
 	public static void main(String[] args) {
-
 		try {
 			String configFile = args[0];
 			BufferedReader configReader = new BufferedReader(new FileReader(configFile));
 			String inputDir = configReader.readLine();
 			String outputDir = configReader.readLine();
 			String tempDir = configReader.readLine();
-			boolean buildIndexes = (Integer.parseInt(configReader.readLine()) == 1);
-			boolean evalQueries = (Integer.parseInt(configReader.readLine()) == 1);
 			configReader.close();
 			
 			DatabaseCatalog.getInstance(inputDir);
+
+			DataGenerator generator = new DataGenerator(inputDir);
 			
-			if(buildIndexes){
-				buildIndexes(inputDir);
-				System.out.println("finshed building index!");
-			}
+			buildIndexes(inputDir);
+			System.out.println("finished building index!");
 			
-			if(evalQueries){
-				evalQueries(inputDir, outputDir, tempDir);
-			}
+			evalQueries(inputDir, outputDir, tempDir);
+			System.out.println("finished evaluating queries!");
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -84,7 +82,7 @@ public class Parser {
 		// Initialize database catalog
 		DatabaseCatalog.getInstance(inputDir);
 
-		String queryFilePath = inputDir + "/query.sql";
+		String queryFilePath = inputDir + "/queries.sql";
 		String configFilePath = inputDir + "/plan_builder_config.txt";
 
 		BufferedReader br = new BufferedReader(new FileReader(queryFilePath));
@@ -129,8 +127,7 @@ public class Parser {
 					double timing = (System.currentTimeMillis() - currentTime) / 1000.0;
 					System.out.println("Finish processing query #" + queryNumber + ", " + timing + " seconds");
 					queryNumber += 1;
-					
-					//TODO: add this at the end of every query scan
+
 					File temp = new File(tempDir);
 					deleteFolder(temp);
 					
@@ -141,8 +138,7 @@ public class Parser {
 		}
 		br.close();
 	}
-	
-	//TODO: add this method
+
 	private static void deleteFolder(File folder){
 		File[] files = folder.listFiles();
 		for(File f: files){
