@@ -2,6 +2,8 @@ package edu.cornell.cs4321;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 import edu.cornell.cs4321.IO.Converter;
 import org.junit.Test;
@@ -38,6 +40,7 @@ public class testBPlusTree {
 			for(LeafNode ln : leaves) {
 				System.out.print(Arrays.toString(ln.getMap().keySet().toArray())+" ");
 			}
+			System.out.println();
 		}
 		
 		if(!next.isEmpty())
@@ -45,5 +48,7 @@ public class testBPlusTree {
 		else
 			return;
 	}
+	
+	
 
 }
