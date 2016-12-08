@@ -59,10 +59,12 @@ public class Parser {
 	}
 
 	public static void buildIndexes() throws IOException {
-		for (IndexInfo indexInfo : DatabaseCatalog.getIndexInfoList()) {
-			BPlusTree indexTree = new BPlusTree(indexInfo);
-			Converter converter = new Converter(indexInfo.getIndexPath());
-			converter.indexConverter(indexTree.getRoot(), indexInfo);
+		for (List<IndexInfo> indexInfoList : DatabaseCatalog.getIndexInfoList()) {
+			for (IndexInfo indexInfo : indexInfoList) {
+				BPlusTree indexTree = new BPlusTree(indexInfo);
+				Converter converter = new Converter(indexInfo.getIndexPath());
+				converter.indexConverter(indexTree.getRoot(), indexInfo);
+			}
 		}
 	}
 

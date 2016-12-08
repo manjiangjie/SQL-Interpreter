@@ -20,7 +20,7 @@ public class DatabaseCatalog {
 	
 	private static HashMap<String, List<Column>> schemaMap = new HashMap<>();
 	private static HashMap<String, String> tablePathMap = new HashMap<>();
-	private static HashMap<String, IndexInfo> indexMap = new HashMap<>();
+	private static HashMap<String, List<IndexInfo>> indexMap = new HashMap<>();
 	private static DatabaseCatalog instance = null;
 
 	/**
@@ -108,8 +108,13 @@ public class DatabaseCatalog {
 					boolean isClustered = (tokens[2].equals("1"));
 					int order = Integer.parseInt(tokens[3]);
 					String indexPath = inputDir + "/db/";
-					
-					indexMap.put(tokens[0], new IndexInfo(c, isClustered, order, indexPath));
+					if (indexMap.containsKey(tokens[0])) {
+						indexMap.get(tokens[0]).add(new IndexInfo(c, isClustered, order, indexPath));
+					} else {
+						List<IndexInfo> indexList = new LinkedList<>();
+						indexList.add(new IndexInfo(c, isClustered, order, indexPath));
+						indexMap.put(tokens[0], indexList);
+					}
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -194,11 +199,11 @@ public class DatabaseCatalog {
 	 * @param tableName String of table name
 	 * @return an IndexInfo object of the specified table.
 	 * */	
-	public static IndexInfo getIndexInfoByTable(String tableName){
+	public static List<IndexInfo> getIndexInfoByTable(String tableName){
 		return indexMap.get(tableName);
 	}
 
-	public static List<IndexInfo> getIndexInfoList() {
+	public static List<List<IndexInfo>> getIndexInfoList() {
 		return new LinkedList<>(indexMap.values());
 	}
 

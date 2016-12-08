@@ -150,9 +150,9 @@ public class PhysicalPlanBuilderVisitor {
     public void visit(LogicalSelectionOperator selectionOperator) {
         selectionOperator.getChildOperator().accept(this);
         if(useIndex){
-        	LogicalScanOperator scanOperator = (LogicalScanOperator)selectionOperator.getChildOperator();
-        	IndexInfo indexInfo = DatabaseCatalog.getIndexInfoByTable(scanOperator.getTableName());
-        	if(indexInfo != null){
+        	LogicalScanOperator scanOperator = (LogicalScanOperator) selectionOperator.getChildOperator();
+        	IndexInfo indexInfo = DatabaseCatalog.getIndexInfoByTable(scanOperator.getTableName()).get(0);
+        	if(indexInfo != null) {
         		IndexExpExtractVisitor visitor = new IndexExpExtractVisitor(indexInfo.getColumn().getColumnName());
         		Expression selectionCondition = selectionOperator.getSelectionCondition();
         		if(selectionCondition != null)
