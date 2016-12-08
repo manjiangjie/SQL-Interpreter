@@ -3,11 +3,11 @@ package edu.cornell.cs4321;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 import edu.cornell.cs4321.BPlusTree.BPlusTree;
 import edu.cornell.cs4321.Database.*;
@@ -47,7 +47,7 @@ public class Parser {
 
 			DataGenerator generator = new DataGenerator(inputDir);
 			
-			buildIndexes(inputDir);
+			buildIndexes();
 			System.out.println("finished building index!");
 			
 			evalQueries(inputDir, outputDir, tempDir);
@@ -58,22 +58,11 @@ public class Parser {
 		}
 	}
 
-	public static void buildIndexes(String inputDir) throws IOException {
-		String indexFilePath = inputDir + "/db/index_info.txt";
-		BufferedReader indexInfoReader = new BufferedReader(new FileReader(indexFilePath));
-		String configStr;
-		while((configStr = indexInfoReader.readLine()) != null){
-			String[] tokens = configStr.split("\\s+");
-			String tableName = tokens[0];
-			String columnName = tokens[1];
-			boolean clustered = tokens[2].equals("1");
-			int order = Integer.parseInt(tokens[3]);
-			Column c = new Column();
-			c.setColumnName(columnName);
-			Table t = new Table();
-			t.setName(tableName);
-			c.setTable(t);
-			BPlusTree indexTree = new BPlusTree(clustered, tableName, c, order, inputDir + "/db/");
+	public static void buildIndexes() throws IOException {
+		for (IndexInfo indexInfo : DatabaseCatalog.getIndexInfoList()) {
+			BPlusTree indexTree = new BPlusTree(indexInfo);
+			Converter converter = new Converter(indexInfo.getIndexPath());
+			converter.indexConverter(indexTree.getRoot(), indexInfo);
 		}
 	}
 
@@ -122,7 +111,7 @@ public class Parser {
 				} finally {
 					btw.close();
 					Converter converter = new Converter(queryPath);
-					converter.writeToFile(queryPath + "_humanreadable");
+					converter.tupleConverter(queryPath + "_humanreadable");
 					queryStr = br.readLine();
 					double timing = (System.currentTimeMillis() - currentTime) / 1000.0;
 					System.out.println("Finish processing query #" + queryNumber + ", " + timing + " seconds");
@@ -141,13 +130,15 @@ public class Parser {
 
 	private static void deleteFolder(File folder){
 		File[] files = folder.listFiles();
-		for(File f: files){
-			if(f.isDirectory()) {
-                deleteFolder(f);
-                f.delete();
-            } else {
-                f.delete();
-            }
+		if (files != null) {
+			for (File f : files) {
+				if (f.isDirectory()) {
+					deleteFolder(f);
+					f.delete();
+				} else {
+					f.delete();
+				}
+			}
 		}
 	}
 	

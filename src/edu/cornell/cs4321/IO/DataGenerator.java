@@ -46,7 +46,7 @@ public class DataGenerator {
                 }
                 btw.close();
                 Converter converter = new Converter(filePath);
-                converter.writeToFile(filePath + "_humanreadable");
+                converter.tupleConverter(filePath + "_humanreadable");
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,14 +1,12 @@
 package edu.cornell.cs4321.BPlusTree;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.TreeMap;
 
+import edu.cornell.cs4321.Database.IndexInfo;
 import edu.cornell.cs4321.Database.Tuple;
 import edu.cornell.cs4321.Database.TupleComparator;
+import edu.cornell.cs4321.IO.BPlusTreeDeserializer;
 import edu.cornell.cs4321.IO.BPlusTreeSerializer;
 import edu.cornell.cs4321.IO.BinaryTupleReader;
 import edu.cornell.cs4321.IO.BinaryTupleWriter;
@@ -31,15 +29,14 @@ public class BPlusTree {
 	/**
 	 * constructor of a B+ Tree. Will build a tree once get called.
 	 *
-	 * @param clustered clustered or unclustered
-	 * @param tableName Relation name
-	 * @param column Column for this relation
-	 * @param order B+ tree order
-	 * @param filePath the index file path to be written
+	 * @param indexInfo IndexInfo object, storing index info
 	 */
-	public BPlusTree(boolean clustered, String tableName, Column column, int order, String filePath) {
-		this.D = order;
-		this.filePath = filePath;
+	public BPlusTree(IndexInfo indexInfo) {
+		this.D = indexInfo.getOrder();
+		this.filePath = indexInfo.getFilePath();
+		Column column = indexInfo.getColumn();
+		String tableName = column.getTable().getName();
+		boolean clustered = indexInfo.isClustered();
 		serializer = new BPlusTreeSerializer(filePath + "indexes/" + tableName + "." + column.getColumnName());
 		leafNodes = buildLeafLayer(tableName, column, clustered);
 		//System.out.println(column.getColumnName());
@@ -330,4 +327,5 @@ public class BPlusTree {
 	public ArrayList<LeafNode> getAllChildren() {
 		return leafNodes;
 	}
+
 }

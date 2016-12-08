@@ -107,7 +107,7 @@ public class DatabaseCatalog {
 					
 					boolean isClustered = (tokens[2].equals("1"));
 					int order = Integer.parseInt(tokens[3]);
-					String indexPath = inputDir + "/db/indexes/" + tokens[0] + "." + tokens[1];
+					String indexPath = inputDir + "/db/";
 					
 					indexMap.put(tokens[0], new IndexInfo(c, isClustered, order, indexPath));
 				}
@@ -116,6 +116,7 @@ public class DatabaseCatalog {
 			}
 		}
 	}
+
 	/**
 	 * Acquired an DatabaseCatalog instance
 	 * 
@@ -195,6 +196,10 @@ public class DatabaseCatalog {
 	 * */	
 	public static IndexInfo getIndexInfoByTable(String tableName){
 		return indexMap.get(tableName);
+	}
+
+	public static List<IndexInfo> getIndexInfoList() {
+		return new LinkedList<>(indexMap.values());
 	}
 
 	/**

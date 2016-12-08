@@ -25,6 +25,7 @@ public class BPlusTreeDeserializer {
 	private static int SIZE = 4096;
 	private int treeRootAddr;
 	private int numLeaves;
+	private int order;
 	
 	public BPlusTreeDeserializer(IndexInfo indexInfo) {
 		String indexFilePath = indexInfo.getIndexPath();
@@ -36,13 +37,37 @@ public class BPlusTreeDeserializer {
     		fc.read(bb); // Read header page which stores metadata about the BPlusTree.
     		bb.flip();
     		treeRootAddr = bb.getInt(0);
-    		numLeaves = bb.getInt(4); 
+    		numLeaves = bb.getInt(4);
+			order = bb.getInt(8);
         } catch (IOException e) {
             e.printStackTrace();
         }
 	}
-	
-	
+
+	/**
+	 * Getter method for tree root address
+	 * @return root address
+     */
+	public int getTreeRootAddr() {
+		return treeRootAddr;
+	}
+
+	/**
+	 * Getter method for number of leaves
+	 * @return number of leaves
+     */
+	public int getNumLeaves() {
+		return numLeaves;
+	}
+
+	/**
+	 * Getter method for order of the tree
+	 * @return order of the tree
+     */
+	public int getOrder() {
+		return order;
+	}
+
 	/**
 	 * Find all data entries which match the specified range.
 	 * @return a list all matched data entries
@@ -164,7 +189,7 @@ public class BPlusTreeDeserializer {
 			try {
 				fc.position((long)(pageNum * SIZE));
 				bb = ByteBuffer.allocate(SIZE);
-				bb.clear();				
+				bb.clear();
 				fc.read(bb);
 				bb.flip();
 			} catch (IOException e) {
