@@ -16,19 +16,6 @@ public class testBPlusTree {
 
 	@Test
 	public void test() {
-		Column c =  new Column();
-		Table t = new Table();
-		t.setName("Sailors");
-		c.setTable(t);
-		c.setColumnName("A");
-		DatabaseCatalog.getInstance("samples/input");
-		BPlusTree b = new BPlusTree(true, "Sailors", c, 15, "samples/input/db/");
-		Converter converter = new Converter("samples/input/db/data/Boats");
-		converter.writeToFile("samples/input/db/data/Boats_clustered");
-		IndexNode root = b.getRoot();
-		System.out.println(Arrays.toString(root.getKeys().toArray()));
-		if(root.isUpperLayer())
-			bfs(root.getIndexChildren());
 	}
 	
 	public void bfs(ArrayList<IndexNode> input){
