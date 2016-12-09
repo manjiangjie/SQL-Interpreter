@@ -52,5 +52,19 @@ public class LogicalPlanBuilderTest {
 		LogicalPlanWriter lpWriter = new LogicalPlanWriter("samples/query2_logicalPlan.txt");
 		lpWriter.write(op);
 	}
+	
+	@Test
+	public void simpleQuery() throws ParseException, FileNotFoundException {
+
+		String query = "SELECT DISTINCT * FROM R";
+		InputStream stream = new ByteArrayInputStream(query.getBytes(StandardCharsets.UTF_8));
+		CCJSqlParser parser = new CCJSqlParser(stream);
+		Statement statement = parser.Statement();
+		LogicalPlanBuilder pb = new LogicalPlanBuilder(statement);
+		LogicalOperator op = pb.getRootLogicalOperator();
+		System.out.println("hello");
+		LogicalPlanWriter lpWriter = new LogicalPlanWriter("samples/query3_logicalPlan.txt");
+		lpWriter.write(op);
+	}
 
 }
