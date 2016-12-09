@@ -1,6 +1,10 @@
 package edu.cornell.cs4321.LogicalOperators;
 
+import java.util.List;
+
 import edu.cornell.cs4321.Visitors.PhysicalPlanBuilderVisitor;
+import net.sf.jsqlparser.schema.Column;
+import net.sf.jsqlparser.statement.select.SelectItem;
 
 /**
  * The logical projection operator for query plan.
@@ -8,12 +12,14 @@ import edu.cornell.cs4321.Visitors.PhysicalPlanBuilderVisitor;
  */
 public class LogicalProjectionOperator implements LogicalOperator {
     private LogicalOperator childOperator;
-
+    private List<SelectItem> projectList;
+    
     /**
      * Construct ProjectionOperator with child operator and a list attributes to project.
      */
-    public LogicalProjectionOperator(LogicalOperator op){
+    public LogicalProjectionOperator(LogicalOperator op, List<SelectItem> pl){
         childOperator = op;
+        projectList = pl;
     }
 
     /**
@@ -22,6 +28,14 @@ public class LogicalProjectionOperator implements LogicalOperator {
      */
     public LogicalOperator getChildOperator() {
         return childOperator;
+    }
+    
+    /**
+     * Get the projection column list.
+     * @return the list of project columns
+     */
+    public List<SelectItem> getProjectList() {
+        return projectList;
     }
 
     /**

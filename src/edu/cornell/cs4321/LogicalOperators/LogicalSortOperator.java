@@ -21,8 +21,9 @@ public class LogicalSortOperator implements LogicalOperator {
             List<Column> sortByCols = new LinkedList<>();
             if (orderByList != null) {
                 sortByColumns = orderByList;
+            } else {
+            	this.sortByColumns = sortByCols;
             }
-            this.sortByColumns = sortByCols;
         } else {
             this.sortByColumns = new LinkedList<>();
         }
