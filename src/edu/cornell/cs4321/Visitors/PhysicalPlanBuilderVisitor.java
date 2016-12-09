@@ -208,7 +208,7 @@ public class PhysicalPlanBuilderVisitor {
     		//check what join method would be apply below
     		
     		if(true){//TODO: Select join method
-            	int nPage = Integer.valueOf(joinMethod[1]);
+            	int nPage = Integer.valueOf(joinMethod[1]);//set block size for BNLJ
             	operator = new BNLJOperator(leftOperator, operator, exp, nPage);
             }else{
             	// SMJ
@@ -216,7 +216,7 @@ public class PhysicalPlanBuilderVisitor {
             	exp.accept(visitor);
             	//insert sort operator to leftChild
             	//external sort
-            	int nPage = Integer.valueOf(sortMethod[1]);
+            	int nPage = Integer.valueOf(sortMethod[1]);//set number of pages for ES
             	leftOperator = new ExternalSortOperator(leftOperator, visitor.getLeftAttrList(), nPage, tempDir);
             	
             	//insert sort operator to rightChild
