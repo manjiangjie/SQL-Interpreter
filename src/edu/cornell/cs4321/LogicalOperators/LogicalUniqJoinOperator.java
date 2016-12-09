@@ -10,7 +10,7 @@ import net.sf.jsqlparser.expression.Expression;
  * The logical join operator for building the query plan.
  * @author Jiangjie Man: jm2559
  */
-public class LogicalJoinOperator implements LogicalOperator {
+public class LogicalUniqJoinOperator implements LogicalOperator {
     private List<LogicalOperator> ChildrenOperators;
     private List<Expression> joinExpressions;
 
@@ -19,7 +19,7 @@ public class LogicalJoinOperator implements LogicalOperator {
      * @param firstChildOperator the first child operator.
      */
     //TODO Make this more than two children
-    public LogicalJoinOperator(LogicalOperator firstChildOperator) {
+    public LogicalUniqJoinOperator(LogicalOperator firstChildOperator) {
     	ChildrenOperators = new ArrayList<LogicalOperator>();
     	ChildrenOperators.add(firstChildOperator);
     	joinExpressions = new ArrayList<Expression>();

@@ -106,7 +106,7 @@ public class PhysicalPlanBuilderVisitor {
                 logicalOperator = new LogicalSelectionOperator(logicalOperator, psv.getExpression());
             }
             
-            LogicalJoinOperator uniqueJoinOperator = new LogicalJoinOperator(logicalOperator);
+            LogicalUniqJoinOperator uniqueJoinOperator = new LogicalUniqJoinOperator(logicalOperator);
             
             // Used to be Construct left-deep join operator tree.
             // Currently construct children list for one single join operator
@@ -270,5 +270,13 @@ public class PhysicalPlanBuilderVisitor {
         if (d != null) {
             operator = new DuplicateEliminationOperator(operator);
         }
+    }
+    
+    /**
+     * Visitor method for LogicalUniqJoinOperator.
+     * @param logicalUniqJoinOperator A LogicalDistinctOperator
+     */
+    public void visit(LogicalUniqJoinOperator logicalUniqJoinOperator) {
+    	//TODO
     }
 }
