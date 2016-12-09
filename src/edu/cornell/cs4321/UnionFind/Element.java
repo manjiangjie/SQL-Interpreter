@@ -80,12 +80,12 @@ public class Element {
 	}
 
 	public void setUpperBound(long u) {
-		if(upperBound==null||upperBound>u)
+		if(upperBound==null||(upperBound>u&&equal==null))
 			upperBound = u;
 	}
 
 	public void setLowerBound(long l) {
-		if(lowerBound==null||lowerBound<l)
+		if(lowerBound==null||(lowerBound<l&&equal==null))
 			lowerBound = l;
 	}
 

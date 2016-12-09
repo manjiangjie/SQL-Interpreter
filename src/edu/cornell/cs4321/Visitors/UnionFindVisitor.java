@@ -7,7 +7,6 @@ import edu.cornell.cs4321.UnionFind.Element;
 import edu.cornell.cs4321.UnionFind.UnionFind;
 import net.sf.jsqlparser.expression.AllComparisonExpression;
 import net.sf.jsqlparser.expression.AnyComparisonExpression;
-import net.sf.jsqlparser.expression.BinaryExpression;
 import net.sf.jsqlparser.expression.CaseExpression;
 import net.sf.jsqlparser.expression.DateValue;
 import net.sf.jsqlparser.expression.DoubleValue;
@@ -70,20 +69,6 @@ public class UnionFindVisitor implements ExpressionVisitor {
 	 */
 	public UnionFind getUnionFind(){
 		return unionFind;
-	}
-	
-	/**
-	 * add the input expression to output expression
-	 * 
-	 * @param expression
-	 */
-	private void addToExpression(BinaryExpression newExpression, Expression e) {
-		if (newExpression.getLeftExpression() == null)
-			newExpression.setLeftExpression(e);
-		else if (newExpression.getRightExpression() == null)
-			newExpression.setRightExpression(e);
-		else
-			newExpression = new AndExpression(newExpression, e);
 	}
 	
 	/**

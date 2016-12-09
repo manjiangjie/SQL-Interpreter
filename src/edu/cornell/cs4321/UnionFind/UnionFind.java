@@ -26,8 +26,10 @@ public class UnionFind {
 	public Element find(Column col){
 		
 		for(Element e : unionFind){
-			if(e.checkColumn(col))
+			if(e.checkColumn(col)){
 				return e;
+			}
+				
 		}
 		Element newElement = new Element();
 		newElement.addColumn(col);

@@ -33,6 +33,7 @@ public class PhysicalPlanBuilderVisitor {
     private String[] sortMethod;
     private String tempDir;
     private boolean useIndex;
+    private int[] joinOrder;
 
     public PhysicalPlanBuilderVisitor(Statement statement, String[] joinMethod, String[] sortMethod, String tempDir, boolean useIndex) {
     	// parse the statement
@@ -159,6 +160,7 @@ public class PhysicalPlanBuilderVisitor {
         }
         
     }
+    
     /**
      * Visitor method for LogicalSortOperator.
      * @param sortOperator A LogicalSortOperator
@@ -191,6 +193,15 @@ public class PhysicalPlanBuilderVisitor {
      * @param logicalUniqJoinOperator A LogicalDistinctOperator
      */
     public void visit(LogicalUniqJoinOperator logicalUniqJoinOperator) {
-       //TODO
+    	List<LogicalOperator> children = logicalUniqJoinOperator.ChildrenOperators();
+    	LogicalOperator child = children.get(joinOrder[0]);
+    	List<Expression> exprs = logicalUniqJoinOperator.getExpression();
+    	
+    	child.accept(this);
+    	for(int i = 1; i < joinOrder.length; i++){
+    		Operator leftOperator = operator;
+    		children.get(joinOrder[i]).accept(this);
+    		operator = new JoinOperator(leftOperator, operator, exprs.get(joinOrder[i]-1));//TODO: care for fromItem 
+    	}
     }
 }
