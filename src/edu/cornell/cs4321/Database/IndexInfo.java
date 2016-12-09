@@ -41,4 +41,12 @@ public class IndexInfo {
 	public String getIndexPath() {
 		return this.indexPath;
 	}
+	
+	public void setAlias(String alias) {
+		this.column.getTable().setName(alias);
+	}
+	
+	public void reset(String tableName) {
+		this.column.getTable().setName(tableName);
+	}
 }

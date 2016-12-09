@@ -213,6 +213,9 @@ public class BPlusTreeDeserializer {
 				
 				for (int i = 0; i < numDataEntries; i++) {
 					int k = bb.getInt();
+					int numRids = bb.getInt();
+					int pageId = bb.getInt();
+					int tupleId = bb.getInt();
 					if( lowOpen.booleanValue() && (k>lowkey.intValue()) ||
 						!lowOpen.booleanValue() && (k>=lowkey.intValue()) ) {
 						
@@ -221,13 +224,15 @@ public class BPlusTreeDeserializer {
 								!highOpen.booleanValue() && (k>highkey.intValue()) ){
 								return null;
 							}
-						}
+						}					
 						
-						int numRids = bb.getInt();
-						int pageId = bb.getInt();
-						int tupleId = bb.getInt();
 						return new DataEntry(pageId, tupleId);
 					}
+					for (int j = 1; j < numRids; j++) {
+						pageId = bb.getInt();
+						tupleId = bb.getInt();
+					}
+
 				}
 				
 				pageNum++;

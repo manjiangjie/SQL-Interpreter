@@ -21,6 +21,7 @@ public class DatabaseCatalog {
 	private static HashMap<String, List<Column>> schemaMap = new HashMap<>();
 	private static HashMap<String, String> tablePathMap = new HashMap<>();
 	private static HashMap<String, List<IndexInfo>> indexMap = new HashMap<>();
+	private static HashMap<String, List<Column>> fullSchemaMap = new HashMap<>();
 	private static DatabaseCatalog instance = null;
 
 	/**
@@ -61,6 +62,7 @@ public class DatabaseCatalog {
 						c.setTable(t);
 						curSchemaList.add(c);
 					}
+					fullSchemaMap.put(tokens[0], curSchemaList);
 					schemaMap.put(tokens[0], curSchemaList);
 					String curTablePath = inputDir + "/db/data/" + tokens[0];
 					tablePathMap.put(tokens[0], curTablePath);
@@ -214,5 +216,12 @@ public class DatabaseCatalog {
      */
 	public static void setSchemaByTable(String tableName, List<Column> schemaList) {
 		schemaMap.put(tableName, schemaList);
+	}
+	
+	/**
+	 * Reset schemaMap so that there is no alias
+	 */
+	public static void resetSchemaMap() {
+		schemaMap = fullSchemaMap;
 	}
 }

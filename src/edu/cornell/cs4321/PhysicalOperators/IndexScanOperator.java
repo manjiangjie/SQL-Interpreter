@@ -60,6 +60,10 @@ public class IndexScanOperator extends Operator {
 				newSchemaList.add(newColumn);
 			}
 			DatabaseCatalog.setSchemaByTable(tableName, newSchemaList);
+			this.indexInfo.setAlias(alias);
+		} else {
+			DatabaseCatalog.resetSchemaMap();
+			this.indexInfo.reset(tableName);
 		}
 		this.tr = new BinaryTupleReader(tableName);
 	}
@@ -79,7 +83,8 @@ public class IndexScanOperator extends Operator {
 				Tuple t = tr.readNextTuple();
 				if(t!=null){
 					int val = t.getValueByCol(indexInfo.getColumn());
-					if( highOpen.booleanValue() && val < highkey ||
+					if( null == highOpen ||
+						highOpen.booleanValue() && val < highkey ||
 						!highOpen.booleanValue() && val <= highkey ) {
 						return t;
 					}

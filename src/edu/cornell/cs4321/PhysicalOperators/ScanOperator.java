@@ -37,6 +37,8 @@ public class ScanOperator extends Operator{
 				newSchemaList.add(newColumn);
 			}
 			DatabaseCatalog.setSchemaByTable(tableName, newSchemaList);
+		} else {
+			DatabaseCatalog.resetSchemaMap();
 		}
 
 		tr = new BinaryTupleReader(tableName);

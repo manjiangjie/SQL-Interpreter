@@ -292,11 +292,11 @@ public class BPlusTree {
 			}
 			int leafKey1 = keyList1.remove(0);
 			int leafKey2 = keyList2.remove(0);
-			IndexNode n = new IndexNode(keyList1, indexChildren, true, size, leafKey1);
+			IndexNode n = new IndexNode(keyList1, firstChildren, true, size, leafKey1);
 			output.add(n);
 			serializer.writeNextNode(n);
 			size += 1;
-			n = new IndexNode(keyList2, indexChildren, true, size, leafKey2);
+			n = new IndexNode(keyList2, secondChildren, true, size, leafKey2);
 			output.add(n);
 			serializer.writeNextNode(n);
 
