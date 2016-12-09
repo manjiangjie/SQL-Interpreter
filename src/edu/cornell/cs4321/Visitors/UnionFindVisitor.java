@@ -1,8 +1,6 @@
 package edu.cornell.cs4321.Visitors;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import edu.cornell.cs4321.UnionFind.Element;
 import edu.cornell.cs4321.UnionFind.UnionFind;
 import net.sf.jsqlparser.expression.AllComparisonExpression;
 import net.sf.jsqlparser.expression.AnyComparisonExpression;
@@ -51,21 +49,21 @@ import net.sf.jsqlparser.statement.select.SubSelect;
  * @author Heng Kuang hk856
  */
 public class UnionFindVisitor implements ExpressionVisitor {
-	private List<UnionFind> unionFindList;
+	private UnionFind unionFind;
 
 	/**
 	 * Constructor for union find visitor
 	 */
 	public UnionFindVisitor() {
-		unionFindList = new ArrayList<UnionFind>();
+		unionFind = new UnionFind();
 	}
 
 	/**
 	 * get union find list
 	 * @return union find list
 	 */
-	public List<UnionFind> getUnionFindList(){
-		return unionFindList;
+	public UnionFind getUnionFind(){
+		return unionFind;
 	}
 	
 	
@@ -96,16 +94,9 @@ public class UnionFindVisitor implements ExpressionVisitor {
 			Column rightColumn = (Column) rightExpr;
 			//equal join
 			if (!leftColumn.equals(rightColumn)) {
-				for(UnionFind u : unionFindList){
-					if(!u.checkColumn(leftColumn)&&!u.checkColumn(rightColumn)){
-						u.addColumn(leftColumn);
-						u.addColumn(rightColumn);
-					}else if(u.checkColumn(leftColumn)&&!u.checkColumn(rightColumn)){
-						u.addColumn(rightColumn);
-					}else if(u.checkColumn(rightColumn)&&!u.checkColumn(leftColumn)){
-						u.addColumn(leftColumn);
-					}
-				}
+				Element leftElement = unionFind.find(leftColumn);
+				Element rightElement = unionFind.find(rightColumn);
+				unionFind.merge(leftElement, rightElement);
 			} else {
 				//equal join itself
 			}
@@ -113,20 +104,12 @@ public class UnionFindVisitor implements ExpressionVisitor {
 
 		else if (leftExpr instanceof Column) {
 			LongValue val = (LongValue) rightExpr;
-			for(UnionFind u : unionFindList){
-				if(u.checkColumn((Column)leftExpr)){
-					u.setEquality(val.getValue());
-					break;
-				}
-			}
+			Element element = unionFind.find((Column)leftExpr);
+			element.setEquality(val.getValue());
 		} else if (rightExpr instanceof Column) {
 			LongValue val = (LongValue) leftExpr;
-			for(UnionFind u : unionFindList){
-				if(u.checkColumn((Column)rightExpr)){
-					u.setEquality(val.getValue());
-					break;
-				}
-			}
+			Element element = unionFind.find((Column)rightExpr);
+			element.setEquality(val.getValue());
 		}
 	}
 
@@ -141,20 +124,12 @@ public class UnionFindVisitor implements ExpressionVisitor {
 		
 		if (leftExpr instanceof Column) {
 			LongValue val = (LongValue) rightExpr;
-			for(UnionFind u : unionFindList){
-				if(u.checkColumn((Column)leftExpr) && u.getLowerBound() < 1 + val.getValue()){
-					u.setLowerBound(1+val.getValue());
-					break;
-				}
-			}
+			Element element = unionFind.find((Column)leftExpr);
+			element.setLowerBound(1+val.getValue());
 		} else if (rightExpr instanceof Column) {
 			LongValue val = (LongValue) leftExpr;
-			for(UnionFind u : unionFindList){
-				if(u.checkColumn((Column)rightExpr) && u.getUpperBound() > val.getValue()-1){
-					u.setUpperBound(val.getValue()-1);
-					break;
-				}
-			}
+			Element element = unionFind.find((Column)rightExpr);
+			element.setUpperBound(val.getValue()-1);
 		}
 	}
 
@@ -169,20 +144,12 @@ public class UnionFindVisitor implements ExpressionVisitor {
 		
 		if (leftExpr instanceof Column) {
 			LongValue val = (LongValue) rightExpr;
-			for(UnionFind u : unionFindList){
-				if(u.checkColumn((Column)leftExpr)&& u.getLowerBound() < val.getValue()){
-					u.setLowerBound(val.getValue());
-					break;
-				}
-			}
+			Element element = unionFind.find((Column)leftExpr);
+			element.setLowerBound(val.getValue());
 		} else if (rightExpr instanceof Column) {
 			LongValue val = (LongValue) leftExpr;
-			for(UnionFind u : unionFindList){
-				if(u.checkColumn((Column)rightExpr)&& u.getUpperBound() > val.getValue()){
-					u.setUpperBound(val.getValue());
-					break;
-				}
-			}
+			Element element = unionFind.find((Column)rightExpr);
+			element.setUpperBound(val.getValue());
 		}
 	}
 	
@@ -197,20 +164,12 @@ public class UnionFindVisitor implements ExpressionVisitor {
 		
 		if (leftExpr instanceof Column) {
 			LongValue val = (LongValue) rightExpr;
-			for(UnionFind u : unionFindList){
-				if(u.checkColumn((Column)leftExpr) && u.getUpperBound() > val.getValue() - 1){
-					u.setUpperBound(val.getValue()-1);
-					break;
-				}
-			}
+			Element element = unionFind.find((Column)leftExpr);
+			element.setUpperBound(val.getValue()-1);
 		} else if (rightExpr instanceof Column) {
 			LongValue val = (LongValue) leftExpr;
-			for(UnionFind u : unionFindList){
-				if(u.checkColumn((Column)rightExpr) && u.getLowerBound() < val.getValue() + 1){
-					u.setLowerBound(val.getValue()+1);
-					break;
-				}
-			}
+			Element element = unionFind.find((Column)rightExpr);
+			element.setLowerBound(val.getValue()+1);
 		}
 	}
 
@@ -225,20 +184,12 @@ public class UnionFindVisitor implements ExpressionVisitor {
 		
 		if (leftExpr instanceof Column) {
 			LongValue val = (LongValue) rightExpr;
-			for(UnionFind u : unionFindList){
-				if(u.checkColumn((Column)leftExpr)&& u.getUpperBound() > val.getValue()){
-					u.setUpperBound(val.getValue());
-					break;
-				}
-			}
+			Element element = unionFind.find((Column)leftExpr);
+			element.setUpperBound(val.getValue());
 		} else if (rightExpr instanceof Column) {
 			LongValue val = (LongValue) leftExpr;
-			for(UnionFind u : unionFindList){
-				if(u.checkColumn((Column)rightExpr)&& u.getLowerBound() < val.getValue()){
-					u.setLowerBound(val.getValue());
-					break;
-				}
-			}
+			Element element = unionFind.find((Column)rightExpr);
+			element.setLowerBound(val.getValue());
 		}
 	}
 

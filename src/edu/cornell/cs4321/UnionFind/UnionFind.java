@@ -1,13 +1,8 @@
 package edu.cornell.cs4321.UnionFind;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 
-import net.sf.jsqlparser.expression.BinaryExpression;
-import net.sf.jsqlparser.expression.Expression;
-import net.sf.jsqlparser.expression.LongValue;
-import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
-import net.sf.jsqlparser.expression.operators.relational.EqualsTo;
-import net.sf.jsqlparser.expression.operators.relational.GreaterThanEquals;
 import net.sf.jsqlparser.schema.Column;
 
 /**
@@ -15,95 +10,60 @@ import net.sf.jsqlparser.schema.Column;
  * @author Heng
  */
 public class UnionFind {
-	private HashSet<Column> attributes;
-	private Long upperBound;
-	private Long lowerBound;
-	private Long equal;
+	private List<Element> unionFind;
 	
 	public UnionFind(){
-		attributes = new HashSet<Column>();
-		upperBound = null;
-		lowerBound = null;
-		equal = null;
+		unionFind = new ArrayList<Element>();
 	}
 	
+	public List<Element> getUnionFind(){
+		return unionFind;
+	}
 	
 	/**
-	 * add the input expression to output expression
-	 * @param expression
+	 * find the element that has that attribute
 	 */
-	private void addToExpression(BinaryExpression newExpression, Expression e){
-		if(newExpression.getLeftExpression()==null)
-			newExpression.setLeftExpression(e); 
-		else if(newExpression.getRightExpression()==null)
-			newExpression.setRightExpression(e);
-		else
-			newExpression = new AndExpression(newExpression, e);
-	}
-	
-	
-	
-	public BinaryExpression buildExpressionTree(String tableName){
-		if(!attributes.isEmpty()){
-			AndExpression expression = new AndExpression();
-			for(Column c : attributes){
-				if(c.getTable().getName().equals(tableName)){
-					if(equal!=null){
-						EqualsTo e = new EqualsTo();
-						e.setLeftExpression(c);
-						e.setRightExpression(new LongValue(equal));
-						addToExpression(expression, e);
-					}else{
-						if(upperBound!=null){
-							GreaterThanEquals gte = new GreaterThanEquals();
-							gte.setLeftExpression(new LongValue(upperBound));
-							gte.setRightExpression(c);
-							addToExpression(expression, gte);
-						}
-						if(lowerBound!=null){
-							GreaterThanEquals gte2 = new GreaterThanEquals();
-							gte2.setLeftExpression(c);
-							gte2.setRightExpression(new LongValue(lowerBound));
-							addToExpression(expression, gte2);
-						}
-					}
-				}
-			}
-			return expression;
+	public Element find(Column col){
+		for(Element e : unionFind){
+			if(e.checkColumn(col))
+				return e;
 		}
-		
-		return null;
+		Element newElement = new Element();
+		newElement.addColumn(col);
+		unionFind.add(newElement);
+		return newElement;
 	}
 	
-	public void setUpperBound(long u){
-		upperBound = u;
+	/**
+	 * merge two union find
+	 */
+	public void merge(Element e1, Element e2){
+		if(e1.equals(e2)) return;
+		e1.getAttribute().addAll(e2.getAttribute());
+		if(e2.getLowerBound()!=null)
+			e1.setLowerBound(e2.getLowerBound());
+		if(e2.getUpperBound()!=null)
+			e1.setUpperBound(e2.getEquality());
+		if(e2.getEquality()!=null)
+			e1.setEquality(e2.getEquality());
+		unionFind.remove(e2);
 	}
 	
-	public void setLowerBound(long l){
-		lowerBound = l;
+	/**
+	 * update the union element
+	 */
+	public void setElement(Element e, Long low, Long up, Long equal){
+		for(Element element : unionFind){
+			if(e.equals(element)){
+				if(low!=null)
+					element.setLowerBound(low);
+				if(up!=null)
+					element.setUpperBound(up);
+				if(equal!=null)
+					element.setEquality(equal);
+				return;
+			}
+		}
 	}
 	
-	public void setEquality(long e){
-		equal = e;
-	}
-	
-	public Long getUpperBound(){
-		return upperBound;
-	}
-	
-	public Long getLowerBound(){
-		return lowerBound;
-	}
-	
-	public Long getEquality(){
-		return equal;
-	}
-	
-	public void addColumn(Column col){
-		attributes.add(col);
-	}
-	
-	public boolean checkColumn(Column col){
-		return attributes.contains(col);
-	}
 }
