@@ -1,9 +1,13 @@
 package edu.cornell.cs4321.Visitors;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.cornell.cs4321.UnionFind.Element;
 import edu.cornell.cs4321.UnionFind.UnionFind;
 import net.sf.jsqlparser.expression.AllComparisonExpression;
 import net.sf.jsqlparser.expression.AnyComparisonExpression;
+import net.sf.jsqlparser.expression.BinaryExpression;
 import net.sf.jsqlparser.expression.CaseExpression;
 import net.sf.jsqlparser.expression.DateValue;
 import net.sf.jsqlparser.expression.DoubleValue;
@@ -50,12 +54,14 @@ import net.sf.jsqlparser.statement.select.SubSelect;
  */
 public class UnionFindVisitor implements ExpressionVisitor {
 	private UnionFind unionFind;
+	private List<Expression> residual;
 
 	/**
 	 * Constructor for union find visitor
 	 */
 	public UnionFindVisitor() {
 		unionFind = new UnionFind();
+		residual = new ArrayList<Expression>();
 	}
 
 	/**
@@ -66,6 +72,27 @@ public class UnionFindVisitor implements ExpressionVisitor {
 		return unionFind;
 	}
 	
+	/**
+	 * add the input expression to output expression
+	 * 
+	 * @param expression
+	 */
+	private void addToExpression(BinaryExpression newExpression, Expression e) {
+		if (newExpression.getLeftExpression() == null)
+			newExpression.setLeftExpression(e);
+		else if (newExpression.getRightExpression() == null)
+			newExpression.setRightExpression(e);
+		else
+			newExpression = new AndExpression(newExpression, e);
+	}
+	
+	/**
+	 * get residual expression
+	 * @return residual
+	 */
+	public List<Expression> getResidual(){
+		return residual;
+	}
 	
 	/**
 	 * For an AndExpression, break it into left expression and right expression,
@@ -89,7 +116,6 @@ public class UnionFindVisitor implements ExpressionVisitor {
 
 		// put these table.columns to union find list
 		if ((leftExpr instanceof Column) && (rightExpr instanceof Column)) {
-			
 			Column leftColumn = (Column) leftExpr;
 			Column rightColumn = (Column) rightExpr;
 			//equal join
@@ -106,10 +132,14 @@ public class UnionFindVisitor implements ExpressionVisitor {
 			LongValue val = (LongValue) rightExpr;
 			Element element = unionFind.find((Column)leftExpr);
 			element.setEquality(val.getValue());
+			element.setLowerBound(val.getValue());
+			element.setUpperBound(val.getValue());
 		} else if (rightExpr instanceof Column) {
 			LongValue val = (LongValue) leftExpr;
 			Element element = unionFind.find((Column)rightExpr);
 			element.setEquality(val.getValue());
+			element.setLowerBound(val.getValue());
+			element.setUpperBound(val.getValue());
 		}
 	}
 
@@ -122,7 +152,10 @@ public class UnionFindVisitor implements ExpressionVisitor {
 		Expression leftExpr = exp.getLeftExpression();
 		Expression rightExpr = exp.getRightExpression();
 		
-		if (leftExpr instanceof Column) {
+		if ((leftExpr instanceof Column) && (rightExpr instanceof Column)) {
+			System.out.println("residual: "+exp);
+			residual.add(exp); 	
+		}else if (leftExpr instanceof Column) {
 			LongValue val = (LongValue) rightExpr;
 			Element element = unionFind.find((Column)leftExpr);
 			element.setLowerBound(1+val.getValue());
@@ -142,7 +175,10 @@ public class UnionFindVisitor implements ExpressionVisitor {
 		Expression leftExpr = exp.getLeftExpression();
 		Expression rightExpr = exp.getRightExpression();
 		
-		if (leftExpr instanceof Column) {
+		if ((leftExpr instanceof Column) && (rightExpr instanceof Column)) {
+			System.out.println("residual: "+exp);
+			residual.add(exp); 	 	
+		}else if (leftExpr instanceof Column) {
 			LongValue val = (LongValue) rightExpr;
 			Element element = unionFind.find((Column)leftExpr);
 			element.setLowerBound(val.getValue());
@@ -162,7 +198,10 @@ public class UnionFindVisitor implements ExpressionVisitor {
 		Expression leftExpr = exp.getLeftExpression();
 		Expression rightExpr = exp.getRightExpression();
 		
-		if (leftExpr instanceof Column) {
+		if ((leftExpr instanceof Column) && (rightExpr instanceof Column)) {
+			System.out.println("residual: "+exp);
+			residual.add(exp); 	 	
+		}else if (leftExpr instanceof Column) {
 			LongValue val = (LongValue) rightExpr;
 			Element element = unionFind.find((Column)leftExpr);
 			element.setUpperBound(val.getValue()-1);
@@ -182,7 +221,10 @@ public class UnionFindVisitor implements ExpressionVisitor {
 		Expression leftExpr = exp.getLeftExpression();
 		Expression rightExpr = exp.getRightExpression();
 		
-		if (leftExpr instanceof Column) {
+		if ((leftExpr instanceof Column) && (rightExpr instanceof Column)) {
+			System.out.println("residual: "+exp);
+			residual.add(exp); 	 	
+		}else if (leftExpr instanceof Column) {
 			LongValue val = (LongValue) rightExpr;
 			Element element = unionFind.find((Column)leftExpr);
 			element.setUpperBound(val.getValue());
@@ -193,6 +235,16 @@ public class UnionFindVisitor implements ExpressionVisitor {
 		}
 	}
 
+	/**
+	 * if not equal add the expression to residual
+	 */
+	@Override
+	public void visit(NotEqualsTo exp) {
+		System.out.println("residual: "+exp);
+		residual.add(exp); 	 
+	}
+
+	
 	//=====================================================
 	
 	@Override
@@ -313,12 +365,6 @@ public class UnionFindVisitor implements ExpressionVisitor {
 
 	@Override
 	public void visit(LikeExpression arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(NotEqualsTo arg0) {
 		// TODO Auto-generated method stub
 
 	}

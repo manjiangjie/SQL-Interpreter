@@ -2,6 +2,7 @@ package edu.cornell.cs4321.Visitors;
 
 import java.util.List;
 
+import edu.cornell.cs4321.UnionFind.Element;
 import edu.cornell.cs4321.UnionFind.UnionFind;
 import net.sf.jsqlparser.expression.AllComparisonExpression;
 import net.sf.jsqlparser.expression.AnyComparisonExpression;
@@ -53,21 +54,21 @@ import net.sf.jsqlparser.statement.select.SubSelect;
  *
  */
 public class PushSelectVisitor implements ExpressionVisitor{
-	private List<UnionFind> unionFindList;
+	private UnionFind unionFindList;
 	private AndExpression newExpression;
 	private String tableName;
 	
 	/**
 	 * Constructor for push select visitor
-	 * @param unionFindList
+	 * @param unionFind
 	 */
-	public PushSelectVisitor(List<UnionFind> unionFindList, String tableName){
-		this.unionFindList = unionFindList;
+	public PushSelectVisitor(UnionFind unionFind, String tableName){
+		this.unionFindList = unionFind;
 		this.tableName = tableName;
 		newExpression = new AndExpression();
 		
-		for(UnionFind u : unionFindList){
-			BinaryExpression exprTree = u.buildExpressionTree(tableName);
+		for(Element e : unionFind.getUnionFind()){
+			BinaryExpression exprTree = e.buildExpressionTree(tableName);
 			if(exprTree!=null&&exprTree.getRightExpression()!=null){
 				addToExpression(exprTree);
 			}else if(exprTree!=null&&exprTree.getRightExpression()==null){

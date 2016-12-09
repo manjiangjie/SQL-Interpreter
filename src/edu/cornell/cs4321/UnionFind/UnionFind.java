@@ -24,6 +24,7 @@ public class UnionFind {
 	 * find the element that has that attribute
 	 */
 	public Element find(Column col){
+		
 		for(Element e : unionFind){
 			if(e.checkColumn(col))
 				return e;
