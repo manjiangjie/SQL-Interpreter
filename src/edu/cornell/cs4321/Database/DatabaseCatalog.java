@@ -156,7 +156,7 @@ public class DatabaseCatalog {
 				}
 				while ((t = btr.readNextTuple()) != null) {
 					count += 1;
-					for (Column c : stats.keySet()) {
+					for (Column c : schemaMap.get(table)) {
 						int value = t.getValueByCol(c);
 						if (value < stats.get(c)[0]) {
 							stats.put(c, new int[]{value, stats.get(c)[1]});
@@ -243,4 +243,10 @@ public class DatabaseCatalog {
 	public static void resetSchemaMap() {
 		schemaMap = fullSchemaMap;
 	}
+
+//	public static void main(String[] args) {
+//		DatabaseCatalog.getInstance("samples/1/input");
+//		System.out.println(stats.keySet().toString());
+//	}
+
 }
