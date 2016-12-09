@@ -45,7 +45,7 @@ public class Parser {
 			
 			DatabaseCatalog.getInstance(inputDir);
 
-			DataGenerator generator = new DataGenerator(inputDir);
+			//DataGenerator generator = new DataGenerator(inputDir);
 			
 			buildIndexes();
 			System.out.println("finished building index!");
@@ -62,8 +62,8 @@ public class Parser {
 		for (List<IndexInfo> indexInfoList : DatabaseCatalog.getIndexInfoList()) {
 			for (IndexInfo indexInfo : indexInfoList) {
 				BPlusTree indexTree = new BPlusTree(indexInfo);
-				Converter converter = new Converter(indexInfo.getIndexPath());
-				converter.indexConverter(indexTree.getRoot(), indexInfo);
+				//Converter converter = new Converter(indexInfo.getIndexPath());
+				//converter.indexConverter(indexTree.getRoot(), indexInfo);
 			}
 		}
 	}
@@ -112,8 +112,8 @@ public class Parser {
 					e.printStackTrace();
 				} finally {
 					btw.close();
-					Converter converter = new Converter(queryPath);
-					converter.tupleConverter(queryPath + "_humanreadable");
+					//Converter converter = new Converter(queryPath);
+					//converter.tupleConverter(queryPath + "_humanreadable");
 					queryStr = br.readLine();
 					double timing = (System.currentTimeMillis() - currentTime) / 1000.0;
 					System.out.println("Finish processing query #" + queryNumber + ", " + timing + " seconds");
