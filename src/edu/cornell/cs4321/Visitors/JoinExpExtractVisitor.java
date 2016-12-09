@@ -78,6 +78,17 @@ public class JoinExpExtractVisitor implements ExpressionVisitor {
 	}
 	
 	/**
+	 * 
+	 * @param ufVisitor
+	 */
+	//TODO: combine visitor
+	//if table.column exits in union find table, use uf table to get table expression
+	public void combineUnionFindVisitor(UnionFindVisitor ufVisitor){
+		
+	}
+	
+	
+	/**
 	 * @param tableName a table's name or alias if existed.
 	 * @return expression tree on single table, will be used by SelectionOperator.
 	 */

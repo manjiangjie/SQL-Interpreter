@@ -1,5 +1,8 @@
 package edu.cornell.cs4321.LogicalOperators;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.cornell.cs4321.Visitors.PhysicalPlanBuilderVisitor;
 import net.sf.jsqlparser.expression.Expression;
 
@@ -8,44 +11,44 @@ import net.sf.jsqlparser.expression.Expression;
  * @author Jiangjie Man: jm2559
  */
 public class LogicalJoinOperator implements LogicalOperator {
-    private LogicalOperator leftChildOperator;
-    private LogicalOperator rightChildOperator;
-    private Expression joinExpression;
+    private List<LogicalOperator> ChildrenOperators;
+    private List<Expression> joinExpressions;
 
     /**
      * Constructor for the logical join operator.
-     * @param leftChildOperator the left child operator.
-     * @param rightChildOperator the right child operator.
-     * @param joinExpression join condition.
+     * @param firstChildOperator the first child operator.
      */
-    public LogicalJoinOperator(LogicalOperator leftChildOperator, LogicalOperator rightChildOperator, Expression joinExpression) {
-        this.leftChildOperator = leftChildOperator;
-        this.rightChildOperator = rightChildOperator;
-        this.joinExpression = joinExpression;
+    //TODO Make this more than two children
+    public LogicalJoinOperator(LogicalOperator firstChildOperator) {
+    	ChildrenOperators = new ArrayList<LogicalOperator>();
+    	ChildrenOperators.add(firstChildOperator);
+    	joinExpressions = new ArrayList<Expression>();
+    }
+    
+    /**
+     * add a child operator to the join operator
+     * @param operator
+     * @param expression
+     */
+    public void addOperator(LogicalOperator operator, Expression expression){
+    	ChildrenOperators.add(operator);
+    	joinExpressions.add(expression);
     }
 
     /**
-     * Get the left child operator.
-     * @return the left child operator.
+     * Get all children operators.
+     * @return all children operators.
      */
-    public LogicalOperator getLeftChildOperator() {
-        return leftChildOperator;
-    }
-
-    /**
-     * Get the right child operator.
-     * @return the right child operator.
-     */
-    public LogicalOperator getRightChildOperator() {
-        return rightChildOperator;
+    public List<LogicalOperator> ChildrenOperators() {
+        return ChildrenOperators;
     }
 
     /**
      * Get the join condition.
      * @return the expression of join condition.
      */
-    public Expression getJoinExpression() {
-        return joinExpression;
+    public List<Expression> getJoinExpression() {
+        return joinExpressions;
     }
 
     /**

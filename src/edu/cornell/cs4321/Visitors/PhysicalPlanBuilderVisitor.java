@@ -4,6 +4,7 @@ import edu.cornell.cs4321.Database.DatabaseCatalog;
 import edu.cornell.cs4321.Database.IndexInfo;
 import edu.cornell.cs4321.LogicalOperators.*;
 import edu.cornell.cs4321.PhysicalOperators.*;
+import edu.cornell.cs4321.UnionFind.UnionFind;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
@@ -88,24 +89,40 @@ public class PhysicalPlanBuilderVisitor {
             }
 
             JoinExpExtractVisitor visitor = new JoinExpExtractVisitor(fromName, joinTableNames);
+            UnionFindVisitor ufVisitor = new UnionFindVisitor();
+            
             if(expr != null) {
                 expr.accept(visitor); // now our visitor has grouped expressions
+                expr.accept(ufVisitor);
+                expr.accept(ufVisitor);
             }
-
+            
+            List<UnionFind> ufList = ufVisitor.getUnionFindList();
+            
             if (visitor.getSingleTableExpr(fromName) != null) {
                 logicalOperator = new LogicalSelectionOperator(logicalOperator, visitor.getSingleTableExpr(fromName));
             }
-            // Construct left-deep join operator tree.
+            
+            LogicalJoinOperator uniqueJoinOperator = new LogicalJoinOperator(logicalOperator);
+            
+            // Used to be Construct left-deep join operator tree.
+            // Currently construct children list for one single join operator
             Iterator<Table> iterator = joinTables.iterator();
             while (iterator.hasNext()) {
                 Table t = iterator.next();
                 LogicalOperator joinOperand = new LogicalScanOperator(t.getName(), t.getAlias());
                 String joinName = useAlias ? t.getAlias() : t.getName();
                 if (visitor.getSingleTableExpr(joinName) != null) {
-                    joinOperand = new LogicalSelectionOperator(joinOperand, visitor.getSingleTableExpr(joinName));
+                	Expression selectExpression =  visitor.getSingleTableExpr(joinName);
+                	PushSelectVisitor psv = new PushSelectVisitor(ufList, joinName);
+                	selectExpression.accept(psv);
+                    joinOperand = new LogicalSelectionOperator(joinOperand, psv.getExpression());
                 }
-                logicalOperator = new LogicalJoinOperator(logicalOperator, joinOperand, visitor.getJoinExpr(joinName));
+                //add new operator and expression to the unique join operator
+                uniqueJoinOperator.addOperator(joinOperand, visitor.getJoinExpr(joinName));
             }
+            //TODO changed
+            logicalOperator = uniqueJoinOperator;
         }
         logicalOperator = new LogicalProjectionOperator(logicalOperator);
         if(orderByList!=null && !orderByList.isEmpty()){
@@ -119,6 +136,9 @@ public class PhysicalPlanBuilderVisitor {
         }
     }
 
+    
+    
+    
     /**
      * Getter method for the physical root operator.
      * @return physical root operator
@@ -183,7 +203,10 @@ public class PhysicalPlanBuilderVisitor {
      * Visitor method for LogicalJoinOperator.
      * @param joinOperator A LogicalJoinOperator
      */
+
     public void visit(LogicalJoinOperator joinOperator) {
+        //TODO: change visit method
+    	//loop over operator list in the joinOperator
         joinOperator.getLeftChildOperator().accept(this);
         Operator leftOperator = operator;
         joinOperator.getRightChildOperator().accept(this);
