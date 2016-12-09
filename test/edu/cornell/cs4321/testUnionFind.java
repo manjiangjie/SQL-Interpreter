@@ -73,25 +73,23 @@ public class testUnionFind {
 		//left root
 		AndExpression and2 = new AndExpression(and1, equalTo2);
 		
-		
-		NotEqualsTo notEqualsTo2 = new NotEqualsTo();
-		notEqualsTo2.setLeftExpression(UY);
-		notEqualsTo2.setRightExpression(new LongValue(42));
+		EqualsTo equalTor2 = new EqualsTo();
+		equalTor2.setLeftExpression(RA);
+		equalTor2.setRightExpression(new LongValue(2));
+		AndExpression andr2 = new AndExpression(and2, equalTor2);
 		
 		EqualsTo equalTor = new EqualsTo();
 		equalTor.setLeftExpression(TD);
 		equalTor.setRightExpression(TX);
 		
-		AndExpression andr = new AndExpression(notEqualsTo2, equalTor);
+		AndExpression andr = new AndExpression(andr2, equalTor);
 		
-		EqualsTo equalTor2 = new EqualsTo();
-		equalTor2.setLeftExpression(RA);
-		equalTor2.setRightExpression(new LongValue(2));
 		
-		//right root
-		AndExpression andr2 = new AndExpression(andr, equalTor2);
+		NotEqualsTo notEqualsTo2 = new NotEqualsTo();
+		notEqualsTo2.setLeftExpression(UY);
+		notEqualsTo2.setRightExpression(new LongValue(42));
 		
-		AndExpression root = new AndExpression(and2, andr2);
+		AndExpression root = new AndExpression(andr, notEqualsTo2);
 		
 		UnionFindVisitor ufv = new UnionFindVisitor();
 		root.accept(ufv);

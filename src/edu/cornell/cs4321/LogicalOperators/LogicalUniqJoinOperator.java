@@ -12,17 +12,25 @@ import net.sf.jsqlparser.expression.Expression;
  */
 public class LogicalUniqJoinOperator implements LogicalOperator {
     private List<LogicalOperator> ChildrenOperators;
-    private List<Expression> joinExpressions;
+    private List<Expression> residualExpressions;
 
     /**
      * Constructor for the logical join operator.
      * @param firstChildOperator the first child operator.
      */
     //TODO Make this more than two children
-    public LogicalUniqJoinOperator(LogicalOperator firstChildOperator) {
+    public LogicalUniqJoinOperator() {
     	ChildrenOperators = new ArrayList<LogicalOperator>();
-    	ChildrenOperators.add(firstChildOperator);
-    	joinExpressions = new ArrayList<Expression>();
+    }
+    
+    /**
+     * Constructor for the logical join operator.
+     * @param firstChildOperator the first child operator.
+     */
+    //TODO Make this more than two children
+    public LogicalUniqJoinOperator(List<Expression> residualExpressions) {
+    	ChildrenOperators = new ArrayList<LogicalOperator>();
+    	this.residualExpressions = residualExpressions;
     }
     
     /**
@@ -30,9 +38,8 @@ public class LogicalUniqJoinOperator implements LogicalOperator {
      * @param operator
      * @param expression
      */
-    public void addOperator(LogicalOperator operator, Expression expression){
+    public void addOperator(LogicalOperator operator){
     	ChildrenOperators.add(operator);
-    	joinExpressions.add(expression);
     }
 
     /**
@@ -44,11 +51,11 @@ public class LogicalUniqJoinOperator implements LogicalOperator {
     }
 
     /**
-     * Get the join condition.
-     * @return the expression of join condition.
+     * Get the residual expressions that can't be put into union-find.
+     * @return the list of residual expressions.
      */
-    public List<Expression> getJoinExpression() {
-        return joinExpressions;
+    public List<Expression> getResidualExpression() {
+        return residualExpressions;
     }
 
     /**

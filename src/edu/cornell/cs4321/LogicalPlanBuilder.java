@@ -12,9 +12,18 @@ import edu.cornell.cs4321.LogicalOperators.LogicalProjectionOperator;
 import edu.cornell.cs4321.LogicalOperators.LogicalScanOperator;
 import edu.cornell.cs4321.LogicalOperators.LogicalSelectionOperator;
 import edu.cornell.cs4321.LogicalOperators.LogicalSortOperator;
+import edu.cornell.cs4321.LogicalOperators.LogicalUniqJoinOperator;
 import edu.cornell.cs4321.PhysicalOperators.Operator;
+import edu.cornell.cs4321.UnionFind.Element;
 import edu.cornell.cs4321.Visitors.JoinExpExtractVisitor;
+import edu.cornell.cs4321.Visitors.UnionFindVisitor;
+import net.sf.jsqlparser.expression.BinaryExpression;
 import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.expression.LongValue;
+import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
+import net.sf.jsqlparser.expression.operators.relational.EqualsTo;
+import net.sf.jsqlparser.expression.operators.relational.GreaterThanEquals;
+import net.sf.jsqlparser.expression.operators.relational.MinorThanEquals;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.Statement;
@@ -61,48 +70,83 @@ public class LogicalPlanBuilder {
         }
 
         logicalOperator = new LogicalScanOperator(fromTable.getName(), alias);
+        
+        boolean isUniqJoin = true;
 
         if (joinList == null) {
             // one scanner, one table, no need to extract different select
             // conditions
-            logicalOperator = new LogicalSelectionOperator(logicalOperator, expr);
+        	if (expr != null) {
+        		logicalOperator = new LogicalSelectionOperator(logicalOperator, expr);
+        	}            
         } else {
-            // deal with join relations
-            List<Table> joinTables = new ArrayList<>();
+        	// Retrieve all tables
+            List<Table> allTables = new ArrayList<>();
+            List<LogicalScanOperator> logicalScanOperators = new ArrayList<>();
+            allTables.add(fromTable);
+            logicalScanOperators.add((LogicalScanOperator) logicalOperator);
+            
             for (Join joinStatement : joinList) {
-                joinTables.add((Table) joinStatement.getRightItem());
+            	Table t = (Table) joinStatement.getRightItem();
+            	allTables.add(t);
+            	logicalScanOperators.add(new LogicalScanOperator(t.getName(),t.getAlias()));
             }
-            // Extract join expressions and group them by different tables.
-            List<String> joinTableNames = new ArrayList<>();
-            String fromName = useAlias ? fromTable.getAlias() : fromTable.getName();
-            for (Table t : joinTables) {
-                if (useAlias) {
-                    joinTableNames.add(t.getAlias());
-                } else {
-                    joinTableNames.add(t.getName());
-                }
-            }
-
-            JoinExpExtractVisitor visitor = new JoinExpExtractVisitor(fromName, joinTableNames);
+            // Generate union-find elements            
+            UnionFindVisitor visitor = new UnionFindVisitor();
             if(expr != null) {
-                expr.accept(visitor); // now our visitor has grouped expressions
+            	expr.accept(visitor);
+            }
+            List<Element> ufElements = visitor.getUnionFind().getUnionFind();
+            LogicalUniqJoinOperator logicalOperator = new LogicalUniqJoinOperator(visitor.getResidual());
+            for(int i = 0; i < allTables.size(); i++) {
+            	Table t = allTables.get(i);
+            	LogicalOperator leafScanOperator = logicalScanOperators.get(i);
+            	String tableRef = useAlias ? t.getAlias() : t.getName();
+            	Expression singleTableExpr = null;
+            	for(Element e : ufElements) {
+            		for(Column c : e.getAttribute()) {
+            			if(c.getTable().getName().equals(tableRef)) {
+            				if(e.getEquality() != null) {
+            					EqualsTo eq = new EqualsTo(c,new LongValue(e.getEquality()));
+            					singleTableExpr = this.addExpression(singleTableExpr, eq);
+            				} else {
+            					if(e.getLowerBound() != null) {
+            						GreaterThanEquals greatEq = new GreaterThanEquals(c,new LongValue(e.getLowerBound()));
+            						singleTableExpr = this.addExpression(singleTableExpr, greatEq);
+            					}
+            					if(e.getUpperBound() != null) {
+            						MinorThanEquals minorEq = new MinorThanEquals(c,new LongValue(e.getLowerBound()));
+            						singleTableExpr = this.addExpression(singleTableExpr, minorEq);
+            					}
+            				}
+            			}
+            		}
+            	}
+            	for(Expression expr : visitor.getResidual()) {
+            		BinaryExpression e = (BinaryExpression)expr;
+            		if( (e.getLeftExpression() instanceof Column) && (e.getRightExpression() instanceof LongValue)) {
+            			Column c = (Column)(e.getLeftExpression());
+            			if(c.getTable().getName().equals(tableRef)) {
+            				singleTableExpr = this.addExpression(singleTableExpr, e);
+            			}
+            		}
+            		if( (e.getRightExpression() instanceof Column) && (e.getLeftExpression() instanceof LongValue)) {
+            			Column c = (Column)(e.getRightExpression());
+            			if(c.getTable().getName().equals(tableRef)) {
+            				singleTableExpr = this.addExpression(singleTableExpr, e);
+            			}
+            		}
+            	}
+            	if(singleTableExpr != null) {
+            		LogicalSelectionOperator logicalSelectionOperator = new LogicalSelectionOperator(leafScanOperator, singleTableExpr);
+            		logicalOperator.addOperator(logicalSelectionOperator);
+            	} else {
+            		logicalOperator.addOperator(leafScanOperator);
+            	}
             }
 
-            if (visitor.getSingleTableExpr(fromName) != null) {
-                logicalOperator = new LogicalSelectionOperator(logicalOperator, visitor.getSingleTableExpr(fromName));
-            }
-            // Construct left-deep join operator tree.
-            Iterator<Table> iterator = joinTables.iterator();
-            while (iterator.hasNext()) {
-                Table t = iterator.next();
-                LogicalOperator joinOperand = new LogicalScanOperator(t.getName(), t.getAlias());
-                String joinName = useAlias ? t.getAlias() : t.getName();
-                if (visitor.getSingleTableExpr(joinName) != null) {
-                    joinOperand = new LogicalSelectionOperator(joinOperand, visitor.getSingleTableExpr(joinName));
-                }
-                logicalOperator = new LogicalJoinOperator(logicalOperator, joinOperand, visitor.getJoinExpr(joinName));
-            }
         }
+        // Fixed Hierarchy
         logicalOperator = new LogicalProjectionOperator(logicalOperator);
         if(orderByList!=null && !orderByList.isEmpty()){
             logicalOperator = new LogicalSortOperator(logicalOperator, orderByList);
@@ -116,5 +160,9 @@ public class LogicalPlanBuilder {
 	}
 	public LogicalOperator getRootLogicalOperator() {
 		return this.logicalOperator;
+	}
+	private Expression addExpression(Expression originalExpression, Expression newExpression) {
+		if(originalExpression == null) return newExpression;
+		return new AndExpression(originalExpression, newExpression);
 	}
 }
