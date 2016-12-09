@@ -5,12 +5,11 @@ import edu.cornell.cs4321.LogicalOperators.LogicalOperator;
 import edu.cornell.cs4321.LogicalOperators.LogicalScanOperator;
 import edu.cornell.cs4321.LogicalOperators.LogicalSelectionOperator;
 import edu.cornell.cs4321.LogicalOperators.LogicalUniqJoinOperator;
+import edu.cornell.cs4321.UnionFind.Element;
 import net.sf.jsqlparser.expression.Expression;
-import net.sf.jsqlparser.expression.operators.relational.EqualsTo;
 import net.sf.jsqlparser.schema.Column;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * The logical join operator with arbitrarily many children, and needs to translate this into a “real” left-deep join tree
@@ -21,7 +20,8 @@ import java.util.List;
 public class JoinOrder {
     private List<String> tables;
     private List<Expression> expressions;
-    private List<Expression> joinExpressions;
+    private List<Element> unionSet;
+    private Map<String, Expression> tableMap = new HashMap<>();
 
     /**
      * This class is a helper class for dynamic programming, which stores the table list and expression list
@@ -49,12 +49,12 @@ public class JoinOrder {
         }
     }
 
-    public JoinOrder(LogicalUniqJoinOperator uniqJoinOperator) {
-        String t = "";
-        Expression e = null;
+    public JoinOrder(LogicalUniqJoinOperator uniqJoinOperator, List<Element> unionSet) {
         List<LogicalOperator> operators = uniqJoinOperator.ChildrenOperators();
-        joinExpressions = uniqJoinOperator.getResidualExpression();
+        this.unionSet = unionSet;
         for (LogicalOperator op : operators) {
+            String t = "";
+            Expression e = null;
             if (op instanceof LogicalScanOperator) {
                 t = ((LogicalScanOperator) op).getTableName();
             } else if (op instanceof LogicalSelectionOperator) {
@@ -63,6 +63,7 @@ public class JoinOrder {
             }
             tables.add(t);
             expressions.add(e);
+            tableMap.put(t, e);
         }
         dp();
     }
@@ -95,7 +96,7 @@ public class JoinOrder {
                     if (!tableList.contains(t)) {
                         tableList.add(t);
                         exprList.add(e);
-                        currCost[j] = getJoinSize(tableList, exprList);
+                        currCost[j] = getJoinSize(tableList);
                     }
                     else {
                         currCost[j] = 0;
@@ -145,45 +146,31 @@ public class JoinOrder {
         return index;
     }
 
-
-    private Expression contains(List<Expression> exprList, String t) {
-        if (exprList != null) {
-            for (Expression e : exprList) {
-
-            }
-        }
-        return null;
-    }
-
     /**
      * Compute intermediate relation sizes based on data statistics.
      * @param tableList A list of table objects
-     * @param exprList A list of expression objects
      * @return the join size
      */
-    private int getJoinSize(List<String> tableList, List<Expression> exprList) {
+    private int getJoinSize(List<String> tableList) {
         int result = 1;
         for (String t : tableList) {
             result *= DatabaseCatalog.getNumTuples(t);
         }
-        for (Expression e : joinExpressions) {
-            if (e != null) {
-                if (e instanceof EqualsTo) {
-                    if (((EqualsTo) e).getLeftExpression() instanceof Column &&
-                            ((EqualsTo) e).getRightExpression() instanceof Column) {
-                        Column c1 = (Column) ((EqualsTo) e).getLeftExpression();
-                        Column c2 = (Column) ((EqualsTo) e).getRightExpression();
-                        String t1 = c1.getTable().getName();
-                        String t2 = c2.getTable().getName();
-                        Expression e1 = contains(exprList, t1);
-                        Expression e2 = contains(exprList, t2);
-                        if (e1 != null && e2 != null) {
-                            int v1 = getVValue(t1, c1, e1);
-                            int v2 = getVValue(t2, c2, e2);
+        for (Element e : unionSet) {
+            Set<String> tableSet = new HashSet<>();
+            for (Column c1 : e.getAttribute()) {
+                for (Column c2 : e.getAttribute()) {
+                    String t1 = c1.getTable().getName();
+                    String t2 = c2.getTable().getName();
+                    if (!tableSet.contains(t1 + t2) && !tableSet.contains(t2 + t1)) {
+                        tableSet.add(t1 + t2);
+                        tableSet.add(t2 + t1);
+                        if (tableList.contains(t1) && tableList.contains(t2)) {
+                            int v1 = getVValue(t1, c1);
+                            int v2 = getVValue(t2, c2);
                             result /= Math.max(v1, v2);
                         }
                     }
-
                 }
             }
         }
@@ -196,9 +183,16 @@ public class JoinOrder {
      * @param c Column c
      * @return V-value
      */
-    private int getVValue(String t, Column c, Expression e) {
+    private int getVValue(String t, Column c) {
         int result = 0;
+        int[] stats = DatabaseCatalog.getStats().get(c);
+        Expression e = tableMap.get(t);
 
+        if (e == null) {
+            result = stats[1] - stats[0] + 1;
+        } else {
+
+        }
         return result;
     }
 }
