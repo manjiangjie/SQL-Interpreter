@@ -4,7 +4,6 @@ import edu.cornell.cs4321.Database.DatabaseCatalog;
 import edu.cornell.cs4321.Database.IndexInfo;
 import edu.cornell.cs4321.LogicalOperators.*;
 import edu.cornell.cs4321.PhysicalOperators.*;
-import edu.cornell.cs4321.UnionFind.UnionFind;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
@@ -36,7 +35,7 @@ public class PhysicalPlanBuilderVisitor {
     private boolean useIndex;
 
     public PhysicalPlanBuilderVisitor(Statement statement, String[] joinMethod, String[] sortMethod, String tempDir, boolean useIndex) {
-        // parse the statement
+    	// parse the statement
         Select select = (Select) statement;
         PlainSelect pSelect = (PlainSelect) select.getSelectBody();
 
@@ -58,90 +57,8 @@ public class PhysicalPlanBuilderVisitor {
         this.sortMethod = sortMethod;
         this.tempDir = tempDir;
         this.useIndex = useIndex;
-        
-        // build the logical query tree
-        boolean useAlias = false;
-        if (fromTable.getAlias() != null) {
-            useAlias = true;
-        }
-
-        logicalOperator = new LogicalScanOperator(fromTable.getName(), alias);
-
-        if (joinList == null) {
-            // one scanner, one table, no need to extract different select
-            // conditions
-            logicalOperator = new LogicalSelectionOperator(logicalOperator, expr);
-        } else {
-            // deal with join relations
-            List<Table> joinTables = new ArrayList<>();
-            for (Join joinStatement : joinList) {
-                joinTables.add((Table) joinStatement.getRightItem());
-            }
-            // Extract join expressions and group them by different tables.
-            List<String> joinTableNames = new ArrayList<>();
-            String fromName = useAlias ? fromTable.getAlias() : fromTable.getName();
-            for (Table t : joinTables) {
-                if (useAlias) {
-                    joinTableNames.add(t.getAlias());
-                } else {
-                    joinTableNames.add(t.getName());
-                }
-            }
-
-            JoinExpExtractVisitor visitor = new JoinExpExtractVisitor(fromName, joinTableNames);
-            UnionFindVisitor ufVisitor = new UnionFindVisitor();
-            
-            if(expr != null) {
-                expr.accept(visitor); // now our visitor has grouped expressions
-                expr.accept(ufVisitor);
-                expr.accept(ufVisitor);
-            }
-            
-            List<UnionFind> ufList = ufVisitor.getUnionFindList();
-            
-            if (visitor.getSingleTableExpr(fromName) != null) {
-            	Expression selectExpression =  visitor.getSingleTableExpr(fromName);
-            	PushSelectVisitor psv = new PushSelectVisitor(ufList, fromName);
-            	selectExpression.accept(psv);
-                logicalOperator = new LogicalSelectionOperator(logicalOperator, psv.getExpression());
-            }
-            
-            LogicalUniqJoinOperator uniqueJoinOperator = new LogicalUniqJoinOperator(logicalOperator);
-            
-            // Used to be Construct left-deep join operator tree.
-            // Currently construct children list for one single join operator
-            Iterator<Table> iterator = joinTables.iterator();
-            while (iterator.hasNext()) {
-                Table t = iterator.next();
-                LogicalOperator joinOperand = new LogicalScanOperator(t.getName(), t.getAlias());
-                String joinName = useAlias ? t.getAlias() : t.getName();
-                if (visitor.getSingleTableExpr(joinName) != null) {
-                	Expression selectExpression =  visitor.getSingleTableExpr(joinName);
-                	PushSelectVisitor psv = new PushSelectVisitor(ufList, joinName);
-                	selectExpression.accept(psv);
-                    joinOperand = new LogicalSelectionOperator(joinOperand, psv.getExpression());
-                }
-                //add new operator and expression to the unique join operator
-                uniqueJoinOperator.addOperator(joinOperand, visitor.getJoinExpr(joinName));
-            }
-            //TODO changed
-            logicalOperator = uniqueJoinOperator;
-        }
-        logicalOperator = new LogicalProjectionOperator(logicalOperator);
-        if(orderByList!=null && !orderByList.isEmpty()){
-            logicalOperator = new LogicalSortOperator(logicalOperator, orderByList);
-        }
-        if(d!=null){
-        	if(orderByList.isEmpty()){
-        		logicalOperator = new LogicalSortOperator(logicalOperator, orderByList);
-        	}
-            logicalOperator = new LogicalDistinctOperator(logicalOperator);
-        }
     }
 
-    
-    
-    
     /**
      * Getter method for the physical root operator.
      * @return physical root operator
@@ -206,10 +123,7 @@ public class PhysicalPlanBuilderVisitor {
      * Visitor method for LogicalJoinOperator.
      * @param joinOperator A LogicalJoinOperator
      */
-
     public void visit(LogicalJoinOperator joinOperator) {
-        //TODO: change visit method
-    	//loop over operator list in the joinOperator
         joinOperator.getLeftChildOperator().accept(this);
         Operator leftOperator = operator;
         joinOperator.getRightChildOperator().accept(this);
@@ -277,6 +191,6 @@ public class PhysicalPlanBuilderVisitor {
      * @param logicalUniqJoinOperator A LogicalDistinctOperator
      */
     public void visit(LogicalUniqJoinOperator logicalUniqJoinOperator) {
-    	//TODO
+       //TODO
     }
 }

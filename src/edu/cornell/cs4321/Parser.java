@@ -95,10 +95,10 @@ public class Parser {
 					CCJSqlParser parser = new CCJSqlParser(stream);
 					Statement statement;
 					if ((statement = parser.Statement()) != null) {
-						// Construct query plan tree
-						PhysicalPlanBuilderVisitor visitor = new PhysicalPlanBuilderVisitor(statement, joinMethod,
-								sortMethod, tempDir, useIndex);
-						LogicalOperator logicalOperator = visitor.getLogicalOperator();
+						// Construct Logical Plan
+						LogicalPlanBuilder logicalPlan = new LogicalPlanBuilder(statement);
+						LogicalOperator logicalOperator = logicalPlan.getRootLogicalOperator();
+						PhysicalPlanBuilderVisitor visitor = new PhysicalPlanBuilderVisitor(statement, joinMethod,sortMethod, tempDir, useIndex);
 						logicalOperator.accept(visitor);
 						Operator queryOperator = visitor.getOperator();
 						// Get tuples repeatedly
