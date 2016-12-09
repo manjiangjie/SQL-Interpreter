@@ -22,6 +22,8 @@ public class DatabaseCatalog {
 	private static HashMap<String, String> tablePathMap = new HashMap<>();
 	private static HashMap<String, List<IndexInfo>> indexMap = new HashMap<>();
 	private static HashMap<String, List<Column>> fullSchemaMap = new HashMap<>();
+	private static HashMap<String, Integer> numTuples = new HashMap<>();
+	private static Map<Column, int[]> stats = new HashMap<>();
 	private static DatabaseCatalog instance = null;
 
 	/**
@@ -147,14 +149,13 @@ public class DatabaseCatalog {
 			BufferedWriter bw = new BufferedWriter(fw);
 			for (String table : tablePathMap.keySet()) {
 				BinaryTupleReader btr = new BinaryTupleReader(table);
-				int numTuples = 0;
+				int count = 0;
 				Tuple t;
-				Map<Column, int[]> stats = new HashMap<>();
 				for (Column c : schemaMap.get(table)) {
 					stats.put(c, new int[]{Integer.MAX_VALUE, Integer.MIN_VALUE});
 				}
 				while ((t = btr.readNextTuple()) != null) {
-					numTuples += 1;
+					count += 1;
 					for (Column c : stats.keySet()) {
 						int value = t.getValueByCol(c);
 						if (value < stats.get(c)[0]) {
@@ -165,7 +166,8 @@ public class DatabaseCatalog {
 						}
 					}
 				}
-				bw.write(table + " " + Integer.toString(numTuples));
+				numTuples.put(table, count);
+				bw.write(table + " " + Integer.toString(count));
 				for (Column c : schemaMap.get(table)) {
 					bw.write(" " + c.getColumnName() + "," + Integer.toString(stats.get(c)[0]) +
 							"," + Integer.toString(stats.get(c)[1]));
@@ -176,6 +178,23 @@ public class DatabaseCatalog {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Getter method for number of tuples in a relation
+	 * @param t Table t
+	 * @return number of tuples
+     */
+	public static int getNumTuples(String t) {
+		return numTuples.get(t);
+	}
+
+	/**
+	 * Getter method for statistics about relations
+	 * @return relation statistics
+     */
+	public static Map<Column, int[]> getStats() {
+		return stats;
 	}
 	
 	/**
