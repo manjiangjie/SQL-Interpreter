@@ -32,10 +32,10 @@ public class PhysicalPlanBuilderVisitor {
     private String[] joinMethod;
     private String[] sortMethod;
     private String tempDir;
-    private boolean useIndex;
     private int[] joinOrder;
+    private int[] exprOrder;
 
-    public PhysicalPlanBuilderVisitor(Statement statement, String[] joinMethod, String[] sortMethod, String tempDir, boolean useIndex) {
+    public PhysicalPlanBuilderVisitor(Statement statement, String tempDir) {
     	// parse the statement
         Select select = (Select) statement;
         PlainSelect pSelect = (PlainSelect) select.getSelectBody();
@@ -54,10 +54,9 @@ public class PhysicalPlanBuilderVisitor {
         d = pSelect.getDistinct();
         alias = fromTable.getAlias();
 
-        this.joinMethod = joinMethod;
-        this.sortMethod = sortMethod;
+        joinMethod = new String[]{"1", "300"};
+        sortMethod = new String[]{"1", "5"};
         this.tempDir = tempDir;
-        this.useIndex = useIndex;
     }
 
     /**
@@ -90,6 +89,9 @@ public class PhysicalPlanBuilderVisitor {
      */
     public void visit(LogicalSelectionOperator selectionOperator) {
         selectionOperator.getChildOperator().accept(this);
+        
+        //TODO: whether or not use index, choose wisely here
+        boolean useIndex = true;
         if(useIndex){
         	LogicalScanOperator scanOperator = (LogicalScanOperator) selectionOperator.getChildOperator();
         	IndexInfo indexInfo = DatabaseCatalog.getIndexInfoByTable(scanOperator.getTableName()).get(0);
@@ -195,13 +197,33 @@ public class PhysicalPlanBuilderVisitor {
     public void visit(LogicalUniqJoinOperator logicalUniqJoinOperator) {
     	List<LogicalOperator> children = logicalUniqJoinOperator.ChildrenOperators();
     	LogicalOperator child = children.get(joinOrder[0]);
+    	child.accept(this);
     	List<Expression> exprs = logicalUniqJoinOperator.getExpression();
     	
-    	child.accept(this);
     	for(int i = 1; i < joinOrder.length; i++){
     		Operator leftOperator = operator;
     		children.get(joinOrder[i]).accept(this);
-    		operator = new JoinOperator(leftOperator, operator, exprs.get(joinOrder[i]-1));//TODO: care for fromItem 
+    		Expression exp = exprs.get(exprOrder[i-1]);
+    		
+    		//check what join method would be apply below
+    		
+    		if(true){//TODO: Select join method
+            	int nPage = Integer.valueOf(joinMethod[1]);
+            	operator = new BNLJOperator(leftOperator, operator, exp, nPage);
+            }else{
+            	// SMJ
+            	JoinAttrExtractVisitor visitor = new JoinAttrExtractVisitor();
+            	exp.accept(visitor);
+            	//insert sort operator to leftChild
+            	//external sort
+            	int nPage = Integer.valueOf(sortMethod[1]);
+            	leftOperator = new ExternalSortOperator(leftOperator, visitor.getLeftAttrList(), nPage, tempDir);
+            	
+            	//insert sort operator to rightChild
+            	Operator rightOperator = null;
+            	rightOperator = new ExternalSortOperator(operator, visitor.getRightAttrList(), nPage, tempDir);
+            	operator = new SMJOperator(leftOperator, rightOperator, exp);
+            }
     	}
     }
 }

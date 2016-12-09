@@ -74,17 +74,11 @@ public class Parser {
 		DatabaseCatalog.getInstance(inputDir);
 
 		String queryFilePath = inputDir + "/queries.sql";
-		String configFilePath = inputDir + "/plan_builder_config.txt";
-
+		
 		BufferedReader br = new BufferedReader(new FileReader(queryFilePath));
 		String queryStr = br.readLine().trim();
 		int queryNumber = 1;
-
-		BufferedReader br2 = new BufferedReader(new FileReader(configFilePath));
-		String[] joinMethod = br2.readLine().split("\\s+");
-		String[] sortMethod = br2.readLine().split("\\s+");
-		boolean useIndex = (Integer.parseInt(br2.readLine())==1);
-		br2.close();
+		
 		while (queryStr != null && queryStr.length() > 0) {
 			try {
 				String queryPath = outputDir + "/query" + queryNumber;
@@ -98,7 +92,7 @@ public class Parser {
 						// Construct Logical Plan
 						LogicalPlanBuilder logicalPlan = new LogicalPlanBuilder(statement);
 						LogicalOperator logicalOperator = logicalPlan.getRootLogicalOperator();
-						PhysicalPlanBuilderVisitor visitor = new PhysicalPlanBuilderVisitor(statement, joinMethod,sortMethod, tempDir, useIndex);
+						PhysicalPlanBuilderVisitor visitor = new PhysicalPlanBuilderVisitor(statement, tempDir);
 						logicalOperator.accept(visitor);
 						Operator queryOperator = visitor.getOperator();
 						// Get tuples repeatedly
