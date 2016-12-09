@@ -110,6 +110,13 @@ public class Element {
 	}
 
 	public boolean checkColumn(Column col) {
-		return attributes.contains(col);
+		for(Column c : attributes) {
+			if(c.getTable().getName().equals(col.getTable().getName())) {
+				if(c.getColumnName().equals(col.getColumnName())){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }

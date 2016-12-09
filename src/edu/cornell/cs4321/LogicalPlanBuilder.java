@@ -97,52 +97,78 @@ public class LogicalPlanBuilder {
             	expr.accept(visitor);
             }
             List<Element> ufElements = visitor.getUnionFind().getUnionFind();
-            LogicalUniqJoinOperator logicalOperator = new LogicalUniqJoinOperator(visitor.getResidual());
+            logicalOperator = new LogicalUniqJoinOperator();
+            List<Expression> residualExprs = visitor.getResidual();
             for(int i = 0; i < allTables.size(); i++) {
             	Table t = allTables.get(i);
             	LogicalOperator leafScanOperator = logicalScanOperators.get(i);
             	String tableRef = useAlias ? t.getAlias() : t.getName();
             	Expression singleTableExpr = null;
             	for(Element e : ufElements) {
-            		for(Column c : e.getAttribute()) {
-            			if(c.getTable().getName().equals(tableRef)) {
-            				if(e.getEquality() != null) {
-            					EqualsTo eq = new EqualsTo(c,new LongValue(e.getEquality()));
-            					singleTableExpr = this.addExpression(singleTableExpr, eq);
-            				} else {
-            					if(e.getLowerBound() != null) {
-            						GreaterThanEquals greatEq = new GreaterThanEquals(c,new LongValue(e.getLowerBound()));
-            						singleTableExpr = this.addExpression(singleTableExpr, greatEq);
-            					}
-            					if(e.getUpperBound() != null) {
-            						MinorThanEquals minorEq = new MinorThanEquals(c,new LongValue(e.getLowerBound()));
-            						singleTableExpr = this.addExpression(singleTableExpr, minorEq);
+            		if(e.getEquality() == null && e.getLowerBound() == null && e.getUpperBound() == null) {
+            			Column firstCol = null;
+            			for(Column c : e.getAttribute()) {
+            				if(c.getTable().getName().equals(tableRef)) {
+            					if(firstCol == null){
+            						firstCol = c;
+            					} else {
+            						singleTableExpr = this.addExpression(singleTableExpr, new EqualsTo(firstCol, c));
             					}
             				}
             			}
-            		}
+            		} else {
+            			for(Column c : e.getAttribute()) {
+                			if(c.getTable().getName().equals(tableRef)) {
+                				if(e.getEquality() != null) {
+                					EqualsTo eq = new EqualsTo(c,new LongValue(e.getEquality()));
+                					singleTableExpr = this.addExpression(singleTableExpr, eq);
+                				} else {
+                					if(e.getLowerBound() != null) {
+                						GreaterThanEquals greatEq = new GreaterThanEquals(c,new LongValue(e.getLowerBound()));
+                						singleTableExpr = this.addExpression(singleTableExpr, greatEq);
+                					}
+                					if(e.getUpperBound() != null) {
+                						MinorThanEquals minorEq = new MinorThanEquals(c,new LongValue(e.getLowerBound()));
+                						singleTableExpr = this.addExpression(singleTableExpr, minorEq);
+                					}
+                				}
+                			}
+                		}
+            		}            		
             	}
-            	for(Expression expr : visitor.getResidual()) {
-            		BinaryExpression e = (BinaryExpression)expr;
+            	Iterator<Expression> iExpr = residualExprs.iterator();
+            	while(iExpr.hasNext()) {
+            		BinaryExpression e = (BinaryExpression)(iExpr.next());
             		if( (e.getLeftExpression() instanceof Column) && (e.getRightExpression() instanceof LongValue)) {
             			Column c = (Column)(e.getLeftExpression());
             			if(c.getTable().getName().equals(tableRef)) {
             				singleTableExpr = this.addExpression(singleTableExpr, e);
+            				iExpr.remove();
             			}
             		}
             		if( (e.getRightExpression() instanceof Column) && (e.getLeftExpression() instanceof LongValue)) {
             			Column c = (Column)(e.getRightExpression());
             			if(c.getTable().getName().equals(tableRef)) {
             				singleTableExpr = this.addExpression(singleTableExpr, e);
+            				iExpr.remove();
+            			}
+            		}
+            		if( (e.getRightExpression() instanceof Column) && (e.getLeftExpression() instanceof Column)) {
+            			Column c1 = (Column)(e.getLeftExpression());
+            			Column c2 = (Column)(e.getRightExpression());
+            			if(c1.getTable().getName().equals(tableRef) && c2.getTable().getName().equals(tableRef)) {
+            				singleTableExpr = this.addExpression(singleTableExpr, e);
+            				iExpr.remove();
             			}
             		}
             	}
             	if(singleTableExpr != null) {
             		LogicalSelectionOperator logicalSelectionOperator = new LogicalSelectionOperator(leafScanOperator, singleTableExpr);
-            		logicalOperator.addOperator(logicalSelectionOperator);
+            		((LogicalUniqJoinOperator) logicalOperator).addOperator(logicalSelectionOperator);
             	} else {
-            		logicalOperator.addOperator(leafScanOperator);
+            		((LogicalUniqJoinOperator) logicalOperator).addOperator(leafScanOperator);
             	}
+        		((LogicalUniqJoinOperator) logicalOperator).setResidualExpression(residualExprs);
             }
 
         }

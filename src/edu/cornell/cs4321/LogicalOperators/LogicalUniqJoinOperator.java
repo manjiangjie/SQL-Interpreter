@@ -3,6 +3,7 @@ package edu.cornell.cs4321.LogicalOperators;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.cornell.cs4321.UnionFind.UnionFind;
 import edu.cornell.cs4321.Visitors.PhysicalPlanBuilderVisitor;
 import net.sf.jsqlparser.expression.Expression;
 
@@ -13,6 +14,7 @@ import net.sf.jsqlparser.expression.Expression;
 public class LogicalUniqJoinOperator implements LogicalOperator {
     private List<LogicalOperator> ChildrenOperators;
     private List<Expression> residualExpressions;
+    private UnionFind uf;
 
     /**
      * Constructor for the logical join operator.
@@ -56,6 +58,28 @@ public class LogicalUniqJoinOperator implements LogicalOperator {
      */
     public List<Expression> getResidualExpression() {
         return residualExpressions;
+    }
+    
+    /**
+     * Get the union-find set
+     * @return the union find set
+     */
+    public UnionFind getUnionFind() {
+        return uf;
+    }
+    
+    /**
+     * Set the residual expressions that can't be put into union-find.
+     */
+    public void setResidualExpression(List<Expression> residualExpressions) {
+        this.residualExpressions = residualExpressions;
+    }
+    
+    /**
+     * Set the union-find set.
+     */
+    public void setUnionFind(UnionFind uf) {
+        this.uf = uf;
     }
 
     /**
