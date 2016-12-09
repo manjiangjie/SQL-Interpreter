@@ -87,7 +87,7 @@ public class PhysicalPlanBuilderVisitor {
      * Visitor method for LogicalSelectionOperator.
      * @param selectionOperator A LogicalSelectionOperator
      */
-    public void visit(LogicalSelectionOperator selectionOperator) {
+    public void visitLegacy(LogicalSelectionOperator selectionOperator) {
         selectionOperator.getChildOperator().accept(this);
         
         //TODO: whether or not use index, choose wisely here
@@ -111,6 +111,57 @@ public class PhysicalPlanBuilderVisitor {
         	}
         }
         operator = new SelectionOperator(operator, selectionOperator.getSelectionCondition());
+    }
+    
+    /**
+     * Visitor method for LogicalSelectionOperator.
+     * @param selectionOperator A LogicalSelectionOperator
+     */
+    public void visit(LogicalSelectionOperator selectionOperator) {
+    	String tableName = ((LogicalScanOperator)selectionOperator.getChildOperator()).getTableName();
+    	//handle alias
+    	//tableName = "Reserves";
+    	double costOfScan = DatabaseCatalog.getCostOfScan(tableName);
+    	
+    	double r = 1.0;
+    	List<IndexInfo> idxInfos = DatabaseCatalog.getIndexInfoByTable(tableName);
+    	int p = DatabaseCatalog.getNumPages(tableName);
+    	int t = DatabaseCatalog.getNumTuples(tableName);    	
+    	double minCostOfIndex = costOfScan;
+    	IndexExpExtractVisitor visitorToUse = null;
+    	IndexInfo indexInfo = null;
+    	for(IndexInfo idxInfo : idxInfos) {
+    		String columnName = idxInfo.getColumn().getColumnName();
+    		IndexExpExtractVisitor visitor = new IndexExpExtractVisitor(columnName);    	
+    		Expression selectionCondition = selectionOperator.getSelectionCondition();
+    		selectionCondition.accept(visitor);
+    		
+    		int l = DatabaseCatalog.getNumLeaves(tableName, columnName);
+        	r = DatabaseCatalog.getReductionFactor(tableName, columnName, visitor.getLowkey(), visitor.getHighkey(), visitor.isLowOpen(), visitor.isHighOpen());
+        	double costOfIndex;
+        	if(idxInfo.isClustered()) {
+        		costOfIndex = 3 + p*r;
+        	} else {
+        		costOfIndex = 3 + l*r + t*r;
+        	}
+        	
+        	if(costOfIndex < minCostOfIndex) {
+        		minCostOfIndex = costOfIndex;
+        		visitorToUse = visitor;
+        		indexInfo = idxInfo;
+        	}
+        	
+    	}
+    	if(null != visitorToUse) { //Use index
+    		LogicalScanOperator scanOperator = (LogicalScanOperator) selectionOperator.getChildOperator();
+    		operator = new IndexScanOperator(scanOperator.getTableName(), scanOperator.getAlias(),visitorToUse.getLowkey(),visitorToUse.getHighkey(),visitorToUse.isLowOpen(),visitorToUse.isHighOpen(),indexInfo);
+			if(visitorToUse.getExprWithoutIndex() != null){
+				operator = new SelectionOperator(operator, visitorToUse.getExprWithoutIndex());
+			}
+    	} else { // Use Plain Scan
+    		selectionOperator.getChildOperator().accept(this);
+    		operator = new SelectionOperator(operator, selectionOperator.getSelectionCondition());
+    	}
     }
 
     /**
@@ -198,8 +249,8 @@ public class PhysicalPlanBuilderVisitor {
     	List<LogicalOperator> children = logicalUniqJoinOperator.ChildrenOperators();
     	LogicalOperator child = children.get(joinOrder[0]);
     	child.accept(this);
-    	List<Expression> exprs = logicalUniqJoinOperator.getExpression();
-    	
+    	//List<Expression> exprs = logicalUniqJoinOperator.getExpression();
+    	List<Expression> exprs = new ArrayList<Expression>();
     	for(int i = 1; i < joinOrder.length; i++){
     		Operator leftOperator = operator;
     		children.get(joinOrder[i]).accept(this);
