@@ -57,6 +57,14 @@ public class LogicalUniqJoinOperator implements LogicalOperator {
     public List<Expression> getResidualExpression() {
         return residualExpressions;
     }
+    
+    /**
+     * Set the residual expressions that can't be put into union-find.
+     * @return the list of residual expressions.
+     */
+    public void setResidualExpression(List<Expression> residualExpressions) {
+        this.residualExpressions = residualExpressions;
+    }
 
     /**
      * Accept method for PhysicalPlanBuilderVisitor.
