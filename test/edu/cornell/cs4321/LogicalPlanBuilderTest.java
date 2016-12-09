@@ -9,9 +9,14 @@ import java.nio.charset.StandardCharsets;
 import org.junit.Test;
 
 import edu.cornell.cs4321.LogicalOperators.LogicalOperator;
+import edu.cornell.cs4321.UnionFind.Element;
+import edu.cornell.cs4321.Visitors.UnionFindVisitor;
 import net.sf.jsqlparser.parser.CCJSqlParser;
 import net.sf.jsqlparser.parser.ParseException;
+import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.statement.Statement;
+import net.sf.jsqlparser.statement.select.PlainSelect;
+import net.sf.jsqlparser.statement.select.Select;
 
 public class LogicalPlanBuilderTest {
 
@@ -22,8 +27,24 @@ public class LogicalPlanBuilderTest {
 		InputStream stream = new ByteArrayInputStream(query.getBytes(StandardCharsets.UTF_8));
 		CCJSqlParser parser = new CCJSqlParser(stream);
 		Statement statement = parser.Statement();
-		LogicalPlanBuilder pb = new LogicalPlanBuilder(statement);
-		LogicalOperator op = pb.getRootLogicalOperator();
+		//LogicalPlanBuilder pb = new LogicalPlanBuilder(statement);
+		//LogicalOperator op = pb.getRootLogicalOperator();
+		UnionFindVisitor ufv = new UnionFindVisitor();
+		Select select = (Select) statement;
+        PlainSelect pSelect = (PlainSelect) select.getSelectBody();
+
+        pSelect.getWhere().accept(ufv);
+		
+		for(Element e : ufv.getUnionFind().getUnionFind()){
+			for(Column s : e.getAttribute()){
+				System.out.print(s+", ");
+			}
+			System.out.println();
+			System.out.println("equality: "+e.getEquality());
+			System.out.println("lower: "+e.getLowerBound());
+			System.out.println("upper: "+e.getUpperBound());
+			System.out.println("================");
+		}
 		System.out.println("hello");
 	}
 
