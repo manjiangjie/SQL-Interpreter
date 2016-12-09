@@ -128,7 +128,7 @@ public class LogicalPlanBuilder {
                 						singleTableExpr = this.addExpression(singleTableExpr, greatEq);
                 					}
                 					if(e.getUpperBound() != null) {
-                						MinorThanEquals minorEq = new MinorThanEquals(c,new LongValue(e.getLowerBound()));
+                						MinorThanEquals minorEq = new MinorThanEquals(c,new LongValue(e.getUpperBound()));
                 						singleTableExpr = this.addExpression(singleTableExpr, minorEq);
                 					}
                 				}
@@ -169,11 +169,12 @@ public class LogicalPlanBuilder {
             		((LogicalUniqJoinOperator) logicalOperator).addOperator(leafScanOperator);
             	}
         		((LogicalUniqJoinOperator) logicalOperator).setResidualExpression(residualExprs);
+        		((LogicalUniqJoinOperator) logicalOperator).setUnionFind(visitor.getUnionFind());
             }
 
         }
         // Fixed Hierarchy
-        logicalOperator = new LogicalProjectionOperator(logicalOperator);
+        logicalOperator = new LogicalProjectionOperator(logicalOperator, projectionList);
         if(orderByList!=null && !orderByList.isEmpty()){
             logicalOperator = new LogicalSortOperator(logicalOperator, orderByList);
         }
