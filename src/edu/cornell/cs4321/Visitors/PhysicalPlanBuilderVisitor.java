@@ -100,7 +100,10 @@ public class PhysicalPlanBuilderVisitor {
             List<UnionFind> ufList = ufVisitor.getUnionFindList();
             
             if (visitor.getSingleTableExpr(fromName) != null) {
-                logicalOperator = new LogicalSelectionOperator(logicalOperator, visitor.getSingleTableExpr(fromName));
+            	Expression selectExpression =  visitor.getSingleTableExpr(fromName);
+            	PushSelectVisitor psv = new PushSelectVisitor(ufList, fromName);
+            	selectExpression.accept(psv);
+                logicalOperator = new LogicalSelectionOperator(logicalOperator, psv.getExpression());
             }
             
             LogicalJoinOperator uniqueJoinOperator = new LogicalJoinOperator(logicalOperator);
