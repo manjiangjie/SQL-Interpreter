@@ -95,7 +95,7 @@ public class PhysicalPlanWriter {
 		pw.write(getPreDashes(level));
 		pw.write("BNLJ[");
 		Expression catExpr = operator.getJoinExpression();
-		pw.write(catExpr.toString());
+		pw.write(String.valueOf(catExpr));
 		pw.write("]\n");
 		writeLevel(operator.getLeftChild(), level+1);
 		writeLevel(operator.getRightChild(), level+1);
@@ -105,7 +105,7 @@ public class PhysicalPlanWriter {
 		pw.write(getPreDashes(level));
 		pw.write("SMJ[");
 		Expression catExpr = operator.getJoinExpression();
-		pw.write(catExpr.toString());
+		pw.write(String.valueOf(catExpr));
 		pw.write("]\n");
 		writeLevel(operator.getLeftChild(), level+1);
 		writeLevel(operator.getRightChild(), level+1);
