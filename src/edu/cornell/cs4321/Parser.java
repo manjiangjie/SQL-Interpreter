@@ -112,8 +112,8 @@ public class Parser {
 					e.printStackTrace();
 				} finally {
 					btw.close();
-					//Converter converter = new Converter(queryPath);
-					//converter.tupleConverter(queryPath + "_humanreadable");
+					Converter converter = new Converter(queryPath);
+					converter.tupleConverter(queryPath + "_humanreadable");
 					queryStr = br.readLine();
 					double timing = (System.currentTimeMillis() - currentTime) / 1000.0;
 					System.out.println("Finish processing query #" + queryNumber + ", " + timing + " seconds");
