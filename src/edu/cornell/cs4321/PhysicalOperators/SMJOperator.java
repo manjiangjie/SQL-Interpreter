@@ -70,10 +70,12 @@ public class SMJOperator extends Operator {
 		while(t!=null && g!=null) {
 			while(joinComparator.compare(t, g) < 0) {
 				t = leftChild.getNextTuple();
+				if(t==null) return null;
 			}
 			while(joinComparator.compare(t, g) > 0) {
 				g = rightChild.getNextTuple();
 				lastPartitionIndex++;
+				if(g==null) return null;
 			}
 			s = g;
 			if(joinComparator.compare(t, s) == 0) {
