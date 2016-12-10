@@ -107,34 +107,40 @@ public class Tuple {
 
         Table fromTable = (Table) pSelect.getFromItem();
         List<Join> joinList = pSelect.getJoins();
-        List<String> tableRefs = new LinkedList<String>();
-        boolean hasAlias = (fromTable.getAlias() != null);
-        
-        tableRefs.add(hasAlias? fromTable.getAlias() : fromTable.getName());
-        for(Join join : joinList) {
-        	Table joinTable = (Table) join.getRightItem();
-        	tableRefs.add(hasAlias? joinTable.getAlias() : joinTable.getName());
-        }
-        
-        this.schemaList = new LinkedList<>();
-        for(String tr : tableRefs) {
-        	for(Column c : t.getSchema()) {
-        		if(c.getTable().getName().equals(tr)) {
-        			this.schemaList.add(c);
-        		}
-        	}
-        }
+        if(joinList == null || joinList.isEmpty()) {
+        	this.tupleMap = t.getTupleMap();
+        	this.schemaList = t.getSchema();
+        	this.record = t.getRecord();        	
+        } else {
+        	List<String> tableRefs = new LinkedList<String>();
+            boolean hasAlias = (fromTable.getAlias() != null);
+            
+            tableRefs.add(hasAlias? fromTable.getAlias() : fromTable.getName());
+            for(Join join : joinList) {
+            	Table joinTable = (Table) join.getRightItem();
+            	tableRefs.add(hasAlias? joinTable.getAlias() : joinTable.getName());
+            }
+            
+            this.schemaList = new LinkedList<>();
+            for(String tr : tableRefs) {
+            	for(Column c : t.getSchema()) {
+            		if(c.getTable().getName().equals(tr)) {
+            			this.schemaList.add(c);
+            		}
+            	}
+            }
 
-		StringBuilder sb = new StringBuilder();
-		int n = schemaList.size();
-		for(int i = 0; i<n; i++){
-			tupleMap.put(schemaList.get(i), t.getValueByCol(schemaList.get(i)));
-			sb.append(t.getValueByCol(schemaList.get(i)));
-			if(i!=n-1){
-				sb.append(",");
-			}
-		}
-		record = sb.toString();
+    		StringBuilder sb = new StringBuilder();
+    		int n = schemaList.size();
+    		for(int i = 0; i<n; i++){
+    			tupleMap.put(schemaList.get(i), t.getValueByCol(schemaList.get(i)));
+    			sb.append(t.getValueByCol(schemaList.get(i)));
+    			if(i!=n-1){
+    				sb.append(",");
+    			}
+    		}
+    		record = sb.toString();
+        }        
 	}
 	
 	/**

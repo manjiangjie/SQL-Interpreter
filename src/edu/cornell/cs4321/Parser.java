@@ -104,6 +104,7 @@ public class Parser {
 						// Get tuples repeatedly
 						Tuple t;
 						while ((t = queryOperator.getNextTuple()) != null) {
+							t = new Tuple(t, statement);
 							btw.writeNextTuple(t);
 						}
 					}
