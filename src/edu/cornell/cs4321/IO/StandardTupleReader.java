@@ -108,6 +108,13 @@ public class StandardTupleReader implements TupleReader {
      * and close the buffer reader
      * **/
     public void deleteFile(){	
+    	try {
+			br.close();
+	    	fr.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	File readingFile = new File(tablePath);
     	readingFile.delete();
     }

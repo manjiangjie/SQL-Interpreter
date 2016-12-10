@@ -145,6 +145,12 @@ public class BinaryTupleReader implements TupleReader {
 	 * delete the file that is being read
 	 * **/
 	public void deleteFile() {
+		try {
+	    	fin.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		File readingFile = new File(tablePath);
 		readingFile.delete();
 	}
