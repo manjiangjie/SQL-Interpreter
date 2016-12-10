@@ -16,6 +16,9 @@ public class DatabaseCatalogTest {
 		double rf2 = DatabaseCatalog.getReductionFactor("Reserves", "G", null, (Long)2000L, null, (Boolean)true);
 		double rf3 = DatabaseCatalog.getReductionFactorClosed("Reserves", "G", (Long)1000L, null);
 		System.out.print(rf+"\n"+rf1+"\n"+rf2+"\n"+rf3+"\n");
+		int n = DatabaseCatalog.getNumLeaves("Reserves", "G");
+		int p = DatabaseCatalog.getNumPages("Reserves");
+		System.out.println(n + "\n" + p);
 	}
 
 }
