@@ -238,9 +238,19 @@ public class PhysicalPlanBuilderVisitor {
             LogicalOperator op = children.get(tableIndex.get(i));
             String t = "";
             if (op instanceof LogicalSelectionOperator) {
-                t = ((LogicalScanOperator) ((LogicalSelectionOperator) op).getChildOperator()).getTableName();
+            	String hasAlias = ((LogicalScanOperator) ((LogicalSelectionOperator) op).getChildOperator()).getAlias();
+            	if(hasAlias == null) {
+            		t = ((LogicalScanOperator) ((LogicalSelectionOperator) op).getChildOperator()).getTableName();
+            	} else {
+            		t = hasAlias;
+            	}                
             } else if (op instanceof LogicalScanOperator) {
-                t = ((LogicalScanOperator) op).getTableName();
+            	String hasAlias = ((LogicalScanOperator) op).getAlias();
+            	if(hasAlias == null) {
+            		t = ((LogicalScanOperator) op).getTableName();
+            	} else {
+            		t = hasAlias;
+            	}    
             }
     		orderedTable.add(t);
     	}
