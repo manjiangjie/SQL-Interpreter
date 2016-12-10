@@ -213,7 +213,6 @@ public class PhysicalPlanBuilderVisitor {
         	
         	operator = new SMJOperator(leftOperator, rightOperator, joinExpr);
         }
-        
     }
     
     /**
@@ -250,14 +249,24 @@ public class PhysicalPlanBuilderVisitor {
     public void visit(LogicalUniqJoinOperator logicalUniqJoinOperator) {
         JoinOrder joinOrder = new JoinOrder(logicalUniqJoinOperator, logicalUniqJoinOperator.getUnionFind().getUnionFind());
         List<Integer> tableIndex = joinOrder.getTableIndex();
-        List<Expression> expressions = joinOrder.getExpressions();
-    	List<LogicalOperator> children = logicalUniqJoinOperator.ChildrenOperators();
+        List<LogicalOperator> children = logicalUniqJoinOperator.ChildrenOperators();
+    	//reorder tables
+    	List<String> orderedTable = new ArrayList<String>();
+    	for(int i = 0; i < tableIndex.size(); i++){
+    		LogicalSelectionOperator selectChild = (LogicalSelectionOperator) children.get(tableIndex.get(i));
+    		LogicalScanOperator scan = (LogicalScanOperator)selectChild.getChildOperator();
+    		orderedTable.add(scan.getTableName());
+    	}
+    	String fromTable = orderedTable.remove(0);
+    	JoinExpExtractVisitor jeev = new JoinExpExtractVisitor(fromTable, orderedTable);
+    	expr.accept(jeev);
+    	
     	LogicalOperator child = children.get(tableIndex.get(0));
     	child.accept(this);
     	for(int i = 1; i < tableIndex.size(); i++){
     		Operator leftOperator = operator;
     		children.get(tableIndex.get(i)).accept(this);
-    		Expression exp = exprs.get(exprOrder[i-1]);
+    		Expression exp = jeev.getJoinExpr(orderedTable.get(i-1));
     		
     		//check what join method would be apply below
     		
