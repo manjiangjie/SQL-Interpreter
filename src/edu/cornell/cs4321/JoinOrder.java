@@ -56,7 +56,7 @@ public class JoinOrder {
         this.unionSet = unionSet;
         for (LogicalOperator op : operators) {
             String t = "";
-            Expression e = new IsNullExpression();
+            Expression e = null;
             if (op instanceof LogicalScanOperator) {
                 t = ((LogicalScanOperator) op).getTableName();
             } else if (op instanceof LogicalSelectionOperator) {
@@ -91,8 +91,8 @@ public class JoinOrder {
             for (int i = 0; i < N; i++) {
                 double[] currCost = new double[N];
                 for (int j = 0; j < N; j++) {
-                    List<String> tableList = tableToExpr[k - 1][i].getTableList();
-                    List<Expression> exprList = tableToExpr[k - 1][i].getExpressionList();
+                    List<String> tableList = new ArrayList<>(tableToExpr[k - 1][i].getTableList());
+                    List<Expression> exprList = new ArrayList<>(tableToExpr[k - 1][i].getExpressionList());
                     String t = tables.get(j);
                     Expression e = expressions.get(j);
                     if (!tableList.contains(t)) {
@@ -107,11 +107,13 @@ public class JoinOrder {
                 tableToExpr[k][i] = new Entry(tableToExpr[k - 1][i].getTableList(),
                         tableToExpr[k - 1][i].getExpressionList());
                 tableToExpr[k][i].add(tables.get(minIndex), expressions.get(minIndex));
+                //System.out.println(tableToExpr[k][i].getTableList().toString());
                 cost[k][i] = cost[k - 1][i] + currCost[minIndex];
             }
         }
 
         int minIndex = argmin(cost[N - 1]);
+        //System.out.println(tableToExpr[N - 1][minIndex].getTableList());
         for (String t : tableToExpr[N - 1][minIndex].getTableList()) {
             tableIndex.add(tables.indexOf(t));
         }
