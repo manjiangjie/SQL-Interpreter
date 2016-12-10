@@ -104,5 +104,16 @@ public class SMJOperator extends Operator {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	public Expression getJoinExpression() {
+		return this.joinExpression;
+	}
+	
+	public Operator getLeftChild() {
+		return this.leftChild;
+	}
 
+	public Operator getRightChild() {
+		return this.rightChild;
+	}
 }

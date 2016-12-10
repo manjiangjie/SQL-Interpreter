@@ -1,5 +1,10 @@
 package edu.cornell.cs4321.Database;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+
 import net.sf.jsqlparser.schema.Column;
 
 /**
@@ -13,6 +18,8 @@ public class IndexInfo {
 	private int order;
 	private String indexPath;
 	private String filePath;
+	private int numLeaves;
+	private final int SIZE = 4096;
 	
 	public IndexInfo(Column column, boolean clustered, int order, String path) {
 		this.column = column;
@@ -20,6 +27,19 @@ public class IndexInfo {
 		this.order = order;
 		this.filePath = path;
 		this.indexPath = path + "indexes/" + column.getTable().getName() + "." + column.getColumnName();
+		try {
+			FileInputStream fin = new FileInputStream(indexPath);
+            FileChannel fc = fin.getChannel();
+            ByteBuffer bb = ByteBuffer.allocate(SIZE);
+    		bb.clear();
+    		fc.read(bb); // Read header page which stores metadata about the BPlusTree.
+    		bb.flip();
+    		numLeaves = bb.getInt(4);    		
+    		fc.close();
+    		fin.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 	}
 
 	public String getFilePath() {
@@ -40,6 +60,10 @@ public class IndexInfo {
 	
 	public String getIndexPath() {
 		return this.indexPath;
+	}
+	
+	public int getNumLeaves() {
+		return this.numLeaves;
 	}
 	
 	public void setAlias(String alias) {

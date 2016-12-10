@@ -1,7 +1,8 @@
-# Project 4 
+# Project 5
 
 0. Known bugs:
-- Our project can evaluate queries on built indexes successfully, however, we were unable to build correct indexes by ourselves.
+-
+
 
 1. Parser.java is our top-level class where we read schema, records, construct query plan and write output results. Overall workflow would be:
 - read a query from a file and parse it using JSqlParser
@@ -10,6 +11,10 @@
 - evaluate, i.e., call dump() on the physical query plan, including timing the evaluation
 
 2. Logic for index scan operator
+- To 
+
+
+
 - To construct an instance of the IndexScanOperator, we must pass in paramenters of lowkey, highkey, lowOpen, highOpen(indicate if the range is inclusive).
 - We implement a BPlusTreeDeserializer class which can deserialize the pages we need and retrieve leaf nodes(data entries).
 - In IndexScanOperator.java, we handle clustered and unclustered respectively in getNextTuple(). 
