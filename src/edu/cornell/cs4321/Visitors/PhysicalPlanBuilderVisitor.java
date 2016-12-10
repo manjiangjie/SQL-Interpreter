@@ -31,11 +31,10 @@ public class PhysicalPlanBuilderVisitor {
     private String alias;
     private Operator operator;
     private LogicalOperator logicalOperator;
-    private String[] joinMethod;
-    private String[] sortMethod;
     private String tempDir;
-    private int[] joinOrder;
-    private int[] exprOrder;
+    private int ESSize;
+    private int BNLJSize;
+    
 
     public PhysicalPlanBuilderVisitor(Statement statement, String tempDir) {
     	// parse the statement
@@ -55,10 +54,9 @@ public class PhysicalPlanBuilderVisitor {
         }
         d = pSelect.getDistinct();
         alias = fromTable.getAlias();
-
-        joinMethod = new String[]{"1", "300"};
-        sortMethod = new String[]{"1", "5"};
         this.tempDir = tempDir;
+        ESSize = 5;//TODO: Choose wisely
+        BNLJSize = 300;
     }
 
     /**
@@ -184,32 +182,18 @@ public class PhysicalPlanBuilderVisitor {
         Operator leftOperator = operator;
         joinOperator.getRightChildOperator().accept(this);
         
-        //use the join operator specified in the conf file
-        if(joinMethod[0].equals("0")){
-        	operator = new JoinOperator(leftOperator, operator, joinOperator.getJoinExpression());
-        }else if(joinMethod[0].equals("1")){
-        	int nPage = Integer.parseInt(joinMethod[1]);
-        	operator = new BNLJOperator(leftOperator, operator, joinOperator.getJoinExpression(),nPage);
+        if(!(joinOperator.getJoinExpression() instanceof EqualsTo)){
+        	operator = new BNLJOperator(leftOperator, operator, joinOperator.getJoinExpression(), BNLJSize);
         }else{
         	// SMJ
         	Expression joinExpr = joinOperator.getJoinExpression();
         	JoinAttrExtractVisitor visitor = new JoinAttrExtractVisitor();
         	joinExpr.accept(visitor);
-        	//insert sort operator to leftChild
-        	if(sortMethod[0].equals("0")){
-        		leftOperator = new SortOperator(leftOperator, visitor.getLeftAttrList());
-        	}else if(sortMethod[0].equals("1")){//external sort
-        		int nPage = Integer.parseInt(sortMethod[1]);
-        		leftOperator = new ExternalSortOperator(leftOperator, visitor.getLeftAttrList(), nPage, tempDir);
-        	}
-        	//insert sort operator to rightChild
+
+        	leftOperator = new ExternalSortOperator(leftOperator, visitor.getLeftAttrList(), ESSize, tempDir);
+
         	Operator rightOperator = null;
-        	if(sortMethod[0].equals("0")){
-        		rightOperator = new SortOperator(operator, visitor.getRightAttrList());
-        	}else if(sortMethod[0].equals("1")){//external sort
-        		int nPage = Integer.parseInt(sortMethod[1]);
-        		rightOperator = new ExternalSortOperator(operator, visitor.getRightAttrList(), nPage, tempDir);
-        	}
+        	rightOperator = new ExternalSortOperator(operator, visitor.getRightAttrList(), ESSize, tempDir);
         	
         	operator = new SMJOperator(leftOperator, rightOperator, joinExpr);
         }
@@ -222,12 +206,9 @@ public class PhysicalPlanBuilderVisitor {
     public void visit(LogicalSortOperator sortOperator) {
         sortOperator.getChildOperator().accept(this);
         if (orderByList != null || (orderByList == null && d != null)) {
-        	if(sortMethod[0].equals("0")){
-        		operator = new SortOperator(operator, orderByList);
-        	}else if(sortMethod[0].equals("1")){//external sort
-        		int nPage = Integer.parseInt(sortMethod[1]);
-        		operator = new ExternalSortOperator(operator, orderByList, nPage, tempDir);
-        	}
+        	//external sort
+        	operator = new ExternalSortOperator(operator, orderByList, ESSize, tempDir);
+        	
         }
     }
 
@@ -250,6 +231,7 @@ public class PhysicalPlanBuilderVisitor {
         JoinOrder joinOrder = new JoinOrder(logicalUniqJoinOperator, logicalUniqJoinOperator.getUnionFind().getUnionFind());
         List<Integer> tableIndex = joinOrder.getTableIndex();
         List<LogicalOperator> children = logicalUniqJoinOperator.ChildrenOperators();
+        
     	//reorder tables
     	List<String> orderedTable = new ArrayList<String>();
     	for(int i = 0; i < tableIndex.size(); i++){
@@ -270,21 +252,19 @@ public class PhysicalPlanBuilderVisitor {
     		
     		//check what join method would be apply below
     		
-    		if(!(exp instanceof EqualsTo)){//TODO: Select join method
-            	int nPage = Integer.valueOf(joinMethod[1]);//set block size for BNLJ
-            	operator = new BNLJOperator(leftOperator, operator, exp, nPage);
+    		if(!(exp instanceof EqualsTo)){
+            	operator = new BNLJOperator(leftOperator, operator, exp, BNLJSize);
             }else{
             	// SMJ
             	JoinAttrExtractVisitor visitor = new JoinAttrExtractVisitor();
             	exp.accept(visitor);
             	//insert sort operator to leftChild
             	//external sort
-            	int nPage = Integer.valueOf(sortMethod[1]);//set number of pages for ES
-            	leftOperator = new ExternalSortOperator(leftOperator, visitor.getLeftAttrList(), nPage, tempDir);
+            	leftOperator = new ExternalSortOperator(leftOperator, visitor.getLeftAttrList(), ESSize, tempDir);
             	
             	//insert sort operator to rightChild
             	Operator rightOperator = null;
-            	rightOperator = new ExternalSortOperator(operator, visitor.getRightAttrList(), nPage, tempDir);
+            	rightOperator = new ExternalSortOperator(operator, visitor.getRightAttrList(), ESSize, tempDir);
             	operator = new SMJOperator(leftOperator, rightOperator, exp);
             }
     	}
