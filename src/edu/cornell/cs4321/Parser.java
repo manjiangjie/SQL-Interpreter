@@ -14,6 +14,8 @@ import edu.cornell.cs4321.Database.*;
 import edu.cornell.cs4321.IO.BinaryTupleWriter;
 import edu.cornell.cs4321.IO.Converter;
 import edu.cornell.cs4321.IO.DataGenerator;
+import edu.cornell.cs4321.IO.LogicalPlanWriter;
+import edu.cornell.cs4321.IO.PhysicalPlanWriter;
 import edu.cornell.cs4321.LogicalOperators.LogicalOperator;
 import edu.cornell.cs4321.PhysicalOperators.*;
 import edu.cornell.cs4321.Visitors.PhysicalPlanBuilderVisitor;
@@ -92,9 +94,13 @@ public class Parser {
 						// Construct Logical Plan
 						LogicalPlanBuilder logicalPlan = new LogicalPlanBuilder(statement);
 						LogicalOperator logicalOperator = logicalPlan.getRootLogicalOperator();
+						LogicalPlanWriter lpWriter = new LogicalPlanWriter(queryPath + "_logicalplan");
+						lpWriter.write(logicalOperator);
 						PhysicalPlanBuilderVisitor visitor = new PhysicalPlanBuilderVisitor(statement, tempDir);
 						logicalOperator.accept(visitor);
 						Operator queryOperator = visitor.getOperator();
+						PhysicalPlanWriter ppWriter = new PhysicalPlanWriter(queryPath + "_physicalplan");
+						ppWriter.write(queryOperator);
 						// Get tuples repeatedly
 						Tuple t;
 						while ((t = queryOperator.getNextTuple()) != null) {
