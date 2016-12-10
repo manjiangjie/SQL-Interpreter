@@ -98,14 +98,13 @@ public class JoinOrder {
                         tableList.add(t);
                         exprList.add(e);
                         currCost[j] = getJoinSize(tableList);
-                    }
-                    else {
-                        currCost[j] = 0;
+                    } else {
+                        currCost[j] = Double.MAX_VALUE;
                     }
                 }
                 int minIndex = argmin(currCost);
                 tableToExpr[k][i].add(tables.get(minIndex), expressions.get(minIndex));
-                cost[k][i] += currCost[minIndex];
+                cost[k][i] = cost[k - 1][i] + currCost[minIndex];
             }
         }
 
