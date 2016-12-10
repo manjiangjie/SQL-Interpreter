@@ -18,10 +18,11 @@ import java.util.*;
  * @author Jiangjie Man: jm2559
  */
 public class JoinOrder {
-    private List<String> tables;
+    private List<String> tables = new ArrayList<>();
     private List<Expression> expressions;
     private List<Element> unionSet;
     private Map<String, Expression> tableMap = new HashMap<>();
+    private List<Integer> tableIndex = new ArrayList<>();
 
     /**
      * This class is a helper class for dynamic programming, which stores the table list and expression list
@@ -73,7 +74,7 @@ public class JoinOrder {
      */
     private void dp() {
         int N = tables.size();
-        int[][] cost = new int[N][N];
+        double[][] cost = new double[N][N];
         Entry[][] tableToExpr = new Entry[N][N];
 
         for (int i = 0; i < N; i++) {
@@ -87,7 +88,7 @@ public class JoinOrder {
 
         for (int k = 1; k < N; k++) {
             for (int i = 0; i < N; i++) {
-                int[] currCost = new int[N];
+                double[] currCost = new double[N];
                 for (int j = 0; j < N; j++) {
                     List<String> tableList = tableToExpr[k - 1][i].getTableList();
                     List<Expression> exprList = tableToExpr[k - 1][i].getExpressionList();
@@ -102,15 +103,21 @@ public class JoinOrder {
                         currCost[j] = 0;
                     }
                 }
-                int maxIndex = argmax(currCost);
-                tableToExpr[k][i].add(tables.get(maxIndex), expressions.get(maxIndex));
-                cost[k][i] += currCost[maxIndex];
+                int minIndex = argmin(currCost);
+                tableToExpr[k][i].add(tables.get(minIndex), expressions.get(minIndex));
+                cost[k][i] += currCost[minIndex];
             }
         }
 
-        int maxIndex = argmax(cost[N - 1]);
-        tables = tableToExpr[N - 1][maxIndex].getTableList();
-        expressions = tableToExpr[N - 1][maxIndex].getExpressionList();
+        int minIndex = argmin(cost[N - 1]);
+        for (String t : tableToExpr[N - 1][minIndex].getTableList()) {
+            tableIndex.add(tables.indexOf(t));
+        }
+        expressions = tableToExpr[N - 1][minIndex].getExpressionList();
+    }
+
+    public List<Integer> getTableIndex() {
+        return tableIndex;
     }
 
     /**
@@ -130,16 +137,16 @@ public class JoinOrder {
     }
 
     /**
-     * Return the index of the max value in an array
+     * Return the index of the min value in an array
      * @param a array
      * @return index
      */
-    private int argmax(int[] a) {
-        int max = 0;
+    private int argmin(double[] a) {
+        double min = Double.MAX_VALUE;
         int index = 0;
         for (int i = 0; i < a.length; i++) {
-            if (max < a[i]) {
-                max = a[i];
+            if (min > a[i]) {
+                min = a[i];
                 index = i;
             }
         }
@@ -151,8 +158,8 @@ public class JoinOrder {
      * @param tableList A list of table objects
      * @return the join size
      */
-    private int getJoinSize(List<String> tableList) {
-        int result = 1;
+    private double getJoinSize(List<String> tableList) {
+        double result = 1.0;
         for (String t : tableList) {
             result *= DatabaseCatalog.getNumTuples(t);
         }
@@ -166,13 +173,16 @@ public class JoinOrder {
                         tableSet.add(t1 + t2);
                         tableSet.add(t2 + t1);
                         if (tableList.contains(t1) && tableList.contains(t2)) {
-                            int v1 = getVValue(t1, c1);
-                            int v2 = getVValue(t2, c2);
+                            double v1 = getVValue(t1, c1);
+                            double v2 = getVValue(t2, c2);
                             result /= Math.max(v1, v2);
                         }
                     }
                 }
             }
+        }
+        if (result < 1) {
+            result = 1.0;
         }
         return result;
     }
@@ -183,15 +193,15 @@ public class JoinOrder {
      * @param c Column c
      * @return V-value
      */
-    private int getVValue(String t, Column c) {
-        int result = 0;
+    private double getVValue(String t, Column c) {
+        double result = 1;
         int[] stats = DatabaseCatalog.getStats().get(c);
         Expression e = tableMap.get(t);
 
         if (e == null) {
             result = stats[1] - stats[0] + 1;
         } else {
-
+            result = DatabaseCatalog.getReductionFactorClosed(t, c.getColumnName(), (long) stats[0], (long) stats[1]);
         }
         return result;
     }
