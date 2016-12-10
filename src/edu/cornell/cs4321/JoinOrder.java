@@ -113,19 +113,16 @@ public class JoinOrder {
         for (String t : tableToExpr[N - 1][minIndex].getTableList()) {
             tableIndex.add(tables.indexOf(t));
         }
+        tables = tableToExpr[N - 1][minIndex].getTableList();
         expressions = tableToExpr[N - 1][minIndex].getExpressionList();
     }
 
+    /**
+     * Getter method for table index
+     * @return table index
+     */
     public List<Integer> getTableIndex() {
         return tableIndex;
-    }
-
-    /**
-     * Getter method for list of tables
-     * @return A list of table objects
-     */
-    public List<String> getTables() {
-        return tables;
     }
 
     /**
@@ -166,8 +163,8 @@ public class JoinOrder {
         for (Element e : unionSet) {
             Set<String> tableSet = new HashSet<>();
             for (Column c1 : e.getAttribute()) {
+                String t1 = c1.getTable().getName();
                 for (Column c2 : e.getAttribute()) {
-                    String t1 = c1.getTable().getName();
                     String t2 = c2.getTable().getName();
                     if (!tableSet.contains(t1 + t2) && !tableSet.contains(t2 + t1)) {
                         tableSet.add(t1 + t2);
