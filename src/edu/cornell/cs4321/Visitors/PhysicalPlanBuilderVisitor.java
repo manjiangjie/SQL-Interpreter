@@ -233,11 +233,16 @@ public class PhysicalPlanBuilderVisitor {
         List<LogicalOperator> children = logicalUniqJoinOperator.ChildrenOperators();
         
     	//reorder tables
-    	List<String> orderedTable = new ArrayList<String>();
+    	List<String> orderedTable = new ArrayList<>();
     	for(int i = 0; i < tableIndex.size(); i++){
-    		LogicalSelectionOperator selectChild = (LogicalSelectionOperator) children.get(tableIndex.get(i));
-    		LogicalScanOperator scan = (LogicalScanOperator)selectChild.getChildOperator();
-    		orderedTable.add(scan.getTableName());
+            LogicalOperator op = children.get(tableIndex.get(i));
+            String t = "";
+            if (op instanceof LogicalSelectionOperator) {
+                t = ((LogicalScanOperator) ((LogicalSelectionOperator) op).getChildOperator()).getTableName();
+            } else if (op instanceof LogicalScanOperator) {
+                t = ((LogicalScanOperator) op).getTableName();
+            }
+    		orderedTable.add(t);
     	}
     	String fromTable = orderedTable.remove(0);
     	JoinExpExtractVisitor jeev = new JoinExpExtractVisitor(fromTable, orderedTable);
