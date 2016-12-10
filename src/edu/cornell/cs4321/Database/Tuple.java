@@ -8,6 +8,10 @@ import java.util.Map.Entry;
 
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
+import net.sf.jsqlparser.statement.Statement;
+import net.sf.jsqlparser.statement.select.Join;
+import net.sf.jsqlparser.statement.select.PlainSelect;
+import net.sf.jsqlparser.statement.select.Select;
 import net.sf.jsqlparser.statement.select.SelectItem;
 
 /**
@@ -80,6 +84,47 @@ public class Tuple {
 			this.schemaList.add(c);
 			
 		}
+		StringBuilder sb = new StringBuilder();
+		int n = schemaList.size();
+		for(int i = 0; i<n; i++){
+			tupleMap.put(schemaList.get(i), t.getValueByCol(schemaList.get(i)));
+			sb.append(t.getValueByCol(schemaList.get(i)));
+			if(i!=n-1){
+				sb.append(",");
+			}
+		}
+		record = sb.toString();
+	}
+	
+	/**
+	 * Constructor 4: generate a new Tuple based on new order of tables.
+	 * @param t: original tuple
+	 * @param tables: table references in new order.
+	 */
+	public Tuple(Tuple t, Statement statement) {
+		Select select = (Select) statement;
+        PlainSelect pSelect = (PlainSelect) select.getSelectBody();
+
+        Table fromTable = (Table) pSelect.getFromItem();
+        List<Join> joinList = pSelect.getJoins();
+        List<String> tableRefs = new LinkedList<String>();
+        boolean hasAlias = (fromTable.getAlias() != null);
+        
+        tableRefs.add(hasAlias? fromTable.getAlias() : fromTable.getName());
+        for(Join join : joinList) {
+        	Table joinTable = (Table) join.getRightItem();
+        	tableRefs.add(hasAlias? joinTable.getAlias() : joinTable.getName());
+        }
+        
+        this.schemaList = new LinkedList<>();
+        for(String tr : tableRefs) {
+        	for(Column c : t.getSchema()) {
+        		if(c.getTable().getName().equals(tr)) {
+        			this.schemaList.add(c);
+        		}
+        	}
+        }
+
 		StringBuilder sb = new StringBuilder();
 		int n = schemaList.size();
 		for(int i = 0; i<n; i++){

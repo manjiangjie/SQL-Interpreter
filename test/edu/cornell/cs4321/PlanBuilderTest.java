@@ -73,7 +73,7 @@ public class PlanBuilderTest {
 	
 	@Test
 	public void selectionPhysicalPlanTest() throws ParseException, FileNotFoundException {
-		String query = "SELECT Sailors.A FROM Sailors WHERE Sailors.A >= 100 and Sailors.A < 150 AND Sailors.B > 1000 ORDER BY Sailors.B";
+		String query = "SELECT Sailors.A, Sailors.B FROM Sailors WHERE Sailors.A > 100 AND Sailors.B > 1000 ORDER BY Sailors.B";
 		DatabaseCatalog.getInstance("samples/2/input");
 		InputStream stream = new ByteArrayInputStream(query.getBytes(StandardCharsets.UTF_8));
 		CCJSqlParser parser = new CCJSqlParser(stream);
@@ -88,6 +88,27 @@ public class PlanBuilderTest {
 		op.accept(visitor);
 		Operator queryOperator = visitor.getOperator();
 		PhysicalPlanWriter ppWriter = new PhysicalPlanWriter("samples/query_physicalPlan.txt");
+		ppWriter.write(queryOperator);
+		System.out.println("done.");
+	}
+	
+	@Test
+	public void selectionAliasPhysicalPlanTest() throws ParseException, FileNotFoundException {
+		String query = "SELECT S.A, S.B FROM Sailors S WHERE S.A > 8000 AND S.B > 1000 ORDER BY S.B";
+		DatabaseCatalog.getInstance("samples/2/input");
+		InputStream stream = new ByteArrayInputStream(query.getBytes(StandardCharsets.UTF_8));
+		CCJSqlParser parser = new CCJSqlParser(stream);
+		Statement statement = parser.Statement();
+		LogicalPlanBuilder pb = new LogicalPlanBuilder(statement);
+		LogicalOperator op = pb.getRootLogicalOperator();
+		System.out.println("hello");
+		LogicalPlanWriter lpWriter = new LogicalPlanWriter("samples/query_logicalPlan.txt");
+		lpWriter.write(op);
+		
+		PhysicalPlanBuilderVisitor visitor = new PhysicalPlanBuilderVisitor(statement, "samples/2/tempSort");
+		op.accept(visitor);
+		Operator queryOperator = visitor.getOperator();
+		PhysicalPlanWriter ppWriter = new PhysicalPlanWriter("samples/query1_physicalPlan.txt");
 		ppWriter.write(queryOperator);
 		System.out.println("done.");
 	}
