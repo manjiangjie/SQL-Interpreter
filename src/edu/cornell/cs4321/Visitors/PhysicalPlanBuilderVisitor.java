@@ -5,6 +5,7 @@ import edu.cornell.cs4321.Database.IndexInfo;
 import edu.cornell.cs4321.LogicalOperators.*;
 import edu.cornell.cs4321.PhysicalOperators.*;
 import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.expression.operators.relational.EqualsTo;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.Statement;
@@ -207,7 +208,7 @@ public class PhysicalPlanBuilderVisitor {
     		
     		//check what join method would be apply below
     		
-    		if(true){//TODO: Select join method
+    		if(!(exp instanceof EqualsTo)){//TODO: Select join method
             	int nPage = Integer.valueOf(joinMethod[1]);//set block size for BNLJ
             	operator = new BNLJOperator(leftOperator, operator, exp, nPage);
             }else{
