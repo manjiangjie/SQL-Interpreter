@@ -18,6 +18,8 @@ import net.sf.jsqlparser.schema.Table;
  */
 public class ScanOperator extends Operator{
 	private TupleReader tr;
+	private String tableName;
+	private String alias;
 
 	/**
 	 * Construct scan operator by both table and alias 
@@ -25,6 +27,9 @@ public class ScanOperator extends Operator{
 	 * @param alias the alias in a query statement of the table
 	 */
 	public ScanOperator(String tableName, String alias) {
+		this.tableName = tableName;
+		this.alias = alias;
+		
 		if (alias != null) {
 			List<Column> newSchemaList = new ArrayList<Column>();
 			List<Column> schemaList = DatabaseCatalog.getSchemaByTable(tableName);
@@ -74,6 +79,14 @@ public class ScanOperator extends Operator{
 	public int getIndex() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	public String getTableName() {
+		return this.tableName;
+	}
+	
+	public String getAlias() {
+		return this.alias;
 	}
 
 }

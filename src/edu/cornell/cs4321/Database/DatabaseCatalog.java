@@ -22,7 +22,10 @@ public class DatabaseCatalog {
 	private static HashMap<String, String> tablePathMap = new HashMap<>();
 	private static HashMap<String, List<IndexInfo>> indexMap = new HashMap<>();
 	private static HashMap<String, List<Column>> fullSchemaMap = new HashMap<>();
+	private static HashMap<String, Integer> numTuples = new HashMap<>();
+	private static Map<Column, int[]> stats = new HashMap<>();
 	private static DatabaseCatalog instance = null;
+	private static final int pageSize = 4096;
 
 	/**
 	 * Constructor: Construct an DatabaseCatalog instance for the use of getInstance
@@ -147,15 +150,14 @@ public class DatabaseCatalog {
 			BufferedWriter bw = new BufferedWriter(fw);
 			for (String table : tablePathMap.keySet()) {
 				BinaryTupleReader btr = new BinaryTupleReader(table);
-				int numTuples = 0;
+				int count = 0;
 				Tuple t;
-				Map<Column, int[]> stats = new HashMap<>();
 				for (Column c : schemaMap.get(table)) {
 					stats.put(c, new int[]{Integer.MAX_VALUE, Integer.MIN_VALUE});
 				}
 				while ((t = btr.readNextTuple()) != null) {
-					numTuples += 1;
-					for (Column c : stats.keySet()) {
+					count += 1;
+					for (Column c : schemaMap.get(table)) {
 						int value = t.getValueByCol(c);
 						if (value < stats.get(c)[0]) {
 							stats.put(c, new int[]{value, stats.get(c)[1]});
@@ -165,7 +167,8 @@ public class DatabaseCatalog {
 						}
 					}
 				}
-				bw.write(table + " " + Integer.toString(numTuples));
+				numTuples.put(table, count);
+				bw.write(table + " " + Integer.toString(count));
 				for (Column c : schemaMap.get(table)) {
 					bw.write(" " + c.getColumnName() + "," + Integer.toString(stats.get(c)[0]) +
 							"," + Integer.toString(stats.get(c)[1]));
@@ -176,6 +179,23 @@ public class DatabaseCatalog {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Getter method for number of tuples in a relation
+	 * @param t Table t
+	 * @return number of tuples
+     */
+	public static int getNumTuples(String t) {
+		return numTuples.get(t);
+	}
+
+	/**
+	 * Getter method for statistics about relations
+	 * @return relation statistics
+     */
+	public static Map<Column, int[]> getStats() {
+		return stats;
 	}
 	
 	/**
@@ -223,5 +243,70 @@ public class DatabaseCatalog {
 	 */
 	public static void resetSchemaMap() {
 		schemaMap = fullSchemaMap;
+	}
+	
+	public static int getCostOfScan(String tableName) {
+		return getNumPages(tableName);
+	}
+	
+	public static int getNumPages(String tableName) {
+		int nTuples = numTuples.get(tableName);
+		int nCols = schemaMap.get(tableName).size();
+		return (int) Math.ceil((nTuples * nCols * 4.0) / pageSize); 
+	}
+	
+	public static int getNumLeaves(String tableName, String columnName) {
+		for(IndexInfo idxInfo : indexMap.get(tableName)) {
+			if(idxInfo.getColumn().getColumnName().equals(columnName)) {
+				return idxInfo.getNumLeaves();
+			}
+		}
+		return 0;
+	}
+	
+	public static double getReductionFactorClosed(String tableName, String columnName, Long lowKey, Long highKey) {
+		Boolean lowOpen = null, highOpen = null;
+		if(lowKey != null) {
+			lowOpen = (Boolean)false;
+		}
+		if(highKey != null) {
+			highOpen = (Boolean)false;
+		}
+		return getReductionFactor(tableName, columnName, lowKey, highKey, lowOpen, highOpen);
+	}
+	
+	public static double getReductionFactor(String tableName, String columnName, Long lowKey, Long highKey, Boolean lowOpen, Boolean highOpen) {
+		int low = Integer.MIN_VALUE;
+		int high = Integer.MAX_VALUE;
+		for(Column c : stats.keySet()) {
+			if(c.getColumnName().equals(columnName) && c.getTable().getName().equals(tableName)) {
+				low = stats.get(c)[0];
+				high = stats.get(c)[1];
+				break;
+			}
+		}
+		double range = (double)(high - low + 1);
+		
+		if(lowKey != null) {
+			lowKey = lowOpen.booleanValue() ? (lowKey+1) : lowKey;
+			lowKey = Math.max(lowKey, low);
+		}
+		if(highKey != null) {
+			highKey = highOpen.booleanValue() ? (highKey-1) : highKey;
+			highKey = Math.min(highKey, high);
+		}
+		
+		if(lowKey == null && highKey == null) {
+			return 1.0;
+		}
+		else if(lowKey == null && highKey != null) {
+			return (highKey - low + 1) / range;
+		}
+		else if(lowKey != null && highKey == null) {
+			return (high - lowKey + 1) / range;
+		}
+		else {
+			return (highKey - lowKey + 1) / range;
+		}
 	}
 }

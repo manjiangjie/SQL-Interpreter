@@ -124,5 +124,20 @@ public class IndexScanOperator extends Operator {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	public String getTableName() {
+		return this.tableName;
+	}
+	
+	public String getColumnName() {
+		return this.indexInfo.getColumn().getColumnName();
+	}
 
+	public Long getLowKey() {
+		return this.lowkey;
+	}
+	
+	public Long getHighKey() {
+		return this.highkey;
+	}
 }

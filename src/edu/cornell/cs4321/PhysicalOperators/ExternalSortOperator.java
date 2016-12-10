@@ -296,4 +296,12 @@ public class ExternalSortOperator extends Operator {
 	public int getIndex() {
 		return this.index;
 	}
+	
+	public Operator getChildOperator() {
+		return this.childOperator;
+	}
+	
+	public List<Column> getSortByColumns() {
+		return this.sortByColumns;
+	}
 }

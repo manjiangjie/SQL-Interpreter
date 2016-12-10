@@ -59,4 +59,8 @@ public class DuplicateEliminationOperator extends Operator {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	public Operator getChildOperator() {
+		return this.childOperator;
+	}
 }

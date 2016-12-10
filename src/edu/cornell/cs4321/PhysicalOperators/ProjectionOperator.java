@@ -64,5 +64,13 @@ public class ProjectionOperator extends Operator{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	public Operator getChildOperator() {
+		return this.childOperator;
+	}
+	
+	public List<SelectItem> getProjectList() {
+		return this.projectList;
+	}
 
 }

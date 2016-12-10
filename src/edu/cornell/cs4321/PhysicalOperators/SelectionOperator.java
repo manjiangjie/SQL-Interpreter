@@ -75,5 +75,13 @@ public class SelectionOperator extends Operator {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	public Expression getSelectionCondition() {
+		return this.selectionCondition;
+	}
+	
+	public Operator getChildOperator() {
+		return this.childOperator;
+	}
 
 }
